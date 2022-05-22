@@ -122,4 +122,41 @@
         <tag>MarkDown</tag>
       </tags>
   </entry>
+  <entry>
+    <title>版本控制Git本地常用命令</title>
+    <url>/2022/05/20/git%E6%9C%AC%E5%9C%B0%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="配置git身份信息"><a href="#配置git身份信息" class="headerlink" title="配置git身份信息"></a>配置git身份信息</h2><span id="more"></span>
+<h4 id="添加-x2F-修改用户名信息"><a href="#添加-x2F-修改用户名信息" class="headerlink" title="添加&#x2F;修改用户名信息"></a>添加&#x2F;修改用户名信息</h4><p><code>git config --globa user.name &quot;用户名&quot;</code></p>
+<h4 id="添加-x2F-修改用户邮箱"><a href="#添加-x2F-修改用户邮箱" class="headerlink" title="添加&#x2F;修改用户邮箱"></a>添加&#x2F;修改用户邮箱</h4><p><code>git config --globa user.email &quot;邮箱&quot; </code></p>
+<h4 id="查看用户所有信息"><a href="#查看用户所有信息" class="headerlink" title="查看用户所有信息"></a>查看用户所有信息</h4><p><code>git config -l</code></p>
+<h4 id="查看用户名"><a href="#查看用户名" class="headerlink" title="查看用户名"></a>查看用户名</h4><p><code>git config --globa user.name </code></p>
+<h4 id="查看用户邮箱"><a href="#查看用户邮箱" class="headerlink" title="查看用户邮箱"></a>查看用户邮箱</h4><p><code>git config --globa user.email </code></p>
+<h2 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h2><p>在本地创建一个文件夹作为仓库,在仓库内运行git bash进入命令行</p>
+<h4 id="git-init初始化仓库"><a href="#git-init初始化仓库" class="headerlink" title="git init初始化仓库"></a><code>git init</code>初始化仓库</h4><p>在仓库里会出现一个.git隐藏文件,在这个文件中包含了该仓库的所有信息</p>
+<h2 id="本地仓库操作"><a href="#本地仓库操作" class="headerlink" title="本地仓库操作"></a>本地仓库操作</h2><p>本地仓库分为工作区,暂存区,仓库三部分.在工作区完成后需要将修改后的文件放到暂存区,没有问题的话在提交到本地仓库</p>
+<h4 id="查看当前仓库的工作区状态"><a href="#查看当前仓库的工作区状态" class="headerlink" title="查看当前仓库的工作区状态"></a>查看当前仓库的工作区状态</h4><p><code>git status</code></p>
+<h4 id="将工作区的文件添加到暂存区"><a href="#将工作区的文件添加到暂存区" class="headerlink" title="将工作区的文件添加到暂存区"></a>将工作区的文件添加到暂存区</h4><p>添加单个文件: <code>git add &quot;文件&quot;</code><br>添加所有文件: <code>git add .</code><br>添加某一类型文件: <code>git add *.txt</code></p>
+<h4 id="提交到本地仓库"><a href="#提交到本地仓库" class="headerlink" title="提交到本地仓库"></a>提交到本地仓库</h4><p><code>git commit -m &quot;提交说明信息&quot;</code></p>
+<h4 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>撤销添加到暂存区: <code>git reset head</code></p>
+<p>撤销提交到仓库: <code>git reset --mixed head^版本 </code><br>    <code>--mixed</code>:不删除代码改动,撤销提交和暂存 .<br><code>--soft</code>:不删除代码改动,不撤销暂存,撤销提交.<br><code>--hard</code>:删除代码改动,撤销提交和暂存 .</p>
+<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><p>分支可以帮助我们在不对原来代码影响的情况下进行操作,操作之后可以再进行合并进行修改</p>
+<h4 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支:"></a>创建分支:</h4><p><code>git branch &quot; 分支名称&quot;</code></p>
+<h4 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支:"></a>查看分支:</h4><p>查看本地分支:<code>git branch </code><br>查看所有分支: <code>git branch -a</code></p>
+<h4 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支:"></a>切换分支:</h4><p><code>git checkout &#39;分支&#39;</code></p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支:"></a>合并分支:</h4><p><code>git merge &#39;分支&#39;</code>产生合并冲突时,将冲突部分进行合并即可</p>
+<h4 id="重命名分支"><a href="#重命名分支" class="headerlink" title="重命名分支:"></a>重命名分支:</h4><p>不覆盖已存在同名分支:<code>git branch -m &#39;旧&#39;&#39;新&#39;</code><br>覆盖已存在同名分支:<code>git branch -M &#39;旧&#39;&#39;新&#39;</code></p>
+<h4 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支:"></a>删除分支:</h4><p>没有合并不会删除: <code>git branch -d &quot;分支名称&quot;</code><br>强制删除: <code>git branch -D &quot;分支名称&quot;</code></p>
+<h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><h4 id="查看当前状态"><a href="#查看当前状态" class="headerlink" title="查看当前状态:"></a>查看当前状态:</h4><p><code>git status</code></p>
+<h4 id="查看历史记录"><a href="#查看历史记录" class="headerlink" title="查看历史记录:"></a>查看历史记录:</h4><p><code>git log</code><br>查看分支历史记录: <code>gitk &lt;分支&gt;</code></p>
+<h4 id="每个分支最后的提交"><a href="#每个分支最后的提交" class="headerlink" title="每个分支最后的提交:"></a>每个分支最后的提交:</h4><p><code>git branch -v</code></p>
+<h2 id="下一篇文章分享git的远程仓库"><a href="#下一篇文章分享git的远程仓库" class="headerlink" title="下一篇文章分享git的远程仓库"></a>下一篇文章分享git的远程仓库</h2>]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>基础</tag>
+        <tag>Git</tag>
+      </tags>
+  </entry>
 </search>

@@ -159,4 +159,32 @@
         <tag>Git</tag>
       </tags>
   </entry>
+  <entry>
+    <title>版本控制Git远程常用命令</title>
+    <url>/2022/05/22/git%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="初始化远程仓库"><a href="#初始化远程仓库" class="headerlink" title="初始化远程仓库"></a>初始化远程仓库</h2><h4 id="克隆版本库"><a href="#克隆版本库" class="headerlink" title="克隆版本库"></a>克隆版本库</h4><p><code>git clone &lt; url &gt;</code></p>
+<h4 id="添加远程版本库的别名"><a href="#添加远程版本库的别名" class="headerlink" title="添加远程版本库的别名"></a>添加远程版本库的别名</h4><p><code>git remote add &lt;别名&gt;&lt; url &gt;</code></p>
+<h4 id="删除远程版本库的别名"><a href="#删除远程版本库的别名" class="headerlink" title="删除远程版本库的别名"></a>删除远程版本库的别名</h4><p><code>git remote rm &lt;别名&gt;</code></p>
+<h4 id="创建一个无本地分支的库"><a href="#创建一个无本地分支的库" class="headerlink" title="创建一个无本地分支的库"></a>创建一个无本地分支的库</h4><p><code>git init -bare</code></p>
+<span id="more"></span>
+<h2 id="远程操作"><a href="#远程操作" class="headerlink" title="远程操作"></a>远程操作</h2><h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h4><p>列出远程分支: <code>git branch -r</code><br>删除远程库中不存在的分支: <code>git rremote prune origin</code></p>
+<h4 id="获取远程库"><a href="#获取远程库" class="headerlink" title="获取远程库"></a>获取远程库</h4><p>获取但是不合并: <code>git fetch &lt;远程版本库&gt;</code><br>获取并合并到当前本地分支: <code>git pull</code>或者<code>git pull &lt;远程仓库&gt;&lt;远程仓库分支&gt;</code></p>
+<h4 id="推送远程库"><a href="#推送远程库" class="headerlink" title="推送远程库"></a>推送远程库</h4><p><code>git push &lt;远程仓库&gt;&lt;远程分支&gt;</code></p>
+<h4 id="关联远程分支"><a href="#关联远程分支" class="headerlink" title="关联远程分支"></a>关联远程分支</h4><p>branch关联: <code>git branch -u &lt;远程仓库&gt;&lt;分支&gt;</code><br>push关联: <code>git push &lt;远程仓库&gt;&lt;分支&gt;</code></p>
+<h4 id="展示本地仓库关联远程仓库详情"><a href="#展示本地仓库关联远程仓库详情" class="headerlink" title="展示本地仓库关联远程仓库详情:"></a>展示本地仓库关联远程仓库详情:</h4><p><code>git branch -vv</code></p>
+<h4 id="从远程分支创建并切换到本地"><a href="#从远程分支创建并切换到本地" class="headerlink" title="从远程分支创建并切换到本地:"></a>从远程分支创建并切换到本地:</h4><p><code>git chekout -b &lt;分支&gt;&lt;远程仓库&gt;/&lt;分支&gt;</code></p>
+<h4 id="删除远程分支"><a href="#删除远程分支" class="headerlink" title="删除远程分支"></a>删除远程分支</h4><p><code>git push origin --delete &lt;remote-分支&gt;</code></p>
+<h4 id="修改远程仓库的url"><a href="#修改远程仓库的url" class="headerlink" title="修改远程仓库的url"></a>修改远程仓库的url</h4><p><code>git remote set-url origin &lt;URL&gt;</code></p>
+<h4 id="展示忽略的文件"><a href="#展示忽略的文件" class="headerlink" title="展示忽略的文件"></a>展示忽略的文件</h4><p><code>git ststus --ignored</code></p>
+<h4 id="强制推送"><a href="#强制推送" class="headerlink" title="强制推送"></a>强制推送</h4><p><code>git push -f &lt;远程仓库&gt;&lt;分支&gt;</code> </p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>基础</tag>
+        <tag>Git</tag>
+      </tags>
+  </entry>
 </search>

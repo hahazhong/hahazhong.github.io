@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>版本控制Git远程常用命令</title>
+    <url>/2022/05/22/git%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="初始化远程仓库"><a href="#初始化远程仓库" class="headerlink" title="初始化远程仓库"></a>初始化远程仓库</h2><h4 id="克隆版本库"><a href="#克隆版本库" class="headerlink" title="克隆版本库"></a>克隆版本库</h4><p><code>git clone &lt; url &gt;</code></p>
+<h4 id="添加远程版本库的别名"><a href="#添加远程版本库的别名" class="headerlink" title="添加远程版本库的别名"></a>添加远程版本库的别名</h4><p><code>git remote add &lt;别名&gt;&lt; url &gt;</code></p>
+<h4 id="删除远程版本库的别名"><a href="#删除远程版本库的别名" class="headerlink" title="删除远程版本库的别名"></a>删除远程版本库的别名</h4><p><code>git remote rm &lt;别名&gt;</code></p>
+<h4 id="创建一个无本地分支的库"><a href="#创建一个无本地分支的库" class="headerlink" title="创建一个无本地分支的库"></a>创建一个无本地分支的库</h4><p><code>git init -bare</code></p>
+<span id="more"></span>
+<h2 id="远程操作"><a href="#远程操作" class="headerlink" title="远程操作"></a>远程操作</h2><h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h4><p>列出远程分支: <code>git branch -r</code><br>删除远程库中不存在的分支: <code>git rremote prune origin</code></p>
+<h4 id="获取远程库"><a href="#获取远程库" class="headerlink" title="获取远程库"></a>获取远程库</h4><p>获取但是不合并: <code>git fetch &lt;远程版本库&gt;</code><br>获取并合并到当前本地分支: <code>git pull</code>或者<code>git pull &lt;远程仓库&gt;&lt;远程仓库分支&gt;</code></p>
+<h4 id="推送远程库"><a href="#推送远程库" class="headerlink" title="推送远程库"></a>推送远程库</h4><p><code>git push &lt;远程仓库&gt;&lt;远程分支&gt;</code></p>
+<h4 id="关联远程分支"><a href="#关联远程分支" class="headerlink" title="关联远程分支"></a>关联远程分支</h4><p>branch关联: <code>git branch -u &lt;远程仓库&gt;&lt;分支&gt;</code><br>push关联: <code>git push &lt;远程仓库&gt;&lt;分支&gt;</code></p>
+<h4 id="展示本地仓库关联远程仓库详情"><a href="#展示本地仓库关联远程仓库详情" class="headerlink" title="展示本地仓库关联远程仓库详情:"></a>展示本地仓库关联远程仓库详情:</h4><p><code>git branch -vv</code></p>
+<h4 id="从远程分支创建并切换到本地"><a href="#从远程分支创建并切换到本地" class="headerlink" title="从远程分支创建并切换到本地:"></a>从远程分支创建并切换到本地:</h4><p><code>git chekout -b &lt;分支&gt;&lt;远程仓库&gt;/&lt;分支&gt;</code></p>
+<h4 id="删除远程分支"><a href="#删除远程分支" class="headerlink" title="删除远程分支"></a>删除远程分支</h4><p><code>git push origin --delete &lt;remote-分支&gt;</code></p>
+<h4 id="修改远程仓库的url"><a href="#修改远程仓库的url" class="headerlink" title="修改远程仓库的url"></a>修改远程仓库的url</h4><p><code>git remote set-url origin &lt;URL&gt;</code></p>
+<h4 id="展示忽略的文件"><a href="#展示忽略的文件" class="headerlink" title="展示忽略的文件"></a>展示忽略的文件</h4><p><code>git ststus --ignored</code></p>
+<h4 id="强制推送"><a href="#强制推送" class="headerlink" title="强制推送"></a>强制推送</h4><p><code>git push -f &lt;远程仓库&gt;&lt;分支&gt;</code> </p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>工具</tag>
+        <tag>基础</tag>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>使用MarkDown编写文档</title>
     <url>/2022/05/14/markdown%E8%AF%AD%E6%B3%95/</url>
     <content><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Markdown是一种轻量级标记语言，排版语法简洁，让人们更多地关注内容本身而非排版。它使用易读易写的纯文本格式编写文档，可与HTML混编，可导出 HTML、PDF 以及本身的 .md 格式的文件。因简洁、高效、易读、易写，Markdown被大量使用。</p>
@@ -160,31 +188,59 @@
       </tags>
   </entry>
   <entry>
-    <title>版本控制Git远程常用命令</title>
-    <url>/2022/05/22/git%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="初始化远程仓库"><a href="#初始化远程仓库" class="headerlink" title="初始化远程仓库"></a>初始化远程仓库</h2><h4 id="克隆版本库"><a href="#克隆版本库" class="headerlink" title="克隆版本库"></a>克隆版本库</h4><p><code>git clone &lt; url &gt;</code></p>
-<h4 id="添加远程版本库的别名"><a href="#添加远程版本库的别名" class="headerlink" title="添加远程版本库的别名"></a>添加远程版本库的别名</h4><p><code>git remote add &lt;别名&gt;&lt; url &gt;</code></p>
-<h4 id="删除远程版本库的别名"><a href="#删除远程版本库的别名" class="headerlink" title="删除远程版本库的别名"></a>删除远程版本库的别名</h4><p><code>git remote rm &lt;别名&gt;</code></p>
-<h4 id="创建一个无本地分支的库"><a href="#创建一个无本地分支的库" class="headerlink" title="创建一个无本地分支的库"></a>创建一个无本地分支的库</h4><p><code>git init -bare</code></p>
-<span id="more"></span>
-<h2 id="远程操作"><a href="#远程操作" class="headerlink" title="远程操作"></a>远程操作</h2><h4 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h4><p>列出远程分支: <code>git branch -r</code><br>删除远程库中不存在的分支: <code>git rremote prune origin</code></p>
-<h4 id="获取远程库"><a href="#获取远程库" class="headerlink" title="获取远程库"></a>获取远程库</h4><p>获取但是不合并: <code>git fetch &lt;远程版本库&gt;</code><br>获取并合并到当前本地分支: <code>git pull</code>或者<code>git pull &lt;远程仓库&gt;&lt;远程仓库分支&gt;</code></p>
-<h4 id="推送远程库"><a href="#推送远程库" class="headerlink" title="推送远程库"></a>推送远程库</h4><p><code>git push &lt;远程仓库&gt;&lt;远程分支&gt;</code></p>
-<h4 id="关联远程分支"><a href="#关联远程分支" class="headerlink" title="关联远程分支"></a>关联远程分支</h4><p>branch关联: <code>git branch -u &lt;远程仓库&gt;&lt;分支&gt;</code><br>push关联: <code>git push &lt;远程仓库&gt;&lt;分支&gt;</code></p>
-<h4 id="展示本地仓库关联远程仓库详情"><a href="#展示本地仓库关联远程仓库详情" class="headerlink" title="展示本地仓库关联远程仓库详情:"></a>展示本地仓库关联远程仓库详情:</h4><p><code>git branch -vv</code></p>
-<h4 id="从远程分支创建并切换到本地"><a href="#从远程分支创建并切换到本地" class="headerlink" title="从远程分支创建并切换到本地:"></a>从远程分支创建并切换到本地:</h4><p><code>git chekout -b &lt;分支&gt;&lt;远程仓库&gt;/&lt;分支&gt;</code></p>
-<h4 id="删除远程分支"><a href="#删除远程分支" class="headerlink" title="删除远程分支"></a>删除远程分支</h4><p><code>git push origin --delete &lt;remote-分支&gt;</code></p>
-<h4 id="修改远程仓库的url"><a href="#修改远程仓库的url" class="headerlink" title="修改远程仓库的url"></a>修改远程仓库的url</h4><p><code>git remote set-url origin &lt;URL&gt;</code></p>
-<h4 id="展示忽略的文件"><a href="#展示忽略的文件" class="headerlink" title="展示忽略的文件"></a>展示忽略的文件</h4><p><code>git ststus --ignored</code></p>
-<h4 id="强制推送"><a href="#强制推送" class="headerlink" title="强制推送"></a>强制推送</h4><p><code>git push -f &lt;远程仓库&gt;&lt;分支&gt;</code> </p>
+    <title>python基础(一)--标准输入输出</title>
+    <url>/2022/08/17/python%E5%9F%BA%E7%A1%80(%E4%B8%80)%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA/</url>
+    <content><![CDATA[<span id="more"></span>
+<h1 id="标准输入"><a href="#标准输入" class="headerlink" title="标准输入"></a>标准输入</h1><p><code>input()</code>函数被称为格式输入语言,即按照用户指定的格式从键盘把数据输入到指定变量中<br>例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">x = <span class="built_in">input</span>(<span class="string">&#x27;请输入年龄:&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(x)<span class="comment">#--&gt;请输入年龄:88</span></span><br><span class="line">        <span class="comment">#   88</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以使用<code>eavl()</code>函数和<code>input()</code>函数结合,实现一次性接受多个数据,给多个变量赋值。并且会把数据转换成对应的格式.<br>例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">name, age = <span class="built_in">eval</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入姓名,年龄:&#x27;</span>))</span><br><span class="line"><span class="built_in">print</span>(name,age)<span class="comment">#--&gt;请输入姓名,年龄:&#x27;张三&#x27;,88</span></span><br><span class="line">               <span class="comment">#   张三 88</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="标准输出函数"><a href="#标准输出函数" class="headerlink" title="标准输出函数"></a>标准输出函数</h1><p><code>print()</code>函数可以向控制台输出一个或者多个字符.<br>例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>([表达式<span class="number">1</span>,表达式<span class="number">2</span>,...,表达式n],[sep=分隔符],[end=结束符])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, sep=<span class="string">&#x27;.&#x27;</span>, end=<span class="string">&#x27;。&#x27;</span>)  <span class="comment">#--&gt;a.b。</span></span><br></pre></td></tr></table></figure>
+<h1 id="格式化输出"><a href="#格式化输出" class="headerlink" title="格式化输出"></a>格式化输出</h1><h3 id="格式化字符串"><a href="#格式化字符串" class="headerlink" title="格式化字符串"></a>格式化字符串</h3><p><code>格式化字符串%(表达式,...,表达式n)</code></p>
+<ol>
+<li><code>%[[+/-]n]c</code>:输出ASCII字符.等价于<code>chr()</code>函数.长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c&#x27;</span>%<span class="string">&#x27;A&#x27;</span>)  <span class="comment">#--&gt; A</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%c%c&#x27;</span> % (<span class="string">&#x27;A&#x27;</span>, <span class="number">66</span>, <span class="literal">True</span>+<span class="number">66</span>))  <span class="comment">#--&gt;ABC</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%c%+6c&#x27;</span> % (<span class="string">&#x27;A&#x27;</span>, <span class="number">66</span>, <span class="literal">True</span>+<span class="number">66</span>))  <span class="comment">#--&gt;AB     C</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%6c%c%c&#x27;</span> % (<span class="string">&#x27;A&#x27;</span>, <span class="number">66</span>, <span class="literal">True</span>+<span class="number">66</span>))  <span class="comment">#--&gt;     ABC</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%-6c%c&#x27;</span> % (<span class="string">&#x27;A&#x27;</span>, <span class="number">66</span>, <span class="literal">True</span>+<span class="number">66</span>))  <span class="comment">#--&gt;AB     C</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%%</code>:输出%<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%%%c%%%c&#x27;</span> % (<span class="string">&#x27;A&#x27;</span>, <span class="number">66</span>, <span class="literal">True</span>+<span class="number">66</span>))  <span class="comment">#--&gt;A%B%C</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n]s</code>:输出字符串,等价于<code>str()</code>函数,长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%8s%2c&#x27;</span> % (<span class="number">65</span>, <span class="string">&#x27;python&#x27;</span>, <span class="number">66</span>))  <span class="comment">#--&gt;A  python B</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n]r</code>:输出表达式,等价于<code>repr()</code>函数,长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%r*%r*%r&#x27;</span> % (<span class="number">65</span>, <span class="string">&#x27;python&#x27;</span>, <span class="string">&#x27;B&#x27;</span>))  <span class="comment">#--&gt;65*&#x27;python&#x27;*&#x27;B&#x27;</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%r%r%r&#x27;</span> % (<span class="number">65</span>, <span class="string">&#x27;python&#x27;</span>, <span class="string">&#x27;x*y&#x27;</span>))  <span class="comment">#--&gt;65&#x27;python&#x27;&#x27;x*y&#x27;</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n]d</code>、<code>%[[+/-]n]i</code>、<code>%[[+/-]n]u</code>:输出十进制整数,长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%c%8d%8i%8u%8c&#x27;</span> % (<span class="number">65</span>, <span class="number">12.34</span>, <span class="number">12.34</span>, <span class="number">12.34</span>, <span class="number">66</span>))  <span class="comment">#--&gt;print(&#x27;%c%8d%8i%8u%8c&#x27; % (65, 12.34, 12.34, 12.34, 66))</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n]o</code>:输出八进制整数,长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%o&#x27;</span> % <span class="number">22</span>)  <span class="comment">#--&gt;26</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n]x</code>、<code>%[[+/-]n]X</code>:输出八进制整数,长度为n位(n小于实际长度时,按实际长度输出),+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%x%5X&#x27;</span> % (<span class="number">64</span>, <span class="number">64</span>))  <span class="comment">#--&gt;40   40</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n.m]e</code>、<code>%[[+/-]n.m]E</code>:输出实数,长度为n位(n小于实际长度时,按实际长度输出),m为小数位数,+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%e%20.1E&#x27;</span> % (<span class="number">64</span>, <span class="number">64.58</span>))  <span class="comment">#--&gt;6.400000e+01             6.5E+01</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n.m]f</code>、<code>%[[+/-]n.m]F</code>:输出实数,采用科学计数,长度为n位(n小于实际长度时,按实际长度输出),m为小数位数,+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%f%20.1F&#x27;</span> % (<span class="number">64</span>, <span class="number">64.58</span>))  <span class="comment">#--&gt;64.000000                64.6</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%[[+/-]n.m]g</code>、<code>%[[+/-]n.m]G</code>:输出实数,根据数据大小采用e(E)或f(F),长度为n位(n小于实际长度时,按实际长度输出),m为小数位数,+表示右对齐(默认,可省略),-(左对齐).<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;%g%20.8G&#x27;</span> % (<span class="number">64</span>, <span class="number">64.58</span>))  <span class="comment">#--&gt;64               6E+01</span></span><br></pre></td></tr></table></figure></li>
+<li><code>%Y</code>、<code>%m</code>、<code>%d</code>、<code>%H</code>、<code>%M</code>、<code>%s</code>:输出年月日时分秒.<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="built_in">print</span>(time.strftime(<span class="string">&#x27;%Y-%m-%d %H:%M:%S&#x27;</span>, time.localtime(time.time())))  <span class="comment">#--&gt;2022-08-17 21:14:22 </span></span><br></pre></td></tr></table></figure>
+<h3 id="format-格式化输出"><a href="#format-格式化输出" class="headerlink" title="format()格式化输出"></a>format()格式化输出</h3></li>
+<li>format()函数的一般格式为:<code>format(表达式[,格式化字符串])</code><br>格式化字符串:</li>
+</ol>
+<ul>
+<li>[n]c –&gt; ASCII值的字符</li>
+<li>%    –&gt; 百分号</li>
+<li>d&#x2F;b&#x2F;o&#x2F;x&#x2F;X –&gt; 十、二、八、十六进制整数</li>
+<li>f&#x2F;F –&gt; 实数(科学计数法)</li>
+<li>e&#x2F;E –&gt; 实数(定点小数)</li>
+<li>填充字符(&#x3D;: 填充字符位于符号和数字之间;&lt;左对齐,&gt;右对齐,^居中)</li>
+<li>省略格式字符串 –&gt; 等价于str(表达式)<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="built_in">format</span>(<span class="number">65</span>, <span class="string">&#x27;^5c&#x27;</span>))   <span class="comment">#--&gt;  A  </span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<ol start="2">
+<li><code>格式化字符串.format(表达式1,...,表达式n)</code></li>
+</ol>
+<ul>
+<li>格式字符串:包括普通字符和格式字符</li>
+<li>普通字符:按照原样输出</li>
+<li>格式字符的格式:<code>&#123;[序号/键[: ][格式字符]]&#125;</code>序号(0,1,2…)表示格式顺序(可写可不写,可颠倒顺序),键用于指向该键的数据.格式字符与<code>format()</code>类似<br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello,&#123;&#125;,&#123;&#125;,&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="number">88</span>, <span class="number">65.3</span>, <span class="string">&#x27;你好&#x27;</span>)) <span class="comment">#--&gt; hello,88,65.3,你好</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello,&#123;x&#125;,&#123;y&#125;,&#123;z&#125;&#x27;</span>.<span class="built_in">format</span>(x=<span class="number">88</span>, y=<span class="number">65.3</span>, z=<span class="string">&#x27;你好&#x27;</span>)) <span class="comment">#--&gt; hello,88,65.3,你好</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;hello,&#123;:c&#125;,&#123;:f&#125;,&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="number">88</span>, <span class="number">65.3</span>, <span class="string">&#x27;你好&#x27;</span>)) <span class="comment">#--&gt; hello,X,65.300000,你好</span></span><br></pre></td></tr></table></figure>
+<h1 id="f’’格式化输出"><a href="#f’’格式化输出" class="headerlink" title="f’’格式化输出"></a>f’’格式化输出</h1>python3.6以后可以支持 <code>f&#39;&#123;格式字符串:[格式字符]&#125;&#39;</code><br>例:<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;abc<span class="subst">&#123;<span class="number">88</span>:7c&#125;</span><span class="subst">&#123;<span class="number">68.123</span>:15e&#125;</span>&#x27;</span>)  <span class="comment">#--&gt; abc      X   6.812300e+01</span></span><br></pre></td></tr></table></figure></li>
+</ul>
 ]]></content>
       <categories>
-        <category>工具</category>
+        <category>python</category>
+        <category>基础</category>
       </categories>
       <tags>
-        <tag>工具</tag>
-        <tag>基础</tag>
-        <tag>Git</tag>
+        <tag>python</tag>
+        <tag>语言基础</tag>
       </tags>
   </entry>
 </search>

@@ -366,78 +366,6 @@
       </tags>
   </entry>
   <entry>
-    <title>python基础(四)--程序控制结构</title>
-    <url>/2022/09/01/Python%E5%9F%BA%E7%A1%80(%E5%9B%9B)%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/</url>
-    <content><![CDATA[<p>Python语言也是结构化程序设计语言,其基本程序结构有三种:顺序结构、选择结构（分支结构）、循环结构。</p>
-<ul>
-<li>循环结构：即程序从上至下逐条语句执行。</li>
-<li>选择结构：指程序在运行过程中根据条件有选择的执行一些语句。</li>
-<li>循环结构：是为解决一些实际问题中具有规律性的重复操作的工作，为反复执行某些语句而设置的一种程序结构。</li>
-</ul>
-<span id="more"></span>  
-
-<h1 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h1><p>Python中的三元运算符,即条件表达式,其语法如下:</p>
-<p><code>表达式 if 表达式2 else 表达式3</code></p>
-<p>其中表达式2结果为True(非0)或者Flase(0),为True(非0)时,整个条件表达式的值为表达式1的值,为False时整个条件表达式的值为表达式2的值。</p>
-<p>例：输入3个整数，输出3个数最大的值。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">max</span> = (a <span class="keyword">if</span> a &gt; b <span class="keyword">else</span> b) <span class="keyword">if</span> (a <span class="keyword">if</span> a &gt; b <span class="keyword">else</span> b) &gt; c <span class="keyword">else</span> c</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;a&#125;</span>,<span class="subst">&#123;b&#125;</span>,<span class="subst">&#123;c&#125;</span>中最大的数为<span class="subst">&#123;<span class="built_in">max</span>&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h1 id="选择结构"><a href="#选择结构" class="headerlink" title="选择结构"></a>选择结构</h1><p>用if语句可以构成选择结构。他根据条件进行判断，以决定执行某个分支程序段。if语句有三种形式，分别是if形式，if…else…形式,if…elif…else形式。</p>
-<h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p>if语句形式：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">		语句块</span><br></pre></td></tr></table></figure>
-
-<p>如果表达式的值为真(或非0),则执行语句块,否则不执行该语句块。</p>
-<p>例:输入一个整数,判断该整数是否在1~100内。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入整数:&#x27;</span>))</span><br><span class="line"><span class="keyword">if</span> <span class="number">1</span> &lt;= n &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;n&#125;</span>是在1到100的整数&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>if后的表达式可以是任意合法的表达式;</li>
-<li>若if只控制一条语句,则语句可以与if同一行;</li>
-<li>若if控制多条语句,则要把这组语句同一缩进。</li>
-</ul>
-<h2 id="if…else语句"><a href="#if…else语句" class="headerlink" title="if…else语句"></a>if…else语句</h2><p>if…else语句形式：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">	语句块</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>只有if后有表达式,else后没有表达式,只有受其控制的语句块</li>
-</ul>
-<h2 id="if…elif…else语句"><a href="#if…elif…else语句" class="headerlink" title="if…elif…else语句"></a>if…elif…else语句</h2><p>if…elif…else语句形式:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">	语句块</span><br><span class="line"><span class="keyword">elif</span> 表达式<span class="number">1</span>:</span><br><span class="line">	语句块<span class="number">1</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">elif</span>  表达式n:</span><br><span class="line">    语句块n</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>依次判断表达式的值,如果某个表达式为真,则执行对应语句块,然后跳出if语句之外执行程序。</li>
-</ul>
-<h2 id="选择结构嵌套"><a href="#选择结构嵌套" class="headerlink" title="选择结构嵌套"></a>选择结构嵌套</h2><p>选择结构的嵌套是指在if或else分支语句中又包含了if语句或if…else或if…elif…else语句。分为内层语句和外层语句。</p>
-<p>语句格式：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>:</span><br><span class="line">	<span class="keyword">if</span> 表达式<span class="number">2</span>:</span><br><span class="line">		语句块<span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		语句块<span class="number">2</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块<span class="number">3</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><p>循环结构是为了当程序再一次运行中，其中某些语句需要被反复执行多次，又称为重复结构。</p>
-<h2 id="while语句"><a href="#while语句" class="headerlink" title="while语句"></a>while语句</h2><p>多用于语句的循环次数未知的程序中，格式如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> 表达式:</span><br><span class="line">    循环语句组</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>语句体]</span><br></pre></td></tr></table></figure>
-
-<h2 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h2><p>是程序实现循环结构的常用语句之一，尤其处理已知语句的循环次数的程序中应用较多，一般用循环变量依次取出序列中的元素而实现的控制。格式如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> 循环变量 <span class="keyword">in</span> 序列:</span><br><span class="line">    循环体语句组</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>语句组]</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="continue和break语句"><a href="#continue和break语句" class="headerlink" title="continue和break语句"></a>continue和break语句</h2><p>在循环语句中,如果想要在循环条件仍然满足的情况下提前退出循环语句使用<code>break</code>语句，如果想要结束某次循环进入下一轮而不是完全退出循环语句时，可使用<code>continue</code>语句实现。</p>
-<p><code>pass</code>语句是空语句,是为了保证程序结构的完整性,可以放在任何结构或函数中。pass不做任何事请，一般用作站位语句。</p>
-<h2 id="循环嵌套"><a href="#循环嵌套" class="headerlink" title="循环嵌套"></a>循环嵌套</h2><p>循环结构和分支结构一样也可以进行嵌套，就是把一个完整的循环体系嵌入另一个循环体中。</p>
-<p>&#x3D;&#x3D;正常情况下：应先执行内层的循环体操作，然后是外层循环。例如：对于双重循环，内层循环执行次数为：内层次数*外层循环。&#x3D;&#x3D;</p>
-<p>&#x3D;&#x3D;各种循环可以互相嵌套，自由组合。但是各循环必须完整包含，相互间绝对不允许有交叉现象。&#x3D;&#x3D;</p>
-]]></content>
-      <categories>
-        <category>python</category>
-        <category>基础</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>程序控制结构</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python基础(六)--函数的定义与调用</title>
     <url>/2022/09/20/Python%E5%9F%BA%E7%A1%80(%E5%85%AD)%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id="函数的定义与调用"><a href="#函数的定义与调用" class="headerlink" title="函数的定义与调用"></a>函数的定义与调用</h1><h2 id="函数的定义"><a href="#函数的定义" class="headerlink" title="函数的定义"></a>函数的定义</h2><p>函数是模块化程序设计的基本构成单位,在Python中函数也是对象,使用def语句创建<span id="more"></span> ,格式如下:</p>
@@ -539,6 +467,184 @@
       <tags>
         <tag>python</tag>
         <tag>函数的定义与调用</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python进阶（七）-- 正则表达式</title>
+    <url>/2022/10/25/Python%E8%BF%9B%E9%98%B6(%E4%B8%83)%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式又称为规则表达式.正则表达式通常用于检索、替换那些符合那些符合摸个规则的文本。</p>
+<span id="more"></span>  
+
+<p>作用：</p>
+<ul>
+<li>测试字符串的某个模式，即数据有效性验证</li>
+<li>实现按照某种规则替换文本</li>
+<li>根据模式匹配从字符串中提取一个子字符串</li>
+</ul>
+<p>构成：</p>
+<ul>
+<li>原子（普通字符，如英文字母）</li>
+<li>元字符（有特殊功能的字符）</li>
+<li>模式修正字符</li>
+</ul>
+<h2 id="匹配单字符"><a href="#匹配单字符" class="headerlink" title="匹配单字符"></a>匹配单字符</h2><table>
+<thead>
+<tr>
+<th>字符</th>
+<th>匹配范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>.</td>
+<td>匹配任意1个字符（除了\n）</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配[]中列举的字符</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配数字0-9</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配非数字</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配空白，即空格，\t-Tab键，\n换行</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配非空白</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配单词字符，即a-z，A-Z，0-9，_</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配非单词字符</td>
+</tr>
+</tbody></table>
+<h2 id="匹配多个字符"><a href="#匹配多个字符" class="headerlink" title="匹配多个字符"></a>匹配多个字符</h2><table>
+<thead>
+<tr>
+<th align="left">字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">*</td>
+<td>匹配前一个字符出现0次或多次，即可有可无</td>
+</tr>
+<tr>
+<td align="left">+</td>
+<td>匹配前一个字符出现1次或多次，即至少出现一次</td>
+</tr>
+<tr>
+<td align="left">？</td>
+<td>匹配前一个字符出现0次或1次，即要么出现一次要么不出现</td>
+</tr>
+<tr>
+<td align="left">{m}</td>
+<td>匹配前一个字符出现m次</td>
+</tr>
+<tr>
+<td align="left">{m,n}</td>
+<td>匹配前一个字符出现m到n次</td>
+</tr>
+</tbody></table>
+<p>匹配开头结尾</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>^</td>
+<td>匹配字符串开头</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串结尾</td>
+</tr>
+</tbody></table>
+<p>注意：当^在[]中时表示取反：[^h]匹配不是h的字符</p>
+<p>匹配分组</p>
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>|</td>
+<td>匹配左右任意一个表达式</td>
+</tr>
+<tr>
+<td>(ab)</td>
+<td>将括号中的字符作为一个分组</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>引用分组num匹配到的字符串</td>
+</tr>
+<tr>
+<td>(?P&lt;name&gt;)</td>
+<td>分组起别名</td>
+</tr>
+<tr>
+<td>(?P&#x3D;name)</td>
+<td>引用别名为name分组匹配到的字符串</td>
+</tr>
+</tbody></table>
+<h1 id="re模块"><a href="#re模块" class="headerlink" title="re模块"></a>re模块</h1><h2 id="match匹配"><a href="#match匹配" class="headerlink" title="match匹配"></a>match匹配</h2><p><code>re.match(pattern,string,flags=0)</code>:</p>
+<p>&#x3D;&#x3D;从头匹配&#x3D;&#x3D;一个符合规则的字符串，从&#x3D;&#x3D;起始位置&#x3D;&#x3D;开始匹配，匹配成功返回一个对象，未成功返回None</p>
+<ul>
+<li>pattern：正则模型</li>
+<li>string：要匹配的字符串</li>
+<li>faigs：匹配模式</li>
+</ul>
+<p>match()方法一旦匹配成功，就是一个match object对象，有以下方法：</p>
+<ul>
+<li>group():返回被re匹配的字符串</li>
+<li>start():返回匹配开始的位置</li>
+<li>end():返回匹配结束的位置</li>
+<li>span():返回一个元组包含匹配（开始，结束）的位置</li>
+</ul>
+<p>示例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1 导入模块</span></span><br><span class="line"><span class="string">2. 通过match验证正则</span></span><br><span class="line"><span class="string">3. 判断验证是否正确</span></span><br><span class="line"><span class="string">4. 如果成功获取匹配结果</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 1 导入模块</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">str1 = <span class="string">&#x27;hahazhong@qq.com&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 通过match验证正则</span></span><br><span class="line">result = re.match(<span class="string">&#x27;\w*@qq\.com&#x27;</span>, str1)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"><span class="comment"># 3. 判断验证是否正确</span></span><br><span class="line"><span class="comment"># 4. 如果成功获取匹配结果</span></span><br><span class="line"><span class="keyword">if</span> result:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配成功&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配结果:&#x27;</span>, result.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配失败&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="search搜索匹配"><a href="#search搜索匹配" class="headerlink" title="search搜索匹配"></a>search搜索匹配</h2><p><code>re.search(pattern,string,flags=0)</code>:</p>
+<p>从需要检测的字符串中&#x3D;&#x3D;搜索&#x3D;&#x3D;一个符合规则的字符串，搜索成功返回一个对象，未成功返回None,其余和match()相同</p>
+<p>match()和search()区别:&#x3D;&#x3D;match()只检测RE是否在string的开始位置匹配,search()会扫描整个string查找匹配&#x3D;&#x3D;</p>
+<h2 id="findall查找所有"><a href="#findall查找所有" class="headerlink" title="findall查找所有"></a>findall查找所有</h2><p><code>re.findall(pattern,string,flags=0)</code>:</p>
+<p>遍历匹配字符串中所有匹配的字符串,返回一个列表</p>
+<p>如果匹配的正则里含有分组,则会返回分组内容打包的元组列表</p>
+<h2 id="sub替换"><a href="#sub替换" class="headerlink" title="sub替换"></a>sub替换</h2><p><code>re.sub(pattern,newstring,string)</code>:</p>
+<ul>
+<li>newstring：替换的字符串</li>
+</ul>
+<p>使用re替换string中每一个匹配的子串返回替换后的字符串。</p>
+<h2 id="split分割"><a href="#split分割" class="headerlink" title="split分割"></a>split分割</h2><p><code>re.split(pattern,newstring,string)</code>:</p>
+<p>按照正则拆分字符串，返回值为一个列表。</p>
+<h2 id="贪婪和非贪婪"><a href="#贪婪和非贪婪" class="headerlink" title="贪婪和非贪婪"></a>贪婪和非贪婪</h2><p>Python中数量词是贪婪的（少数语言为非贪婪），总是尽可能多的字符；非贪婪则相反，总是尽可能匹配少的字符。</p>
+<p>在<code>.</code>、<code>？</code>、<code>+</code>、<code>&#123;m,n&#125;</code>后加上？，使贪婪变成非贪婪。</p>
+<p>模式修正符:</p>
+<p>re.S:使正则表达式中的.匹配到换行符</p>
+<p>re.I:使正则表达式中忽略大小写</p>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>进阶</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>正则表达式</tag>
       </tags>
   </entry>
   <entry>
@@ -807,173 +913,169 @@
       </tags>
   </entry>
   <entry>
-    <title>Python进阶（七）-- 正则表达式</title>
-    <url>/2022/10/25/Python%E8%BF%9B%E9%98%B6(%E4%B8%83)%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/</url>
-    <content><![CDATA[<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式又称为规则表达式.正则表达式通常用于检索、替换那些符合那些符合摸个规则的文本。</p>
+    <title>python基础(四)--程序控制结构</title>
+    <url>/2022/09/01/Python%E5%9F%BA%E7%A1%80(%E5%9B%9B)%E7%A8%8B%E5%BA%8F%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84/</url>
+    <content><![CDATA[<p>Python语言也是结构化程序设计语言,其基本程序结构有三种:顺序结构、选择结构（分支结构）、循环结构。</p>
+<ul>
+<li>循环结构：即程序从上至下逐条语句执行。</li>
+<li>选择结构：指程序在运行过程中根据条件有选择的执行一些语句。</li>
+<li>循环结构：是为解决一些实际问题中具有规律性的重复操作的工作，为反复执行某些语句而设置的一种程序结构。</li>
+</ul>
 <span id="more"></span>  
 
-<p>作用：</p>
-<ul>
-<li>测试字符串的某个模式，即数据有效性验证</li>
-<li>实现按照某种规则替换文本</li>
-<li>根据模式匹配从字符串中提取一个子字符串</li>
-</ul>
-<p>构成：</p>
-<ul>
-<li>原子（普通字符，如英文字母）</li>
-<li>元字符（有特殊功能的字符）</li>
-<li>模式修正字符</li>
-</ul>
-<h2 id="匹配单字符"><a href="#匹配单字符" class="headerlink" title="匹配单字符"></a>匹配单字符</h2><table>
-<thead>
-<tr>
-<th>字符</th>
-<th>匹配范围</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>.</td>
-<td>匹配任意1个字符（除了\n）</td>
-</tr>
-<tr>
-<td>[]</td>
-<td>匹配[]中列举的字符</td>
-</tr>
-<tr>
-<td>\d</td>
-<td>匹配数字0-9</td>
-</tr>
-<tr>
-<td>\D</td>
-<td>匹配非数字</td>
-</tr>
-<tr>
-<td>\s</td>
-<td>匹配空白，即空格，\t-Tab键，\n换行</td>
-</tr>
-<tr>
-<td>\S</td>
-<td>匹配非空白</td>
-</tr>
-<tr>
-<td>\w</td>
-<td>匹配单词字符，即a-z，A-Z，0-9，_</td>
-</tr>
-<tr>
-<td>\W</td>
-<td>匹配非单词字符</td>
-</tr>
-</tbody></table>
-<h2 id="匹配多个字符"><a href="#匹配多个字符" class="headerlink" title="匹配多个字符"></a>匹配多个字符</h2><table>
-<thead>
-<tr>
-<th align="left">字符</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">*</td>
-<td>匹配前一个字符出现0次或多次，即可有可无</td>
-</tr>
-<tr>
-<td align="left">+</td>
-<td>匹配前一个字符出现1次或多次，即至少出现一次</td>
-</tr>
-<tr>
-<td align="left">？</td>
-<td>匹配前一个字符出现0次或1次，即要么出现一次要么不出现</td>
-</tr>
-<tr>
-<td align="left">{m}</td>
-<td>匹配前一个字符出现m次</td>
-</tr>
-<tr>
-<td align="left">{m,n}</td>
-<td>匹配前一个字符出现m到n次</td>
-</tr>
-</tbody></table>
-<p>匹配开头结尾</p>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>^</td>
-<td>匹配字符串开头</td>
-</tr>
-<tr>
-<td>$</td>
-<td>匹配字符串结尾</td>
-</tr>
-</tbody></table>
-<p>注意：当^在[]中时表示取反：[^h]匹配不是h的字符</p>
-<p>匹配分组</p>
-<table>
-<thead>
-<tr>
-<th>字符</th>
-<th>功能</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>|</td>
-<td>匹配左右任意一个表达式</td>
-</tr>
-<tr>
-<td>(ab)</td>
-<td>将括号中的字符作为一个分组</td>
-</tr>
-<tr>
-<td>\num</td>
-<td>引用分组num匹配到的字符串</td>
-</tr>
-<tr>
-<td>(?P&lt;name&gt;)</td>
-<td>分组起别名</td>
-</tr>
-<tr>
-<td>(?P&#x3D;name)</td>
-<td>引用别名为name分组匹配到的字符串</td>
-</tr>
-</tbody></table>
-<h1 id="re模块"><a href="#re模块" class="headerlink" title="re模块"></a>re模块</h1><h2 id="match匹配"><a href="#match匹配" class="headerlink" title="match匹配"></a>match匹配</h2><p><code>re.match(pattern,string,flags=0)</code>:</p>
-<p>&#x3D;&#x3D;从头匹配&#x3D;&#x3D;一个符合规则的字符串，从&#x3D;&#x3D;起始位置&#x3D;&#x3D;开始匹配，匹配成功返回一个对象，未成功返回None</p>
-<ul>
-<li>pattern：正则模型</li>
-<li>string：要匹配的字符串</li>
-<li>faigs：匹配模式</li>
-</ul>
-<p>match()方法一旦匹配成功，就是一个match object对象，有以下方法：</p>
-<ul>
-<li>group():返回被re匹配的字符串</li>
-<li>start():返回匹配开始的位置</li>
-<li>end():返回匹配结束的位置</li>
-<li>span():返回一个元组包含匹配（开始，结束）的位置</li>
-</ul>
-<p>示例:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1 导入模块</span></span><br><span class="line"><span class="string">2. 通过match验证正则</span></span><br><span class="line"><span class="string">3. 判断验证是否正确</span></span><br><span class="line"><span class="string">4. 如果成功获取匹配结果</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="comment"># 1 导入模块</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">str1 = <span class="string">&#x27;hahazhong@qq.com&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 通过match验证正则</span></span><br><span class="line">result = re.match(<span class="string">&#x27;\w*@qq\.com&#x27;</span>, str1)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br><span class="line"><span class="comment"># 3. 判断验证是否正确</span></span><br><span class="line"><span class="comment"># 4. 如果成功获取匹配结果</span></span><br><span class="line"><span class="keyword">if</span> result:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配成功&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配结果:&#x27;</span>, result.group())</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;匹配失败&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="条件表达式"><a href="#条件表达式" class="headerlink" title="条件表达式"></a>条件表达式</h1><p>Python中的三元运算符,即条件表达式,其语法如下:</p>
+<p><code>表达式 if 表达式2 else 表达式3</code></p>
+<p>其中表达式2结果为True(非0)或者Flase(0),为True(非0)时,整个条件表达式的值为表达式1的值,为False时整个条件表达式的值为表达式2的值。</p>
+<p>例：输入3个整数，输出3个数最大的值。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line">b = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line">c = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入一个整数:&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="built_in">max</span> = (a <span class="keyword">if</span> a &gt; b <span class="keyword">else</span> b) <span class="keyword">if</span> (a <span class="keyword">if</span> a &gt; b <span class="keyword">else</span> b) &gt; c <span class="keyword">else</span> c</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;a&#125;</span>,<span class="subst">&#123;b&#125;</span>,<span class="subst">&#123;c&#125;</span>中最大的数为<span class="subst">&#123;<span class="built_in">max</span>&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<h2 id="search搜索匹配"><a href="#search搜索匹配" class="headerlink" title="search搜索匹配"></a>search搜索匹配</h2><p><code>re.search(pattern,string,flags=0)</code>:</p>
-<p>从需要检测的字符串中&#x3D;&#x3D;搜索&#x3D;&#x3D;一个符合规则的字符串，搜索成功返回一个对象，未成功返回None,其余和match()相同</p>
-<p>match()和search()区别:&#x3D;&#x3D;match()只检测RE是否在string的开始位置匹配,search()会扫描整个string查找匹配&#x3D;&#x3D;</p>
-<h2 id="findall查找所有"><a href="#findall查找所有" class="headerlink" title="findall查找所有"></a>findall查找所有</h2><p><code>re.findall(pattern,string,flags=0)</code>:</p>
-<p>遍历匹配字符串中所有匹配的字符串,返回一个列表</p>
-<p>如果匹配的正则里含有分组,则会返回分组内容打包的元组列表</p>
-<h2 id="sub替换"><a href="#sub替换" class="headerlink" title="sub替换"></a>sub替换</h2><p><code>re.sub(pattern,newstring,string)</code>:</p>
+<h1 id="选择结构"><a href="#选择结构" class="headerlink" title="选择结构"></a>选择结构</h1><p>用if语句可以构成选择结构。他根据条件进行判断，以决定执行某个分支程序段。if语句有三种形式，分别是if形式，if…else…形式,if…elif…else形式。</p>
+<h2 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h2><p>if语句形式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">		语句块</span><br></pre></td></tr></table></figure>
+
+<p>如果表达式的值为真(或非0),则执行语句块,否则不执行该语句块。</p>
+<p>例:输入一个整数,判断该整数是否在1~100内。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">n = <span class="built_in">int</span>(<span class="built_in">input</span>(<span class="string">&#x27;请输入整数:&#x27;</span>))</span><br><span class="line"><span class="keyword">if</span> <span class="number">1</span> &lt;= n &lt;= <span class="number">100</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;n&#125;</span>是在1到100的整数&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>newstring：替换的字符串</li>
+<li>if后的表达式可以是任意合法的表达式;</li>
+<li>若if只控制一条语句,则语句可以与if同一行;</li>
+<li>若if控制多条语句,则要把这组语句同一缩进。</li>
 </ul>
-<p>使用re替换string中每一个匹配的子串返回替换后的字符串。</p>
-<h2 id="split分割"><a href="#split分割" class="headerlink" title="split分割"></a>split分割</h2><p><code>re.split(pattern,newstring,string)</code>:</p>
-<p>按照正则拆分字符串，返回值为一个列表。</p>
-<h2 id="贪婪和非贪婪"><a href="#贪婪和非贪婪" class="headerlink" title="贪婪和非贪婪"></a>贪婪和非贪婪</h2><p>Python中数量词是贪婪的（少数语言为非贪婪），总是尽可能多的字符；非贪婪则相反，总是尽可能匹配少的字符。</p>
-<p>在<code>.</code>、<code>？</code>、<code>+</code>、<code>&#123;m,n&#125;</code>后加上？，使贪婪变成非贪婪。</p>
-<p>模式修正符:</p>
-<p>re.S:使正则表达式中的.匹配到换行符</p>
-<p>re.I:使正则表达式中忽略大小写</p>
+<h2 id="if…else语句"><a href="#if…else语句" class="headerlink" title="if…else语句"></a>if…else语句</h2><p>if…else语句形式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">	语句块</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>只有if后有表达式,else后没有表达式,只有受其控制的语句块</li>
+</ul>
+<h2 id="if…elif…else语句"><a href="#if…elif…else语句" class="headerlink" title="if…elif…else语句"></a>if…elif…else语句</h2><p>if…elif…else语句形式:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式:</span><br><span class="line">	语句块</span><br><span class="line"><span class="keyword">elif</span> 表达式<span class="number">1</span>:</span><br><span class="line">	语句块<span class="number">1</span></span><br><span class="line">...</span><br><span class="line"><span class="keyword">elif</span>  表达式n:</span><br><span class="line">    语句块n</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>依次判断表达式的值,如果某个表达式为真,则执行对应语句块,然后跳出if语句之外执行程序。</li>
+</ul>
+<h2 id="选择结构嵌套"><a href="#选择结构嵌套" class="headerlink" title="选择结构嵌套"></a>选择结构嵌套</h2><p>选择结构的嵌套是指在if或else分支语句中又包含了if语句或if…else或if…elif…else语句。分为内层语句和外层语句。</p>
+<p>语句格式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> 表达式<span class="number">1</span>:</span><br><span class="line">	<span class="keyword">if</span> 表达式<span class="number">2</span>:</span><br><span class="line">		语句块<span class="number">1</span></span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		语句块<span class="number">2</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	语句块<span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><p>循环结构是为了当程序再一次运行中，其中某些语句需要被反复执行多次，又称为重复结构。</p>
+<h2 id="while语句"><a href="#while语句" class="headerlink" title="while语句"></a>while语句</h2><p>多用于语句的循环次数未知的程序中，格式如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> 表达式:</span><br><span class="line">    循环语句组</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>语句体]</span><br></pre></td></tr></table></figure>
+
+<h2 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h2><p>是程序实现循环结构的常用语句之一，尤其处理已知语句的循环次数的程序中应用较多，一般用循环变量依次取出序列中的元素而实现的控制。格式如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">for</span> 循环变量 <span class="keyword">in</span> 序列:</span><br><span class="line">    循环体语句组</span><br><span class="line">[<span class="keyword">else</span>:</span><br><span class="line">	<span class="keyword">else</span>语句组]</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="continue和break语句"><a href="#continue和break语句" class="headerlink" title="continue和break语句"></a>continue和break语句</h2><p>在循环语句中,如果想要在循环条件仍然满足的情况下提前退出循环语句使用<code>break</code>语句，如果想要结束某次循环进入下一轮而不是完全退出循环语句时，可使用<code>continue</code>语句实现。</p>
+<p><code>pass</code>语句是空语句,是为了保证程序结构的完整性,可以放在任何结构或函数中。pass不做任何事请，一般用作站位语句。</p>
+<h2 id="循环嵌套"><a href="#循环嵌套" class="headerlink" title="循环嵌套"></a>循环嵌套</h2><p>循环结构和分支结构一样也可以进行嵌套，就是把一个完整的循环体系嵌入另一个循环体中。</p>
+<p>&#x3D;&#x3D;正常情况下：应先执行内层的循环体操作，然后是外层循环。例如：对于双重循环，内层循环执行次数为：内层次数*外层循环。&#x3D;&#x3D;</p>
+<p>&#x3D;&#x3D;各种循环可以互相嵌套，自由组合。但是各循环必须完整包含，相互间绝对不允许有交叉现象。&#x3D;&#x3D;</p>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>基础</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>程序控制结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python进阶（九）-- 操作excel文件</title>
+    <url>/2022/11/01/Python%E8%BF%9B%E9%98%B6(%E4%B9%9D)%E6%93%8D%E4%BD%9Cexcel%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="用Python读写Excel文件"><a href="#用Python读写Excel文件" class="headerlink" title="用Python读写Excel文件"></a>用Python读写Excel文件</h1><h2 id="Excel简介"><a href="#Excel简介" class="headerlink" title="Excel简介"></a>Excel简介</h2><p>Excel是Microsoft（微软）为使用Windows和macOS操作系统开发的一款电子表格软件。Excel凭借其直观的界面、出色的计算功能和图表工具，再加上成功的市场营销，一直以来都是最为流行的个人计算机数据处理软件。当然，Excel也有很多竞品，例如Google Sheets、LibreOffice Calc、Numbers等，这些竞品基本上也能够兼容Excel，至少能够读写较新版本的Excel文件，当然这些不是我们讨论的重点。掌握用Python程序操作Excel文件，可以让日常办公自动化的工作更加轻松愉快，而且在很多商业项目中，导入导出Excel文件都是特别常见的功能。</p>
+<span id="more"></span>  
+
+<p>Python操作Excel需要三方库的支持，如果要兼容Excel 2007以前的版本，也就是<code>xls</code>格式的Excel文件，可以使用三方库<code>xlrd</code>和<code>xlwt</code>，前者用于读Excel文件，后者用于写Excel文件。如果使用较新版本的Excel，即操作<code>xlsx</code>格式的Excel文件，可以使用<code>openpyxl</code>库，当然这个库不仅仅可以操作Excel，还可以操作其他基于Office Open XML的电子表格文件。</p>
+<p>基于<code>xlwt</code>和<code>xlrd</code>操作Excel文件，大家可以先使用下面的命令安装这两个三方库以及配合使用的工具模块<code>xlutils</code>。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install xlwt xlrd xlutils</span><br></pre></td></tr></table></figure>
+
+<h2 id="读Excel文件"><a href="#读Excel文件" class="headerlink" title="读Excel文件"></a>读Excel文件</h2><p>例如在当前文件夹下有一个名为“阿里巴巴2020年股票数据.xls”的Excel文件，如果想读取并显示该文件的内容，可以通过如下所示的代码来完成。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用xlrd模块的open_workbook函数打开指定Excel文件并获得Book对象（工作簿）</span></span><br><span class="line">wb = xlrd.open_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xls&#x27;</span>)</span><br><span class="line"><span class="comment"># 通过Book对象的sheet_names方法可以获取所有表单名称</span></span><br><span class="line">sheetnames = wb.sheet_names()</span><br><span class="line"><span class="built_in">print</span>(sheetnames)</span><br><span class="line"><span class="comment"># 通过指定的表单名称获取Sheet对象（工作表）</span></span><br><span class="line">sheet = wb.sheet_by_name(sheetnames[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># 通过Sheet对象的nrows和ncols属性获取表单的行数和列数</span></span><br><span class="line"><span class="built_in">print</span>(sheet.nrows, sheet.ncols)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(sheet.nrows):</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(sheet.ncols):</span><br><span class="line">        <span class="comment"># 通过Sheet对象的cell方法获取指定Cell对象（单元格）</span></span><br><span class="line">        <span class="comment"># 通过Cell对象的value属性获取单元格中的值</span></span><br><span class="line">        value = sheet.cell(row, col).value</span><br><span class="line">        <span class="comment"># 对除首行外的其他行进行数据格式化处理</span></span><br><span class="line">        <span class="keyword">if</span> row &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># 第1列的xldate类型先转成元组再格式化为“年月日”的格式</span></span><br><span class="line">            <span class="keyword">if</span> col == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># xldate_as_tuple函数的第二个参数只有0和1两个取值</span></span><br><span class="line">                <span class="comment"># 其中0代表以1900-01-01为基准的日期，1代表以1904-01-01为基准的日期</span></span><br><span class="line">                value = xlrd.xldate_as_tuple(value, <span class="number">0</span>)</span><br><span class="line">                value = <span class="string">f&#x27;<span class="subst">&#123;value[<span class="number">0</span>]&#125;</span>年<span class="subst">&#123;value[<span class="number">1</span>]:&gt;02d&#125;</span>月<span class="subst">&#123;value[<span class="number">2</span>]:&gt;02d&#125;</span>日&#x27;</span></span><br><span class="line">            <span class="comment"># 其他列的number类型处理成小数点后保留两位有效数字的浮点数</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                value = <span class="string">f&#x27;<span class="subst">&#123;value:<span class="number">.2</span>f&#125;</span>&#x27;</span></span><br><span class="line">        <span class="built_in">print</span>(value, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line"><span class="comment"># 获取最后一个单元格的数据类型</span></span><br><span class="line"><span class="comment"># 0 - 空值，1 - 字符串，2 - 数字，3 - 日期，4 - 布尔，5 - 错误</span></span><br><span class="line">last_cell_type = sheet.cell_type(sheet.nrows - <span class="number">1</span>, sheet.ncols - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(last_cell_type)</span><br><span class="line"><span class="comment"># 获取第一行的值（列表）</span></span><br><span class="line"><span class="built_in">print</span>(sheet.row_values(<span class="number">0</span>))</span><br><span class="line"><span class="comment"># 获取指定行指定列范围的数据（列表）</span></span><br><span class="line"><span class="comment"># 第一个参数代表行索引，第二个和第三个参数代表列的开始（含）和结束（不含）索引</span></span><br><span class="line"><span class="built_in">print</span>(sheet.row_slice(<span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>提示</strong>：上面代码中使用的Excel文件“阿里巴巴2020年股票数据.xls”可以通过后面的百度云盘地址进行获取。链接:<a href="https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g">https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g</a> 提取码:e7b4。</p>
+</blockquote>
+<p>相信通过上面的代码，大家已经了解到了如何读取一个Excel文件，如果想知道更多关于<code>xlrd</code>模块的知识，可以阅读它的<a href="https://xlrd.readthedocs.io/en/latest/">官方文档</a>。</p>
+<h3 id="写Excel文件"><a href="#写Excel文件" class="headerlink" title="写Excel文件"></a>写Excel文件</h3><p>写入Excel文件可以通过<code>xlwt</code> 模块的<code>Workbook</code>类创建工作簿对象，通过工作簿对象的<code>add_sheet</code>方法可以添加工作表，通过工作表对象的<code>write</code>方法可以向指定单元格中写入数据，最后通过工作簿对象的<code>save</code>方法将工作簿写入到指定的文件或内存中。下面的代码实现了将<code>5</code>个学生<code>3</code>门课程的考试成绩写入Excel文件的操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"></span><br><span class="line">student_names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">scores = [[random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>)]</span><br><span class="line"><span class="comment"># 创建工作簿对象（Workbook）</span></span><br><span class="line">wb = xlwt.Workbook()</span><br><span class="line"><span class="comment"># 创建工作表对象（Worksheet）</span></span><br><span class="line">sheet = wb.add_sheet(<span class="string">&#x27;一年级二班&#x27;</span>)</span><br><span class="line"><span class="comment"># 添加表头数据</span></span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title)</span><br><span class="line"><span class="comment"># 将学生姓名和考试成绩写入单元格</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(scores)):</span><br><span class="line">    sheet.write(row + <span class="number">1</span>, <span class="number">0</span>, student_names[row])</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(scores[row])):</span><br><span class="line">        sheet.write(row + <span class="number">1</span>, col + <span class="number">1</span>, scores[row][col])</span><br><span class="line"><span class="comment"># 保存Excel工作簿</span></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="调整单元格样式"><a href="#调整单元格样式" class="headerlink" title="调整单元格样式"></a>调整单元格样式</h3><p>在写Excel文件时，我们还可以为单元格设置样式，主要包括字体（Font）、对齐方式（Alignment）、边框（Border）和背景（Background）的设置，<code>xlwt</code>对这几项设置都封装了对应的类来支持。要设置单元格样式需要首先创建一个<code>XFStyle</code>对象，再通过该对象的属性对字体、对齐方式、边框等进行设定，例如在上面的例子中，如果希望将表头单元格的背景色修改为黄色，可以按照如下的方式进行操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">header_style = xlwt.XFStyle()</span><br><span class="line">pattern = xlwt.Pattern()</span><br><span class="line">pattern.pattern = xlwt.Pattern.SOLID_PATTERN</span><br><span class="line"><span class="comment"># 0 - 黑色、1 - 白色、2 - 红色、3 - 绿色、4 - 蓝色、5 - 黄色、6 - 粉色、7 - 青色</span></span><br><span class="line">pattern.pattern_fore_colour = <span class="number">5</span></span><br><span class="line">header_style.pattern = pattern</span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title, header_style)</span><br></pre></td></tr></table></figure>
+
+<p>如果希望为表头设置指定的字体，可以使用<code>Font</code>类并添加如下所示的代码。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">font = xlwt.Font()</span><br><span class="line"><span class="comment"># 字体名称</span></span><br><span class="line">font.name = <span class="string">&#x27;华文楷体&#x27;</span></span><br><span class="line"><span class="comment"># 字体大小（20是基准单位，18表示18px）</span></span><br><span class="line">font.height = <span class="number">20</span> * <span class="number">18</span></span><br><span class="line"><span class="comment"># 是否使用粗体</span></span><br><span class="line">font.bold = <span class="literal">True</span></span><br><span class="line"><span class="comment"># 是否使用斜体</span></span><br><span class="line">font.italic = <span class="literal">False</span></span><br><span class="line"><span class="comment"># 字体颜色</span></span><br><span class="line">font.colour_index = <span class="number">1</span></span><br><span class="line">header_style.font = font</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：上面代码中指定的字体名（<code>font.name</code>）应当是本地系统有的字体，例如在我的电脑上有名为“华文楷体”的字体。</p>
+</blockquote>
+<p>如果希望表头垂直居中对齐，可以使用下面的代码进行设置。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">align = xlwt.Alignment()</span><br><span class="line"><span class="comment"># 垂直方向的对齐方式</span></span><br><span class="line">align.vert = xlwt.Alignment.VERT_CENTER</span><br><span class="line"><span class="comment"># 水平方向的对齐方式</span></span><br><span class="line">align.horz = xlwt.Alignment.HORZ_CENTER</span><br><span class="line">header_style.alignment = align</span><br></pre></td></tr></table></figure>
+
+<p>如果希望给表头加上黄色的虚线边框，可以使用下面的代码来设置。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">borders = xlwt.Borders()</span><br><span class="line">props = (</span><br><span class="line">    (<span class="string">&#x27;top&#x27;</span>, <span class="string">&#x27;top_colour&#x27;</span>), (<span class="string">&#x27;right&#x27;</span>, <span class="string">&#x27;right_colour&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;bottom&#x27;</span>, <span class="string">&#x27;bottom_colour&#x27;</span>), (<span class="string">&#x27;left&#x27;</span>, <span class="string">&#x27;left_colour&#x27;</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 通过循环对四个方向的边框样式及颜色进行设定</span></span><br><span class="line"><span class="keyword">for</span> position, color <span class="keyword">in</span> props:</span><br><span class="line">    <span class="comment"># 使用setattr内置函数动态给对象指定的属性赋值</span></span><br><span class="line">    <span class="built_in">setattr</span>(borders, position, xlwt.Borders.DASHED)</span><br><span class="line">    <span class="built_in">setattr</span>(borders, color, <span class="number">5</span>)</span><br><span class="line">header_style.borders = borders</span><br></pre></td></tr></table></figure>
+
+<p>如果要调整单元格的宽度（列宽）和表头的高度（行高），可以按照下面的代码进行操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置行高为40px</span></span><br><span class="line">sheet.row(<span class="number">0</span>).set_style(xlwt.easyxf(<span class="string">f&#x27;font:height <span class="subst">&#123;<span class="number">20</span> * <span class="number">40</span>&#125;</span>&#x27;</span>))</span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    <span class="comment"># 设置列宽为200px</span></span><br><span class="line">    sheet.col(index).width = <span class="number">20</span> * <span class="number">200</span></span><br><span class="line">    <span class="comment"># 设置单元格的数据和样式</span></span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title, header_style)</span><br></pre></td></tr></table></figure>
+
+<h3 id="公式计算"><a href="#公式计算" class="headerlink" title="公式计算"></a>公式计算</h3><p>对于前面打开的“阿里巴巴2020年股票数据.xls”文件，如果要统计全年收盘价（Close字段）的平均值以及全年交易量（Volume字段）的总和，可以使用Excel的公式计算即可。我们可以先使用<code>xlrd</code>读取Excel文件夹，然后通过<code>xlutils</code>三方库提供的<code>copy</code>函数将读取到的Excel文件转成<code>Workbook</code>对象进行写操作，在调用<code>write</code>方法时，可以将一个<code>Formula</code>对象写入单元格。</p>
+<p>实现公式计算的代码如下所示。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">from</span> xlutils.copy <span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">wb_for_read = xlrd.open_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xls&#x27;</span>)</span><br><span class="line">sheet1 = wb_for_read.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">nrows, ncols = sheet1.nrows, sheet1.ncols</span><br><span class="line">wb_for_write = copy(wb_for_read)</span><br><span class="line">sheet2 = wb_for_write.get_sheet(<span class="number">0</span>)</span><br><span class="line">sheet2.write(nrows, <span class="number">4</span>, xlwt.Formula(<span class="string">f&#x27;average(E2:E<span class="subst">&#123;nrows&#125;</span>)&#x27;</span>))</span><br><span class="line">sheet2.write(nrows, <span class="number">6</span>, xlwt.Formula(<span class="string">f&#x27;sum(G2:G<span class="subst">&#123;nrows&#125;</span>)&#x27;</span>))</span><br><span class="line">wb_for_write.save(<span class="string">&#x27;阿里巴巴2020年股票数据汇总.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>说明</strong>：上面的代码有一些小瑕疵，有兴趣的读者可以自行探索并思考如何解决。</p>
+</blockquote>
+<h1 id="用openpyxl读写Excel文件"><a href="#用openpyxl读写Excel文件" class="headerlink" title="用openpyxl读写Excel文件"></a>用openpyxl读写Excel文件</h1><p>基于另一个三方库<code>openpyxl</code>如何进行Excel文件操作，首先需要先安装它。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install openpyxl</span><br></pre></td></tr></table></figure>
+
+<p><code>openpyxl</code>的优点在于，当我们打开一个Excel文件后，既可以对它进行读操作，又可以对它进行写操作，而且在操作的便捷性上是优于<code>xlwt</code>和<code>xlrd</code>的。此外，如果要进行样式编辑和公式计算，使用<code>openpyxl</code>也远比上一个章节我们讲解的方式更为简单，而且<code>openpyxl</code>还支持数据透视和插入图表等操作，功能非常强大。有一点需要再次强调，<code>openpyxl</code>并不支持操作Office 2007以前版本的Excel文件。</p>
+<h2 id="读取Excel文件"><a href="#读取Excel文件" class="headerlink" title="读取Excel文件"></a>读取Excel文件</h2><p>例如在当前文件夹下有一个名为“阿里巴巴2020年股票数据.xlsx”的Excel文件，如果想读取并显示该文件的内容，可以通过如下所示的代码来完成。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载一个工作簿 ---&gt; Workbook</span></span><br><span class="line">wb = openpyxl.load_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xlsx&#x27;</span>)</span><br><span class="line"><span class="comment"># 获取工作表的名字</span></span><br><span class="line"><span class="built_in">print</span>(wb.sheetnames)</span><br><span class="line"><span class="comment"># 获取工作表 ---&gt; Worksheet</span></span><br><span class="line">sheet = wb.worksheets[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 获得单元格的范围</span></span><br><span class="line"><span class="built_in">print</span>(sheet.dimensions)</span><br><span class="line"><span class="comment"># 获得行数和列数</span></span><br><span class="line"><span class="built_in">print</span>(sheet.max_row, sheet.max_column)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取指定单元格的值</span></span><br><span class="line"><span class="built_in">print</span>(sheet.cell(<span class="number">3</span>, <span class="number">3</span>).value)</span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;C3&#x27;</span>].value)</span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;G255&#x27;</span>].value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取多个单元格（嵌套元组）</span></span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;A2:C5&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取所有单元格的数据</span></span><br><span class="line"><span class="keyword">for</span> row_ch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, sheet.max_row + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> col_ch <span class="keyword">in</span> <span class="string">&#x27;ABCDEFG&#x27;</span>:</span><br><span class="line">        value = sheet[<span class="string">f&#x27;<span class="subst">&#123;col_ch&#125;</span><span class="subst">&#123;row_ch&#125;</span>&#x27;</span>].value</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span>(value) == datetime.datetime:</span><br><span class="line">            <span class="built_in">print</span>(value.strftime(<span class="string">&#x27;%Y年%m月%d日&#x27;</span>), end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span>(value) == <span class="built_in">int</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;value:&lt;10d&#125;</span>&#x27;</span>, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span>(value) == <span class="built_in">float</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;value:<span class="number">.4</span>f&#125;</span>&#x27;</span>, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(value, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+
+
+<p>需要提醒大家一点，<code>openpyxl</code>获取指定的单元格有两种方式，一种是通过<code>cell</code>方法，需要注意，该方法的行索引和列索引都是从<code>1</code>开始的，这是为了照顾用惯了Excel的人的习惯；另一种是通过索引运算，通过指定单元格的坐标，例如<code>C3</code>、<code>G255</code>，也可以取得对应的单元格，再通过单元格对象的<code>value</code>属性，就可以获取到单元格的值。通过上面的代码，相信大家还注意到了，可以通过类似<code>sheet[&#39;A2:C5&#39;]</code>或<code>sheet[&#39;A2&#39;:&#39;C5&#39;]</code>这样的切片操作获取多个单元格，该操作将返回嵌套的元组，相当于获取到了多行多列。</p>
+<h2 id="写Excel文件-1"><a href="#写Excel文件-1" class="headerlink" title="写Excel文件"></a>写Excel文件</h2><p>下面我们使用<code>openpyxl</code>来进行写Excel操作。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一步：创建工作簿（Workbook）</span></span><br><span class="line">wb = openpyxl.Workbook()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二步：添加工作表（Worksheet）</span></span><br><span class="line">sheet = wb.active</span><br><span class="line">sheet.title = <span class="string">&#x27;期末成绩&#x27;</span></span><br><span class="line"></span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> col_index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.cell(<span class="number">1</span>, col_index + <span class="number">1</span>, title)</span><br><span class="line"></span><br><span class="line">names = (<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row_index, name <span class="keyword">in</span> <span class="built_in">enumerate</span>(names):</span><br><span class="line">    sheet.cell(row_index + <span class="number">2</span>, <span class="number">1</span>, name)</span><br><span class="line">    <span class="keyword">for</span> col_index <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">5</span>):</span><br><span class="line">        sheet.cell(row_index + <span class="number">2</span>, col_index, random.randrange(<span class="number">50</span>, <span class="number">101</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第四步：保存工作簿</span></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="调整样式和公式计算"><a href="#调整样式和公式计算" class="headerlink" title="调整样式和公式计算"></a>调整样式和公式计算</h3><p>在使用<code>openpyxl</code>操作Excel时，如果要调整单元格的样式，可以直接通过单元格对象（<code>Cell</code>对象）的属性进行操作。单元格对象的属性包括字体（<code>font</code>）、对齐（<code>alignment</code>）、边框（<code>border</code>）等，具体的可以参考<code>openpyxl</code>的<a href="https://openpyxl.readthedocs.io/en/stable/index.html">官方文档</a>。在使用<code>openpyxl</code>时，如果需要做公式计算，可以完全按照Excel中的操作方式来进行，具体的代码如下所示。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">from</span> openpyxl.styles <span class="keyword">import</span> Font, Alignment, Border, Side</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对齐方式</span></span><br><span class="line">alignment = Alignment(horizontal=<span class="string">&#x27;center&#x27;</span>, vertical=<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line"><span class="comment"># 边框线条</span></span><br><span class="line">side = Side(color=<span class="string">&#x27;ff7f50&#x27;</span>, style=<span class="string">&#x27;mediumDashed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">wb = openpyxl.load_workbook(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br><span class="line">sheet = wb.worksheets[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整行高和列宽</span></span><br><span class="line">sheet.row_dimensions[<span class="number">1</span>].height = <span class="number">30</span></span><br><span class="line">sheet.column_dimensions[<span class="string">&#x27;E&#x27;</span>].width = <span class="number">120</span></span><br><span class="line"></span><br><span class="line">sheet[<span class="string">&#x27;E1&#x27;</span>] = <span class="string">&#x27;平均分&#x27;</span></span><br><span class="line"><span class="comment"># 设置字体</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).font = Font(size=<span class="number">18</span>, bold=<span class="literal">True</span>, color=<span class="string">&#x27;ff1493&#x27;</span>, name=<span class="string">&#x27;华文楷体&#x27;</span>)</span><br><span class="line"><span class="comment"># 设置对齐方式</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).alignment = alignment</span><br><span class="line"><span class="comment"># 设置单元格边框</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).border = Border(left=side, top=side, right=side, bottom=side)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">7</span>):</span><br><span class="line">    <span class="comment"># 公式计算每个学生的平均分</span></span><br><span class="line">    sheet[<span class="string">f&#x27;E<span class="subst">&#123;i&#125;</span>&#x27;</span>] = <span class="string">f&#x27;=average(B<span class="subst">&#123;i&#125;</span>:D<span class="subst">&#123;i&#125;</span>)&#x27;</span></span><br><span class="line">    sheet.cell(i, <span class="number">5</span>).font = Font(size=<span class="number">12</span>, color=<span class="string">&#x27;4169e1&#x27;</span>, italic=<span class="literal">True</span>)</span><br><span class="line">    sheet.cell(i, <span class="number">5</span>).alignment = alignment</span><br><span class="line"></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成统计图表"><a href="#生成统计图表" class="headerlink" title="生成统计图表"></a>生成统计图表</h2><p>通过<code>openpyxl</code>库，可以直接向Excel中插入统计图表，具体的做法跟在Excel中插入图表大体一致。我们可以创建指定类型的图表对象，然后通过该对象的属性对图表进行设置。当然，最为重要的是为图表绑定数据，即横轴代表什么，纵轴代表什么，具体的数值是多少。最后，可以将图表对象添加到表单中，具体的代码如下所示。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line"><span class="keyword">from</span> openpyxl.chart <span class="keyword">import</span> BarChart, Reference</span><br><span class="line"></span><br><span class="line">wb = Workbook(write_only=<span class="literal">True</span>)</span><br><span class="line">sheet = wb.create_sheet()</span><br><span class="line"></span><br><span class="line">rows = [</span><br><span class="line">    (<span class="string">&#x27;类别&#x27;</span>, <span class="string">&#x27;销售A组&#x27;</span>, <span class="string">&#x27;销售B组&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;手机&#x27;</span>, <span class="number">40</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="string">&#x27;平板&#x27;</span>, <span class="number">50</span>, <span class="number">60</span>),</span><br><span class="line">    (<span class="string">&#x27;笔记本&#x27;</span>, <span class="number">80</span>, <span class="number">70</span>),</span><br><span class="line">    (<span class="string">&#x27;外围设备&#x27;</span>, <span class="number">20</span>, <span class="number">10</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向表单中添加行</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> rows:</span><br><span class="line">    sheet.append(row)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建图表对象</span></span><br><span class="line">chart = BarChart()</span><br><span class="line">chart.<span class="built_in">type</span> = <span class="string">&#x27;col&#x27;</span></span><br><span class="line">chart.style = <span class="number">10</span></span><br><span class="line"><span class="comment"># 设置图表的标题</span></span><br><span class="line">chart.title = <span class="string">&#x27;销售统计图&#x27;</span></span><br><span class="line"><span class="comment"># 设置图表纵轴的标题</span></span><br><span class="line">chart.y_axis.title = <span class="string">&#x27;销量&#x27;</span></span><br><span class="line"><span class="comment"># 设置图表横轴的标题</span></span><br><span class="line">chart.x_axis.title = <span class="string">&#x27;商品类别&#x27;</span></span><br><span class="line"><span class="comment"># 设置数据的范围</span></span><br><span class="line">data = Reference(sheet, min_col=<span class="number">2</span>, min_row=<span class="number">1</span>, max_row=<span class="number">5</span>, max_col=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 设置分类的范围</span></span><br><span class="line">cats = Reference(sheet, min_col=<span class="number">1</span>, min_row=<span class="number">2</span>, max_row=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 给图表添加数据</span></span><br><span class="line">chart.add_data(data, titles_from_data=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 给图表设置分类</span></span><br><span class="line">chart.set_categories(cats)</span><br><span class="line">chart.shape = <span class="number">4</span></span><br><span class="line"><span class="comment"># 将图表添加到表单指定的单元格中</span></span><br><span class="line">sheet.add_chart(chart, <span class="string">&#x27;A10&#x27;</span>)</span><br><span class="line"></span><br><span class="line">wb.save(<span class="string">&#x27;demo.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="简单的总结"><a href="#简单的总结" class="headerlink" title="简单的总结"></a>简单的总结</h2><p>掌握了Python程序操作Excel的方法，可以解决日常办公中很多繁琐的处理Excel电子表格工作，最常见就是将多个数据格式相同的Excel文件合并到一个文件以及从多个Excel文件或表单中提取指定的数据。如果数据体量较大或者处理数据的方式比较复杂，我们还是推荐大家使用Python数据分析神器之一的<code>pandas</code>库。</p>
+<h1 id="用Python读写CSV文件"><a href="#用Python读写CSV文件" class="headerlink" title="用Python读写CSV文件"></a>用Python读写CSV文件</h1><h2 id="CSV文件介绍"><a href="#CSV文件介绍" class="headerlink" title="CSV文件介绍"></a>CSV文件介绍</h2><p>CSV（Comma Separated Values）全称逗号分隔值文件是一种简单、通用的文件格式，被广泛的应用于应用程序（数据库、电子表格等）数据的导入和导出以及异构系统之间的数据交换。因为CSV是纯文本文件，不管是什么操作系统和编程语言都是可以处理纯文本的，而且很多编程语言中都提供了对读写CSV文件的支持，因此CSV格式在数据处理和数据科学中被广泛应用。</p>
+<p>CSV文件有以下特点：</p>
+<ol>
+<li>纯文本，使用某种字符集（如<a href="https://zh.wikipedia.org/wiki/ASCII">ASCII</a>、<a href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>、<a href="https://zh.wikipedia.org/wiki/GB2312">GB2312</a>）等）；</li>
+<li>由一条条的记录组成（典型的是每行一条记录）；</li>
+<li>每条记录被分隔符（如逗号、分号、制表符等）分隔为字段（列）；</li>
+<li>每条记录都有同样的字段序列。</li>
+</ol>
+<p>CSV文件可以使用文本编辑器或类似于Excel电子表格这类工具打开和编辑，当使用Excel这类电子表格打开CSV文件时，你甚至感觉不到CSV和Excel文件的区别。很多数据库系统都支持将数据导出到CSV文件中，当然也支持从CSV文件中读入数据保存到数据库中，这些内容并不是现在要讨论的重点。</p>
+<h2 id="将数据写入CSV文件"><a href="#将数据写入CSV文件" class="headerlink" title="将数据写入CSV文件"></a>将数据写入CSV文件</h2><p>现有五个学生三门课程的考试成绩需要保存到一个CSV文件中，要达成这个目标，可以使用Python标准库中的<code>csv</code>模块，该模块的<code>writer</code>函数会返回一个<code>csvwriter</code>对象，通过该对象的<code>writerow</code>或<code>writerows</code>方法就可以将数据写入到CSV文件中，具体的代码如下所示。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    writer = csv.writer(file)</span><br><span class="line">    writer.writerow([<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>])</span><br><span class="line">    names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">        scores = [random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line">        scores.insert(<span class="number">0</span>, name)</span><br><span class="line">        writer.writerow(scores)</span><br></pre></td></tr></table></figure>
+
+<p>生成的CSV文件的内容。</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">姓名,语文,数学,英语</span><br><span class="line">关羽,98,86,61</span><br><span class="line">张飞,86,58,80</span><br><span class="line">赵云,95,73,70</span><br><span class="line">马超,83,97,55</span><br><span class="line">黄忠,61,54,87</span><br></pre></td></tr></table></figure>
+
+<p>需要说明的是上面的<code>writer</code>函数，除了传入要写入数据的文件对象外，还可以<code>dialect</code>参数，它表示CSV文件的方言，默认值是<code>excel</code>。除此之外，还可以通过<code>delimiter</code>、<code>quotechar</code>、<code>quoting</code>参数来指定分隔符（默认是逗号）、包围值的字符（默认是双引号）以及包围的方式。其中，包围值的字符主要用于当字段中有特殊符号时，通过添加包围值的字符可以避免二义性。大家可以尝试将上面第5行代码修改为下面的代码，然后查看生成的CSV文件。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">writer = csv.writer(file, delimiter=<span class="string">&#x27;|&#x27;</span>, quoting=csv.QUOTE_ALL)</span><br></pre></td></tr></table></figure>
+
+<p>生成的CSV文件的内容。</p>
+<figure class="highlight 1c"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;姓名&quot;</span><span class="string">|&quot;</span>语文<span class="string">&quot;|&quot;</span>数学<span class="string">&quot;|&quot;</span>英语<span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;关羽&quot;</span><span class="string">|&quot;</span><span class="number">88</span><span class="string">&quot;|&quot;</span><span class="number">64</span><span class="string">&quot;|&quot;</span><span class="number">65</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;张飞&quot;</span><span class="string">|&quot;</span><span class="number">76</span><span class="string">&quot;|&quot;</span><span class="number">93</span><span class="string">&quot;|&quot;</span><span class="number">79</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;赵云&quot;</span><span class="string">|&quot;</span><span class="number">78</span><span class="string">&quot;|&quot;</span><span class="number">55</span><span class="string">&quot;|&quot;</span><span class="number">76</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;马超&quot;</span><span class="string">|&quot;</span><span class="number">72</span><span class="string">&quot;|&quot;</span><span class="number">77</span><span class="string">&quot;|&quot;</span><span class="number">68</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;黄忠&quot;</span><span class="string">|&quot;</span><span class="number">70</span><span class="string">&quot;|&quot;</span><span class="number">72</span><span class="string">&quot;|&quot;</span><span class="number">51</span><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="从CSV文件读取数据"><a href="#从CSV文件读取数据" class="headerlink" title="从CSV文件读取数据"></a>从CSV文件读取数据</h2><p>如果要读取刚才创建的CSV文件，可以使用下面的代码，通过<code>csv</code>模块的<code>reader</code>函数可以创建出<code>csvreader</code>对象，该对象是一个迭代器，可以通过<code>next</code>函数或<code>for-in</code>循环读取到文件中的数据。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    reader = csv.reader(file, delimiter=<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> data_list <span class="keyword">in</span> reader:</span><br><span class="line">        <span class="built_in">print</span>(reader.line_num, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> elem <span class="keyword">in</span> data_list:</span><br><span class="line">            <span class="built_in">print</span>(elem, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：上面的代码对<code>csvreader</code>对象做<code>for</code>循环时，每次会取出一个列表对象，该列表对象包含了一行中所有的字段。</p>
+</blockquote>
 ]]></content>
       <categories>
         <category>python</category>
@@ -981,7 +1083,7 @@
       </categories>
       <tags>
         <tag>python</tag>
-        <tag>正则表达式</tag>
+        <tag>操作excel文件</tag>
       </tags>
   </entry>
   <entry>
@@ -1222,108 +1324,6 @@
       <tags>
         <tag>python</tag>
         <tag>进程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Python进阶（九）-- 操作excel文件</title>
-    <url>/2022/11/01/Python%E8%BF%9B%E9%98%B6(%E4%B9%9D)%E6%93%8D%E4%BD%9Cexcel%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="用Python读写Excel文件"><a href="#用Python读写Excel文件" class="headerlink" title="用Python读写Excel文件"></a>用Python读写Excel文件</h1><h2 id="Excel简介"><a href="#Excel简介" class="headerlink" title="Excel简介"></a>Excel简介</h2><p>Excel是Microsoft（微软）为使用Windows和macOS操作系统开发的一款电子表格软件。Excel凭借其直观的界面、出色的计算功能和图表工具，再加上成功的市场营销，一直以来都是最为流行的个人计算机数据处理软件。当然，Excel也有很多竞品，例如Google Sheets、LibreOffice Calc、Numbers等，这些竞品基本上也能够兼容Excel，至少能够读写较新版本的Excel文件，当然这些不是我们讨论的重点。掌握用Python程序操作Excel文件，可以让日常办公自动化的工作更加轻松愉快，而且在很多商业项目中，导入导出Excel文件都是特别常见的功能。</p>
-<span id="more"></span>  
-
-<p>Python操作Excel需要三方库的支持，如果要兼容Excel 2007以前的版本，也就是<code>xls</code>格式的Excel文件，可以使用三方库<code>xlrd</code>和<code>xlwt</code>，前者用于读Excel文件，后者用于写Excel文件。如果使用较新版本的Excel，即操作<code>xlsx</code>格式的Excel文件，可以使用<code>openpyxl</code>库，当然这个库不仅仅可以操作Excel，还可以操作其他基于Office Open XML的电子表格文件。</p>
-<p>基于<code>xlwt</code>和<code>xlrd</code>操作Excel文件，大家可以先使用下面的命令安装这两个三方库以及配合使用的工具模块<code>xlutils</code>。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install xlwt xlrd xlutils</span><br></pre></td></tr></table></figure>
-
-<h2 id="读Excel文件"><a href="#读Excel文件" class="headerlink" title="读Excel文件"></a>读Excel文件</h2><p>例如在当前文件夹下有一个名为“阿里巴巴2020年股票数据.xls”的Excel文件，如果想读取并显示该文件的内容，可以通过如下所示的代码来完成。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用xlrd模块的open_workbook函数打开指定Excel文件并获得Book对象（工作簿）</span></span><br><span class="line">wb = xlrd.open_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xls&#x27;</span>)</span><br><span class="line"><span class="comment"># 通过Book对象的sheet_names方法可以获取所有表单名称</span></span><br><span class="line">sheetnames = wb.sheet_names()</span><br><span class="line"><span class="built_in">print</span>(sheetnames)</span><br><span class="line"><span class="comment"># 通过指定的表单名称获取Sheet对象（工作表）</span></span><br><span class="line">sheet = wb.sheet_by_name(sheetnames[<span class="number">0</span>])</span><br><span class="line"><span class="comment"># 通过Sheet对象的nrows和ncols属性获取表单的行数和列数</span></span><br><span class="line"><span class="built_in">print</span>(sheet.nrows, sheet.ncols)</span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(sheet.nrows):</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(sheet.ncols):</span><br><span class="line">        <span class="comment"># 通过Sheet对象的cell方法获取指定Cell对象（单元格）</span></span><br><span class="line">        <span class="comment"># 通过Cell对象的value属性获取单元格中的值</span></span><br><span class="line">        value = sheet.cell(row, col).value</span><br><span class="line">        <span class="comment"># 对除首行外的其他行进行数据格式化处理</span></span><br><span class="line">        <span class="keyword">if</span> row &gt; <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># 第1列的xldate类型先转成元组再格式化为“年月日”的格式</span></span><br><span class="line">            <span class="keyword">if</span> col == <span class="number">0</span>:</span><br><span class="line">                <span class="comment"># xldate_as_tuple函数的第二个参数只有0和1两个取值</span></span><br><span class="line">                <span class="comment"># 其中0代表以1900-01-01为基准的日期，1代表以1904-01-01为基准的日期</span></span><br><span class="line">                value = xlrd.xldate_as_tuple(value, <span class="number">0</span>)</span><br><span class="line">                value = <span class="string">f&#x27;<span class="subst">&#123;value[<span class="number">0</span>]&#125;</span>年<span class="subst">&#123;value[<span class="number">1</span>]:&gt;02d&#125;</span>月<span class="subst">&#123;value[<span class="number">2</span>]:&gt;02d&#125;</span>日&#x27;</span></span><br><span class="line">            <span class="comment"># 其他列的number类型处理成小数点后保留两位有效数字的浮点数</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                value = <span class="string">f&#x27;<span class="subst">&#123;value:<span class="number">.2</span>f&#125;</span>&#x27;</span></span><br><span class="line">        <span class="built_in">print</span>(value, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br><span class="line"><span class="comment"># 获取最后一个单元格的数据类型</span></span><br><span class="line"><span class="comment"># 0 - 空值，1 - 字符串，2 - 数字，3 - 日期，4 - 布尔，5 - 错误</span></span><br><span class="line">last_cell_type = sheet.cell_type(sheet.nrows - <span class="number">1</span>, sheet.ncols - <span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(last_cell_type)</span><br><span class="line"><span class="comment"># 获取第一行的值（列表）</span></span><br><span class="line"><span class="built_in">print</span>(sheet.row_values(<span class="number">0</span>))</span><br><span class="line"><span class="comment"># 获取指定行指定列范围的数据（列表）</span></span><br><span class="line"><span class="comment"># 第一个参数代表行索引，第二个和第三个参数代表列的开始（含）和结束（不含）索引</span></span><br><span class="line"><span class="built_in">print</span>(sheet.row_slice(<span class="number">3</span>, <span class="number">0</span>, <span class="number">5</span>))</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>提示</strong>：上面代码中使用的Excel文件“阿里巴巴2020年股票数据.xls”可以通过后面的百度云盘地址进行获取。链接:<a href="https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g">https://pan.baidu.com/s/1rQujl5RQn9R7PadB2Z5g_g</a> 提取码:e7b4。</p>
-</blockquote>
-<p>相信通过上面的代码，大家已经了解到了如何读取一个Excel文件，如果想知道更多关于<code>xlrd</code>模块的知识，可以阅读它的<a href="https://xlrd.readthedocs.io/en/latest/">官方文档</a>。</p>
-<h3 id="写Excel文件"><a href="#写Excel文件" class="headerlink" title="写Excel文件"></a>写Excel文件</h3><p>写入Excel文件可以通过<code>xlwt</code> 模块的<code>Workbook</code>类创建工作簿对象，通过工作簿对象的<code>add_sheet</code>方法可以添加工作表，通过工作表对象的<code>write</code>方法可以向指定单元格中写入数据，最后通过工作簿对象的<code>save</code>方法将工作簿写入到指定的文件或内存中。下面的代码实现了将<code>5</code>个学生<code>3</code>门课程的考试成绩写入Excel文件的操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"></span><br><span class="line">student_names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">scores = [[random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)] <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>)]</span><br><span class="line"><span class="comment"># 创建工作簿对象（Workbook）</span></span><br><span class="line">wb = xlwt.Workbook()</span><br><span class="line"><span class="comment"># 创建工作表对象（Worksheet）</span></span><br><span class="line">sheet = wb.add_sheet(<span class="string">&#x27;一年级二班&#x27;</span>)</span><br><span class="line"><span class="comment"># 添加表头数据</span></span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title)</span><br><span class="line"><span class="comment"># 将学生姓名和考试成绩写入单元格</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(scores)):</span><br><span class="line">    sheet.write(row + <span class="number">1</span>, <span class="number">0</span>, student_names[row])</span><br><span class="line">    <span class="keyword">for</span> col <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(scores[row])):</span><br><span class="line">        sheet.write(row + <span class="number">1</span>, col + <span class="number">1</span>, scores[row][col])</span><br><span class="line"><span class="comment"># 保存Excel工作簿</span></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="调整单元格样式"><a href="#调整单元格样式" class="headerlink" title="调整单元格样式"></a>调整单元格样式</h3><p>在写Excel文件时，我们还可以为单元格设置样式，主要包括字体（Font）、对齐方式（Alignment）、边框（Border）和背景（Background）的设置，<code>xlwt</code>对这几项设置都封装了对应的类来支持。要设置单元格样式需要首先创建一个<code>XFStyle</code>对象，再通过该对象的属性对字体、对齐方式、边框等进行设定，例如在上面的例子中，如果希望将表头单元格的背景色修改为黄色，可以按照如下的方式进行操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">header_style = xlwt.XFStyle()</span><br><span class="line">pattern = xlwt.Pattern()</span><br><span class="line">pattern.pattern = xlwt.Pattern.SOLID_PATTERN</span><br><span class="line"><span class="comment"># 0 - 黑色、1 - 白色、2 - 红色、3 - 绿色、4 - 蓝色、5 - 黄色、6 - 粉色、7 - 青色</span></span><br><span class="line">pattern.pattern_fore_colour = <span class="number">5</span></span><br><span class="line">header_style.pattern = pattern</span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title, header_style)</span><br></pre></td></tr></table></figure>
-
-<p>如果希望为表头设置指定的字体，可以使用<code>Font</code>类并添加如下所示的代码。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">font = xlwt.Font()</span><br><span class="line"><span class="comment"># 字体名称</span></span><br><span class="line">font.name = <span class="string">&#x27;华文楷体&#x27;</span></span><br><span class="line"><span class="comment"># 字体大小（20是基准单位，18表示18px）</span></span><br><span class="line">font.height = <span class="number">20</span> * <span class="number">18</span></span><br><span class="line"><span class="comment"># 是否使用粗体</span></span><br><span class="line">font.bold = <span class="literal">True</span></span><br><span class="line"><span class="comment"># 是否使用斜体</span></span><br><span class="line">font.italic = <span class="literal">False</span></span><br><span class="line"><span class="comment"># 字体颜色</span></span><br><span class="line">font.colour_index = <span class="number">1</span></span><br><span class="line">header_style.font = font</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>注意</strong>：上面代码中指定的字体名（<code>font.name</code>）应当是本地系统有的字体，例如在我的电脑上有名为“华文楷体”的字体。</p>
-</blockquote>
-<p>如果希望表头垂直居中对齐，可以使用下面的代码进行设置。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">align = xlwt.Alignment()</span><br><span class="line"><span class="comment"># 垂直方向的对齐方式</span></span><br><span class="line">align.vert = xlwt.Alignment.VERT_CENTER</span><br><span class="line"><span class="comment"># 水平方向的对齐方式</span></span><br><span class="line">align.horz = xlwt.Alignment.HORZ_CENTER</span><br><span class="line">header_style.alignment = align</span><br></pre></td></tr></table></figure>
-
-<p>如果希望给表头加上黄色的虚线边框，可以使用下面的代码来设置。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">borders = xlwt.Borders()</span><br><span class="line">props = (</span><br><span class="line">    (<span class="string">&#x27;top&#x27;</span>, <span class="string">&#x27;top_colour&#x27;</span>), (<span class="string">&#x27;right&#x27;</span>, <span class="string">&#x27;right_colour&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;bottom&#x27;</span>, <span class="string">&#x27;bottom_colour&#x27;</span>), (<span class="string">&#x27;left&#x27;</span>, <span class="string">&#x27;left_colour&#x27;</span>)</span><br><span class="line">)</span><br><span class="line"><span class="comment"># 通过循环对四个方向的边框样式及颜色进行设定</span></span><br><span class="line"><span class="keyword">for</span> position, color <span class="keyword">in</span> props:</span><br><span class="line">    <span class="comment"># 使用setattr内置函数动态给对象指定的属性赋值</span></span><br><span class="line">    <span class="built_in">setattr</span>(borders, position, xlwt.Borders.DASHED)</span><br><span class="line">    <span class="built_in">setattr</span>(borders, color, <span class="number">5</span>)</span><br><span class="line">header_style.borders = borders</span><br></pre></td></tr></table></figure>
-
-<p>如果要调整单元格的宽度（列宽）和表头的高度（行高），可以按照下面的代码进行操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置行高为40px</span></span><br><span class="line">sheet.row(<span class="number">0</span>).set_style(xlwt.easyxf(<span class="string">f&#x27;font:height <span class="subst">&#123;<span class="number">20</span> * <span class="number">40</span>&#125;</span>&#x27;</span>))</span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    <span class="comment"># 设置列宽为200px</span></span><br><span class="line">    sheet.col(index).width = <span class="number">20</span> * <span class="number">200</span></span><br><span class="line">    <span class="comment"># 设置单元格的数据和样式</span></span><br><span class="line">    sheet.write(<span class="number">0</span>, index, title, header_style)</span><br></pre></td></tr></table></figure>
-
-<h3 id="公式计算"><a href="#公式计算" class="headerlink" title="公式计算"></a>公式计算</h3><p>对于前面打开的“阿里巴巴2020年股票数据.xls”文件，如果要统计全年收盘价（Close字段）的平均值以及全年交易量（Volume字段）的总和，可以使用Excel的公式计算即可。我们可以先使用<code>xlrd</code>读取Excel文件夹，然后通过<code>xlutils</code>三方库提供的<code>copy</code>函数将读取到的Excel文件转成<code>Workbook</code>对象进行写操作，在调用<code>write</code>方法时，可以将一个<code>Formula</code>对象写入单元格。</p>
-<p>实现公式计算的代码如下所示。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> xlrd</span><br><span class="line"><span class="keyword">import</span> xlwt</span><br><span class="line"><span class="keyword">from</span> xlutils.copy <span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">wb_for_read = xlrd.open_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xls&#x27;</span>)</span><br><span class="line">sheet1 = wb_for_read.sheet_by_index(<span class="number">0</span>)</span><br><span class="line">nrows, ncols = sheet1.nrows, sheet1.ncols</span><br><span class="line">wb_for_write = copy(wb_for_read)</span><br><span class="line">sheet2 = wb_for_write.get_sheet(<span class="number">0</span>)</span><br><span class="line">sheet2.write(nrows, <span class="number">4</span>, xlwt.Formula(<span class="string">f&#x27;average(E2:E<span class="subst">&#123;nrows&#125;</span>)&#x27;</span>))</span><br><span class="line">sheet2.write(nrows, <span class="number">6</span>, xlwt.Formula(<span class="string">f&#x27;sum(G2:G<span class="subst">&#123;nrows&#125;</span>)&#x27;</span>))</span><br><span class="line">wb_for_write.save(<span class="string">&#x27;阿里巴巴2020年股票数据汇总.xls&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>说明</strong>：上面的代码有一些小瑕疵，有兴趣的读者可以自行探索并思考如何解决。</p>
-</blockquote>
-<h1 id="用openpyxl读写Excel文件"><a href="#用openpyxl读写Excel文件" class="headerlink" title="用openpyxl读写Excel文件"></a>用openpyxl读写Excel文件</h1><p>基于另一个三方库<code>openpyxl</code>如何进行Excel文件操作，首先需要先安装它。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install openpyxl</span><br></pre></td></tr></table></figure>
-
-<p><code>openpyxl</code>的优点在于，当我们打开一个Excel文件后，既可以对它进行读操作，又可以对它进行写操作，而且在操作的便捷性上是优于<code>xlwt</code>和<code>xlrd</code>的。此外，如果要进行样式编辑和公式计算，使用<code>openpyxl</code>也远比上一个章节我们讲解的方式更为简单，而且<code>openpyxl</code>还支持数据透视和插入图表等操作，功能非常强大。有一点需要再次强调，<code>openpyxl</code>并不支持操作Office 2007以前版本的Excel文件。</p>
-<h2 id="读取Excel文件"><a href="#读取Excel文件" class="headerlink" title="读取Excel文件"></a>读取Excel文件</h2><p>例如在当前文件夹下有一个名为“阿里巴巴2020年股票数据.xlsx”的Excel文件，如果想读取并显示该文件的内容，可以通过如下所示的代码来完成。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> datetime</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 加载一个工作簿 ---&gt; Workbook</span></span><br><span class="line">wb = openpyxl.load_workbook(<span class="string">&#x27;阿里巴巴2020年股票数据.xlsx&#x27;</span>)</span><br><span class="line"><span class="comment"># 获取工作表的名字</span></span><br><span class="line"><span class="built_in">print</span>(wb.sheetnames)</span><br><span class="line"><span class="comment"># 获取工作表 ---&gt; Worksheet</span></span><br><span class="line">sheet = wb.worksheets[<span class="number">0</span>]</span><br><span class="line"><span class="comment"># 获得单元格的范围</span></span><br><span class="line"><span class="built_in">print</span>(sheet.dimensions)</span><br><span class="line"><span class="comment"># 获得行数和列数</span></span><br><span class="line"><span class="built_in">print</span>(sheet.max_row, sheet.max_column)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取指定单元格的值</span></span><br><span class="line"><span class="built_in">print</span>(sheet.cell(<span class="number">3</span>, <span class="number">3</span>).value)</span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;C3&#x27;</span>].value)</span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;G255&#x27;</span>].value)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取多个单元格（嵌套元组）</span></span><br><span class="line"><span class="built_in">print</span>(sheet[<span class="string">&#x27;A2:C5&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取所有单元格的数据</span></span><br><span class="line"><span class="keyword">for</span> row_ch <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, sheet.max_row + <span class="number">1</span>):</span><br><span class="line">    <span class="keyword">for</span> col_ch <span class="keyword">in</span> <span class="string">&#x27;ABCDEFG&#x27;</span>:</span><br><span class="line">        value = sheet[<span class="string">f&#x27;<span class="subst">&#123;col_ch&#125;</span><span class="subst">&#123;row_ch&#125;</span>&#x27;</span>].value</span><br><span class="line">        <span class="keyword">if</span> <span class="built_in">type</span>(value) == datetime.datetime:</span><br><span class="line">            <span class="built_in">print</span>(value.strftime(<span class="string">&#x27;%Y年%m月%d日&#x27;</span>), end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span>(value) == <span class="built_in">int</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;value:&lt;10d&#125;</span>&#x27;</span>, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">elif</span> <span class="built_in">type</span>(value) == <span class="built_in">float</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;value:<span class="number">.4</span>f&#125;</span>&#x27;</span>, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="built_in">print</span>(value, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
-
-
-<p>需要提醒大家一点，<code>openpyxl</code>获取指定的单元格有两种方式，一种是通过<code>cell</code>方法，需要注意，该方法的行索引和列索引都是从<code>1</code>开始的，这是为了照顾用惯了Excel的人的习惯；另一种是通过索引运算，通过指定单元格的坐标，例如<code>C3</code>、<code>G255</code>，也可以取得对应的单元格，再通过单元格对象的<code>value</code>属性，就可以获取到单元格的值。通过上面的代码，相信大家还注意到了，可以通过类似<code>sheet[&#39;A2:C5&#39;]</code>或<code>sheet[&#39;A2&#39;:&#39;C5&#39;]</code>这样的切片操作获取多个单元格，该操作将返回嵌套的元组，相当于获取到了多行多列。</p>
-<h2 id="写Excel文件-1"><a href="#写Excel文件-1" class="headerlink" title="写Excel文件"></a>写Excel文件</h2><p>下面我们使用<code>openpyxl</code>来进行写Excel操作。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第一步：创建工作簿（Workbook）</span></span><br><span class="line">wb = openpyxl.Workbook()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第二步：添加工作表（Worksheet）</span></span><br><span class="line">sheet = wb.active</span><br><span class="line">sheet.title = <span class="string">&#x27;期末成绩&#x27;</span></span><br><span class="line"></span><br><span class="line">titles = (<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> col_index, title <span class="keyword">in</span> <span class="built_in">enumerate</span>(titles):</span><br><span class="line">    sheet.cell(<span class="number">1</span>, col_index + <span class="number">1</span>, title)</span><br><span class="line"></span><br><span class="line">names = (<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>)</span><br><span class="line"><span class="keyword">for</span> row_index, name <span class="keyword">in</span> <span class="built_in">enumerate</span>(names):</span><br><span class="line">    sheet.cell(row_index + <span class="number">2</span>, <span class="number">1</span>, name)</span><br><span class="line">    <span class="keyword">for</span> col_index <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">5</span>):</span><br><span class="line">        sheet.cell(row_index + <span class="number">2</span>, col_index, random.randrange(<span class="number">50</span>, <span class="number">101</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 第四步：保存工作簿</span></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="调整样式和公式计算"><a href="#调整样式和公式计算" class="headerlink" title="调整样式和公式计算"></a>调整样式和公式计算</h3><p>在使用<code>openpyxl</code>操作Excel时，如果要调整单元格的样式，可以直接通过单元格对象（<code>Cell</code>对象）的属性进行操作。单元格对象的属性包括字体（<code>font</code>）、对齐（<code>alignment</code>）、边框（<code>border</code>）等，具体的可以参考<code>openpyxl</code>的<a href="https://openpyxl.readthedocs.io/en/stable/index.html">官方文档</a>。在使用<code>openpyxl</code>时，如果需要做公式计算，可以完全按照Excel中的操作方式来进行，具体的代码如下所示。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> openpyxl</span><br><span class="line"><span class="keyword">from</span> openpyxl.styles <span class="keyword">import</span> Font, Alignment, Border, Side</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对齐方式</span></span><br><span class="line">alignment = Alignment(horizontal=<span class="string">&#x27;center&#x27;</span>, vertical=<span class="string">&#x27;center&#x27;</span>)</span><br><span class="line"><span class="comment"># 边框线条</span></span><br><span class="line">side = Side(color=<span class="string">&#x27;ff7f50&#x27;</span>, style=<span class="string">&#x27;mediumDashed&#x27;</span>)</span><br><span class="line"></span><br><span class="line">wb = openpyxl.load_workbook(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br><span class="line">sheet = wb.worksheets[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 调整行高和列宽</span></span><br><span class="line">sheet.row_dimensions[<span class="number">1</span>].height = <span class="number">30</span></span><br><span class="line">sheet.column_dimensions[<span class="string">&#x27;E&#x27;</span>].width = <span class="number">120</span></span><br><span class="line"></span><br><span class="line">sheet[<span class="string">&#x27;E1&#x27;</span>] = <span class="string">&#x27;平均分&#x27;</span></span><br><span class="line"><span class="comment"># 设置字体</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).font = Font(size=<span class="number">18</span>, bold=<span class="literal">True</span>, color=<span class="string">&#x27;ff1493&#x27;</span>, name=<span class="string">&#x27;华文楷体&#x27;</span>)</span><br><span class="line"><span class="comment"># 设置对齐方式</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).alignment = alignment</span><br><span class="line"><span class="comment"># 设置单元格边框</span></span><br><span class="line">sheet.cell(<span class="number">1</span>, <span class="number">5</span>).border = Border(left=side, top=side, right=side, bottom=side)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>, <span class="number">7</span>):</span><br><span class="line">    <span class="comment"># 公式计算每个学生的平均分</span></span><br><span class="line">    sheet[<span class="string">f&#x27;E<span class="subst">&#123;i&#125;</span>&#x27;</span>] = <span class="string">f&#x27;=average(B<span class="subst">&#123;i&#125;</span>:D<span class="subst">&#123;i&#125;</span>)&#x27;</span></span><br><span class="line">    sheet.cell(i, <span class="number">5</span>).font = Font(size=<span class="number">12</span>, color=<span class="string">&#x27;4169e1&#x27;</span>, italic=<span class="literal">True</span>)</span><br><span class="line">    sheet.cell(i, <span class="number">5</span>).alignment = alignment</span><br><span class="line"></span><br><span class="line">wb.save(<span class="string">&#x27;考试成绩表.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成统计图表"><a href="#生成统计图表" class="headerlink" title="生成统计图表"></a>生成统计图表</h2><p>通过<code>openpyxl</code>库，可以直接向Excel中插入统计图表，具体的做法跟在Excel中插入图表大体一致。我们可以创建指定类型的图表对象，然后通过该对象的属性对图表进行设置。当然，最为重要的是为图表绑定数据，即横轴代表什么，纵轴代表什么，具体的数值是多少。最后，可以将图表对象添加到表单中，具体的代码如下所示。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> openpyxl <span class="keyword">import</span> Workbook</span><br><span class="line"><span class="keyword">from</span> openpyxl.chart <span class="keyword">import</span> BarChart, Reference</span><br><span class="line"></span><br><span class="line">wb = Workbook(write_only=<span class="literal">True</span>)</span><br><span class="line">sheet = wb.create_sheet()</span><br><span class="line"></span><br><span class="line">rows = [</span><br><span class="line">    (<span class="string">&#x27;类别&#x27;</span>, <span class="string">&#x27;销售A组&#x27;</span>, <span class="string">&#x27;销售B组&#x27;</span>),</span><br><span class="line">    (<span class="string">&#x27;手机&#x27;</span>, <span class="number">40</span>, <span class="number">30</span>),</span><br><span class="line">    (<span class="string">&#x27;平板&#x27;</span>, <span class="number">50</span>, <span class="number">60</span>),</span><br><span class="line">    (<span class="string">&#x27;笔记本&#x27;</span>, <span class="number">80</span>, <span class="number">70</span>),</span><br><span class="line">    (<span class="string">&#x27;外围设备&#x27;</span>, <span class="number">20</span>, <span class="number">10</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 向表单中添加行</span></span><br><span class="line"><span class="keyword">for</span> row <span class="keyword">in</span> rows:</span><br><span class="line">    sheet.append(row)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建图表对象</span></span><br><span class="line">chart = BarChart()</span><br><span class="line">chart.<span class="built_in">type</span> = <span class="string">&#x27;col&#x27;</span></span><br><span class="line">chart.style = <span class="number">10</span></span><br><span class="line"><span class="comment"># 设置图表的标题</span></span><br><span class="line">chart.title = <span class="string">&#x27;销售统计图&#x27;</span></span><br><span class="line"><span class="comment"># 设置图表纵轴的标题</span></span><br><span class="line">chart.y_axis.title = <span class="string">&#x27;销量&#x27;</span></span><br><span class="line"><span class="comment"># 设置图表横轴的标题</span></span><br><span class="line">chart.x_axis.title = <span class="string">&#x27;商品类别&#x27;</span></span><br><span class="line"><span class="comment"># 设置数据的范围</span></span><br><span class="line">data = Reference(sheet, min_col=<span class="number">2</span>, min_row=<span class="number">1</span>, max_row=<span class="number">5</span>, max_col=<span class="number">3</span>)</span><br><span class="line"><span class="comment"># 设置分类的范围</span></span><br><span class="line">cats = Reference(sheet, min_col=<span class="number">1</span>, min_row=<span class="number">2</span>, max_row=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 给图表添加数据</span></span><br><span class="line">chart.add_data(data, titles_from_data=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># 给图表设置分类</span></span><br><span class="line">chart.set_categories(cats)</span><br><span class="line">chart.shape = <span class="number">4</span></span><br><span class="line"><span class="comment"># 将图表添加到表单指定的单元格中</span></span><br><span class="line">sheet.add_chart(chart, <span class="string">&#x27;A10&#x27;</span>)</span><br><span class="line"></span><br><span class="line">wb.save(<span class="string">&#x27;demo.xlsx&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-
-<h2 id="简单的总结"><a href="#简单的总结" class="headerlink" title="简单的总结"></a>简单的总结</h2><p>掌握了Python程序操作Excel的方法，可以解决日常办公中很多繁琐的处理Excel电子表格工作，最常见就是将多个数据格式相同的Excel文件合并到一个文件以及从多个Excel文件或表单中提取指定的数据。如果数据体量较大或者处理数据的方式比较复杂，我们还是推荐大家使用Python数据分析神器之一的<code>pandas</code>库。</p>
-<h1 id="用Python读写CSV文件"><a href="#用Python读写CSV文件" class="headerlink" title="用Python读写CSV文件"></a>用Python读写CSV文件</h1><h2 id="CSV文件介绍"><a href="#CSV文件介绍" class="headerlink" title="CSV文件介绍"></a>CSV文件介绍</h2><p>CSV（Comma Separated Values）全称逗号分隔值文件是一种简单、通用的文件格式，被广泛的应用于应用程序（数据库、电子表格等）数据的导入和导出以及异构系统之间的数据交换。因为CSV是纯文本文件，不管是什么操作系统和编程语言都是可以处理纯文本的，而且很多编程语言中都提供了对读写CSV文件的支持，因此CSV格式在数据处理和数据科学中被广泛应用。</p>
-<p>CSV文件有以下特点：</p>
-<ol>
-<li>纯文本，使用某种字符集（如<a href="https://zh.wikipedia.org/wiki/ASCII">ASCII</a>、<a href="https://zh.wikipedia.org/wiki/Unicode">Unicode</a>、<a href="https://zh.wikipedia.org/wiki/GB2312">GB2312</a>）等）；</li>
-<li>由一条条的记录组成（典型的是每行一条记录）；</li>
-<li>每条记录被分隔符（如逗号、分号、制表符等）分隔为字段（列）；</li>
-<li>每条记录都有同样的字段序列。</li>
-</ol>
-<p>CSV文件可以使用文本编辑器或类似于Excel电子表格这类工具打开和编辑，当使用Excel这类电子表格打开CSV文件时，你甚至感觉不到CSV和Excel文件的区别。很多数据库系统都支持将数据导出到CSV文件中，当然也支持从CSV文件中读入数据保存到数据库中，这些内容并不是现在要讨论的重点。</p>
-<h2 id="将数据写入CSV文件"><a href="#将数据写入CSV文件" class="headerlink" title="将数据写入CSV文件"></a>将数据写入CSV文件</h2><p>现有五个学生三门课程的考试成绩需要保存到一个CSV文件中，要达成这个目标，可以使用Python标准库中的<code>csv</code>模块，该模块的<code>writer</code>函数会返回一个<code>csvwriter</code>对象，通过该对象的<code>writerow</code>或<code>writerows</code>方法就可以将数据写入到CSV文件中，具体的代码如下所示。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    writer = csv.writer(file)</span><br><span class="line">    writer.writerow([<span class="string">&#x27;姓名&#x27;</span>, <span class="string">&#x27;语文&#x27;</span>, <span class="string">&#x27;数学&#x27;</span>, <span class="string">&#x27;英语&#x27;</span>])</span><br><span class="line">    names = [<span class="string">&#x27;关羽&#x27;</span>, <span class="string">&#x27;张飞&#x27;</span>, <span class="string">&#x27;赵云&#x27;</span>, <span class="string">&#x27;马超&#x27;</span>, <span class="string">&#x27;黄忠&#x27;</span>]</span><br><span class="line">    <span class="keyword">for</span> name <span class="keyword">in</span> names:</span><br><span class="line">        scores = [random.randrange(<span class="number">50</span>, <span class="number">101</span>) <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">3</span>)]</span><br><span class="line">        scores.insert(<span class="number">0</span>, name)</span><br><span class="line">        writer.writerow(scores)</span><br></pre></td></tr></table></figure>
-
-<p>生成的CSV文件的内容。</p>
-<figure class="highlight"><table><tr><td class="code"><pre><span class="line">姓名,语文,数学,英语</span><br><span class="line">关羽,98,86,61</span><br><span class="line">张飞,86,58,80</span><br><span class="line">赵云,95,73,70</span><br><span class="line">马超,83,97,55</span><br><span class="line">黄忠,61,54,87</span><br></pre></td></tr></table></figure>
-
-<p>需要说明的是上面的<code>writer</code>函数，除了传入要写入数据的文件对象外，还可以<code>dialect</code>参数，它表示CSV文件的方言，默认值是<code>excel</code>。除此之外，还可以通过<code>delimiter</code>、<code>quotechar</code>、<code>quoting</code>参数来指定分隔符（默认是逗号）、包围值的字符（默认是双引号）以及包围的方式。其中，包围值的字符主要用于当字段中有特殊符号时，通过添加包围值的字符可以避免二义性。大家可以尝试将上面第5行代码修改为下面的代码，然后查看生成的CSV文件。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">writer = csv.writer(file, delimiter=<span class="string">&#x27;|&#x27;</span>, quoting=csv.QUOTE_ALL)</span><br></pre></td></tr></table></figure>
-
-<p>生成的CSV文件的内容。</p>
-<figure class="highlight 1c"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;姓名&quot;</span><span class="string">|&quot;</span>语文<span class="string">&quot;|&quot;</span>数学<span class="string">&quot;|&quot;</span>英语<span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;关羽&quot;</span><span class="string">|&quot;</span><span class="number">88</span><span class="string">&quot;|&quot;</span><span class="number">64</span><span class="string">&quot;|&quot;</span><span class="number">65</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;张飞&quot;</span><span class="string">|&quot;</span><span class="number">76</span><span class="string">&quot;|&quot;</span><span class="number">93</span><span class="string">&quot;|&quot;</span><span class="number">79</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;赵云&quot;</span><span class="string">|&quot;</span><span class="number">78</span><span class="string">&quot;|&quot;</span><span class="number">55</span><span class="string">&quot;|&quot;</span><span class="number">76</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;马超&quot;</span><span class="string">|&quot;</span><span class="number">72</span><span class="string">&quot;|&quot;</span><span class="number">77</span><span class="string">&quot;|&quot;</span><span class="number">68</span><span class="string">&quot;</span></span><br><span class="line"><span class="string">&quot;黄忠&quot;</span><span class="string">|&quot;</span><span class="number">70</span><span class="string">&quot;|&quot;</span><span class="number">72</span><span class="string">&quot;|&quot;</span><span class="number">51</span><span class="string">&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="从CSV文件读取数据"><a href="#从CSV文件读取数据" class="headerlink" title="从CSV文件读取数据"></a>从CSV文件读取数据</h2><p>如果要读取刚才创建的CSV文件，可以使用下面的代码，通过<code>csv</code>模块的<code>reader</code>函数可以创建出<code>csvreader</code>对象，该对象是一个迭代器，可以通过<code>next</code>函数或<code>for-in</code>循环读取到文件中的数据。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> csv</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;scores.csv&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    reader = csv.reader(file, delimiter=<span class="string">&#x27;|&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> data_list <span class="keyword">in</span> reader:</span><br><span class="line">        <span class="built_in">print</span>(reader.line_num, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> elem <span class="keyword">in</span> data_list:</span><br><span class="line">            <span class="built_in">print</span>(elem, end=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line">        <span class="built_in">print</span>()</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p><strong>注意</strong>：上面的代码对<code>csvreader</code>对象做<code>for</code>循环时，每次会取出一个列表对象，该列表对象包含了一行中所有的字段。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>python</category>
-        <category>进阶</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>操作excel文件</tag>
       </tags>
   </entry>
   <entry>
@@ -2415,229 +2415,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Python进阶（四）-- 协程</title>
-    <url>/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/</url>
-    <content><![CDATA[<h1 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h1><p>遍历也叫迭代。</p>
-<p>使用<code>isinstance()</code>检测对象是否可迭代。返回True表示可迭代，False表示不可迭代。</p>
-<span id="more"></span>  
-
-<p>格式：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable</span><br><span class="line"><span class="built_in">isinstance</span>(检测对象,Iterable)</span><br></pre></td></tr></table></figure>
-
-<p>注意:&#x3D;&#x3D;Python3.6版本以后导入Iterable需要从collections.abc中导入,不然会报错。&#x3D;&#x3D;</p>
-<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>可迭代对象通<code>_ _iter_ _</code>方法向我们提供一个迭代器，我们在迭代一个对象的时候，&#x3D;&#x3D;实际上就是先获取该对象的一个迭代器，然后通过迭代器依次获取对象中的每一个数据。&#x3D;&#x3D;</p>
-<h3 id="iter-函数与next-函数"><a href="#iter-函数与next-函数" class="headerlink" title="iter()函数与next()函数"></a>iter()函数与next()函数</h3><ul>
-<li><p>获取迭代器:<code>iter(可迭代对象)</code></p>
-</li>
-<li><p>获取可迭代对象的值:<code>next(迭代器)</code></p>
-</li>
-<li><p>迭代器特点:</p>
-<ol>
-<li>记录遍历的位置</li>
-<li>提供下一个元素的值</li>
-</ol>
-</li>
-<li><p>for循环本质:</p>
-<ol>
-<li>通过iter(可迭代对象)获取遍历对象的迭代器</li>
-<li>通过next()获取下一个元素</li>
-<li>捕获异常StopIteration</li>
-</ol>
-</li>
-<li><p>自定义迭代器类</p>
-<ol>
-<li>必须含有<code>__iter__()</code></li>
-<li>必须含有<code>__next__()</code></li>
-</ol>
-</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 一个可迭代对象提供一个迭代器</span></span><br><span class="line"><span class="string">2. 可迭代对象--&gt;iter(可迭代对象)--&gt;next(迭代器)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">data_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">65</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="comment"># 获取迭代器</span></span><br><span class="line">l1_iter = <span class="built_in">iter</span>(data_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据迭代器获取下一个值</span></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义迭代器类</span></span><br><span class="line"><span class="comment"># 1.必须含有__iter__()</span></span><br><span class="line"><span class="comment"># 2.必须含有__next__()</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="迭代器应用-自定义列表"><a href="#迭代器应用-自定义列表" class="headerlink" title="迭代器应用:自定义列表"></a>迭代器应用:自定义列表</h2><ol>
-<li>自定义Mylist类:</li>
-</ol>
-<ul>
-<li>初始化方法</li>
-<li><code>__iter__()</code>方法,对外提供迭代器</li>
-<li><code>addItem()</code>方法添加数据</li>
-</ul>
-<ol start="2">
-<li>自定义迭代器:<ul>
-<li>初始化方法</li>
-<li>迭代器方法</li>
-<li>获取下一个元素值方法</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. Mylist类</span></span><br><span class="line"><span class="string">   初始化方法</span></span><br><span class="line"><span class="string">   __iter__()方法,对外提供迭代器</span></span><br><span class="line"><span class="string">   addItem()方法添加数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyList</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存数据</span></span><br><span class="line">        self.items = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 创建MyListIterator对象</span></span><br><span class="line">        mylist_iterator = MyListIterator(self.items)</span><br><span class="line">        <span class="keyword">return</span> mylist_iterator</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">additem</span>(<span class="params">self, data</span>):</span><br><span class="line">        self.items.append(data)</span><br><span class="line">        <span class="comment"># print(self.items)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#2. 自定义迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyListIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 初始化方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, items</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存传递过来的数据</span></span><br><span class="line">        self.items = items</span><br><span class="line">        <span class="comment"># 记录迭代器迭代器的位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line">   <span class="comment"># 迭代器方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># 获取下一个元素值方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断当前下标是否越界</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; <span class="built_in">len</span>(self.items):</span><br><span class="line">            <span class="comment">#   1)根据下标获取对应值</span></span><br><span class="line">            data = self.items[self.index]</span><br><span class="line">            <span class="comment">#   2)下标位置+1</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="comment">#   3)返回下标对应的值</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 如果越界抛出异常</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># raise主动抛出异常</span></span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    mylist = MyList()</span><br><span class="line">    mylist.additem(<span class="string">&#x27;西施&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;貂蝉&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;王昭君&#x27;</span>)</span><br><span class="line">    <span class="comment"># for 循环</span></span><br><span class="line">    <span class="keyword">for</span> val <span class="keyword">in</span> mylist:</span><br><span class="line">        <span class="built_in">print</span>(val)</span><br><span class="line">    <span class="comment"># 迭代器方法</span></span><br><span class="line">    mylist_iter = <span class="built_in">iter</span>(mylist)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br></pre></td></tr></table></figure>
-
-<h2 id="斐波那契数列—迭代器"><a href="#斐波那契数列—迭代器" class="headerlink" title="斐波那契数列—迭代器"></a>斐波那契数列—迭代器</h2><p>自定义一个迭代器:</p>
-<ul>
-<li>含有<code>__itre__()</code></li>
-<li>含有<code>__next__()</code></li>
-</ul>
-<p>思路:</p>
-<p>创建a和b两个变量来保存值,然后使<code>a=b</code>,<code>b=a+b</code>来产生新的斐波那契数值,最终a的值就是斐波那契数列。</p>
-<p>代码实现：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">自定义迭代器:</span></span><br><span class="line"><span class="string">1) 定义迭代器类</span></span><br><span class="line"><span class="string">2)含有__iter__()</span></span><br><span class="line"><span class="string">3)含有__next__()</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">feibonaqi</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存生成个数</span></span><br><span class="line">        self.num = num</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义变量保存</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line">        self.b = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 记录下标位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断列表是否超过生成的总列数</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; self.num:</span><br><span class="line">            <span class="comment"># 保存a的值</span></span><br><span class="line">            data = self.a</span><br><span class="line">            <span class="comment"># 让a的值等于b,b的值等于a+b</span></span><br><span class="line"></span><br><span class="line">            self.a, self.b = self.b, self.a + self.b</span><br><span class="line">            <span class="comment"># 列数加一</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 超出范围报错</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建迭代器对象</span></span><br><span class="line">    fei = feibonaqi(<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> fei:</span><br><span class="line">        <span class="built_in">print</span>(valve)</span><br></pre></td></tr></table></figure>
-
-<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>概念：利用迭代器，在每次迭代数据是按照特定规律进行生成，在实现迭代器时，当前迭代状态需要我们自己记录，进而才能根据状态生成下一个数据。而生成器可以记录当前状态，并且配合<code>next()</code>函数进行迭代。&#x3D;&#x3D;生成器也是一类特殊的迭代器。&#x3D;&#x3D;</p>
-<p>创建方式：</p>
-<ul>
-<li>生成器推导式</li>
-<li>函数中使用<code>yelid</code></li>
-</ul>
-<p>代码实现:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">迭代器的作用是保存位置,返回下一个值</span></span><br><span class="line"><span class="string">next(生成器)也应该能得到下一个值</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">data_list = [x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>)]</span><br><span class="line"><span class="comment"># 可迭代对象必须通过iter()函数去生成迭代器才可进行next迭代</span></span><br><span class="line">iter_data = <span class="built_in">iter</span>(data_list)</span><br><span class="line">data = <span class="built_in">next</span>(iter_data)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建1:生成器推导式</span></span><br><span class="line">data_list2 = (x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>))</span><br><span class="line"><span class="comment"># 生成器本身就是迭代器</span></span><br><span class="line">data = <span class="built_in">next</span>(data_list2)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建2: yield</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    a = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">656</span>, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">yield</span> a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data = test()</span><br><span class="line"><span class="built_in">print</span>(data)  <span class="comment"># 输出结果为&lt;generator object test at 0x0000021627BE20A0&gt;</span></span><br><span class="line">val = <span class="built_in">next</span>(data)</span><br><span class="line"><span class="built_in">print</span>(val)  <span class="comment"># 输出结果为[1, 2, 3, 4, 656, 8]</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="斐波那契数列—生成器"><a href="#斐波那契数列—生成器" class="headerlink" title="斐波那契数列—生成器"></a>斐波那契数列—生成器</h2><p>创建一个生成器实现斐波那契数列:</p>
-<ol>
-<li>定义变量保存第一组和第二组的值</li>
-<li>定义变量保存当前生成位置</li>
-<li>循环生成数据</li>
-<li>保存a的值</li>
-<li>修改a和b的值(a&#x3D;b,b&#x3D;a+b)</li>
-<li>返回a的值</li>
-</ol>
-<p>代码实现:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个生成器实现斐波那契数列</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">feibo</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="comment"># 1. 定义变量保存第一组和第二组的值</span></span><br><span class="line">    a = <span class="number">1</span></span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 2. 定义变量保存当前生成位置</span></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 3. 循环生成数据</span></span><br><span class="line">    <span class="keyword">while</span> index &lt; n:</span><br><span class="line">        <span class="comment"># 4. 保存a的值</span></span><br><span class="line">        data = a</span><br><span class="line">        <span class="comment"># 5. 修改a和b的值(a=b,b=a+b)</span></span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 6. 返回a的值</span></span><br><span class="line">        <span class="keyword">yield</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fi_data = feibo(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># for i in fi_data:</span></span><br><span class="line">    <span class="comment">#    print(i)</span></span><br><span class="line">    value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第1次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第2次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第3次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第次&#x27;</span>,value)</span><br></pre></td></tr></table></figure>
-
-<p> 通过代码发现yiled作用:</p>
-<ol>
-<li>充当return返回</li>
-<li>保存程序的运行状态,并且暂停程序执行  </li>
-<li>当next()的时候,可以唤醒程序从yield位置继续向下执行</li>
-</ol>
-<h2 id="生成器使用注意"><a href="#生成器使用注意" class="headerlink" title="生成器使用注意"></a>生成器使用注意</h2><ul>
-<li>return的作用：可以结束生成器的运行。</li>
-<li>send()作用：生成器.send(传递给生成器的值),停止生成器。</li>
-</ul>
-<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>协程又称为微线程，纤程。&#x3D;&#x3D;协程就是可以暂停执行的函数&#x3D;&#x3D;。线程和进程的操作由程序触发系统接口，最后的执行者是系统；协程的操作是程序员。</p>
-<ul>
-<li><p>协程的意义：对于多线程应用，CPU通过切片的方式来切换线程间的执行，线程切换需要耗时。&#x3D;&#x3D;协程只使用一个线程（单线程），在一个线程中规定某个代码块执行顺序。&#x3D;&#x3D;</p>
-</li>
-<li><p>协程适用场景：当程序中存在大量不需要CUP的操作时，适用于协程。</p>
-</li>
-</ul>
-<p>协程和线程差异：实现多任务时，线程切换从系统层面远不止保存和恢复CPU上下文这么简单。系统为了程序的高效性每个线程都有自己的缓存数据，操作系统还会帮你做这些数据的恢复系统，所以线程非常耗性能。但是协程知识单纯的操作CPU的上下文，所以一秒钟切换上百万次系统都扛得住。</p>
-<p>利用<code>yield</code>创建协程:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生成器,并且通过next运行</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    work1 = work1()</span><br><span class="line">    work2 = work2()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">next</span>(work1)</span><br><span class="line">        <span class="built_in">next</span>(work2)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Greenlet实现协程"><a href="#Greenlet实现协程" class="headerlink" title="Greenlet实现协程"></a>Greenlet实现协程</h2><p>​     Greenlet可以提供可自行调度的‘微线程’,即协程。在greenlet中<code>target.switch(value)</code>可以切换到指定的协程,greenlet用switch来表示协程的切换,从一个协程切换到另一个协程需要显式指定。</p>
-<p>greenlet实现协程:</p>
-<ol>
-<li>导入模块</li>
-<li>创建任务</li>
-<li>创建greenlet对象</li>
-<li>手动switch对象</li>
-</ol>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">greenlet实现协程:</span></span><br><span class="line"><span class="string">1.导入模块</span></span><br><span class="line"><span class="string">2.创建任务</span></span><br><span class="line"><span class="string">3.创建greenlet对象</span></span><br><span class="line"><span class="string">4.手动switch对象</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 1.导入模块</span></span><br><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.创建任务</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到第二个任务</span></span><br><span class="line">        g2.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到work1</span></span><br><span class="line">        g1.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建greenlet对象</span></span><br><span class="line">    g1 = greenlet(work1)</span><br><span class="line">    g2 = greenlet(work2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 执行work1</span></span><br><span class="line">    <span class="comment"># 手动switch对象</span></span><br><span class="line">    g1.switch()</span><br></pre></td></tr></table></figure>
-
-<h2 id="Gevent实现协程"><a href="#Gevent实现协程" class="headerlink" title="Gevent实现协程"></a>Gevent实现协程</h2><p>Gevent原理就是greenlet遇到IO操作时,就会自动切换到其他greenlet,等IO操作完成再在适当时刻切换回来继续执行。</p>
-<p>&#x3D;&#x3D;优点&#x3D;&#x3D;：自动识别IO耗时操作,自动切换到其他任务</p>
-<p>&#x3D;&#x3D;步骤：&#x3D;&#x3D;</p>
-<ul>
-<li><p>导入模块</p>
-</li>
-<li><p>指派任务</p>
-</li>
-<li><p>让主线程等待协程执行完毕</p>
-</li>
-</ul>
-<p>代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 导入模块</span></span><br><span class="line"><span class="string">2. 指派任务</span></span><br><span class="line"><span class="string">3. 自动识别IO耗时操作,自动切换到其他任务</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># gevent.getcurrent()查看当前执行任务的协程</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>, gevent.getcurrent())</span><br><span class="line">        <span class="comment"># 默认情况下gevent无法识别到time.sleep为耗时操作,</span></span><br><span class="line">        <span class="comment"># 1.需要使用gevent.sleep()</span></span><br><span class="line">        <span class="comment"># 2.给gevent打补丁(让gevent识别time.sleep)</span></span><br><span class="line">        <span class="comment"># 打补丁:在不修改源代码情况下,微程序增加新功能</span></span><br><span class="line">        <span class="comment"># 1. 导入模块monkey模块    from gevent import monkey</span></span><br><span class="line">        <span class="comment"># 2. 破解所有  monkey.patch_all()</span></span><br><span class="line">        time.sleep(<span class="number">0.4</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(2)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(6)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 指派任务</span></span><br><span class="line">    <span class="comment"># gevent.spawn(函数名,参数1,参数2)</span></span><br><span class="line">    g1 = gevent.spawn(work1)</span><br><span class="line">    g2 = gevent.spawn(work2)</span><br><span class="line">    <span class="comment"># 让主线程等待协程执行完毕</span></span><br><span class="line">    g1.join()</span><br><span class="line">    <span class="comment"># g2.join()</span></span><br></pre></td></tr></table></figure>
-
-<p>&#x3D;&#x3D;注意&#x3D;&#x3D;： 默认情况下gevent无法识别到time.sleep为耗时操作，解决方法：</p>
-<ol>
-<li>需要使用gevent.sleep()</li>
-<li>给gevent打补丁(让gevent识别time.sleep)<br>打补丁:在不修改源代码情况下,微程序增加新功能<ol>
-<li>导入模块monkey模块    from gevent import monkey</li>
-<li>破解所有  monkey.patch_all</li>
-</ol>
-</li>
-</ol>
-<p>猴子补丁作用：</p>
-<ol>
-<li>在运行时替换方法、属性等</li>
-<li>不修改第三方代码情况下增加原来不支持的功能</li>
-<li>在运行时为内存中的对象增加patch而不是磁盘的源代码中执行</li>
-</ol>
-<h2 id="进程线程协程区别"><a href="#进程线程协程区别" class="headerlink" title="进程线程协程区别"></a>进程线程协程区别</h2><ol>
-<li><p>进程</p>
-<p>进程是具有一定独立功能的程序关与某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的基本单位.每个进程有自己的独立内存空间,不同进程通过进程间通信来通信.由于进程比较重量,占独立的内存,所以上下文间的切换开销比较大,但相对比稳定安全.</p>
-</li>
-<li><p>线程</p>
-<p>线城是进程的一个实体,是CPU调度和分配的基本单位,是比进程更小的能独立运行的和基本单位.线程自己基本上不拥有系统资源</p>
-<p>,只拥有一点在运行时必不可少的资源,但是可以与同属一个进程的其他线程共享所拥有的全部资源.线程间通信主要通过共享内容,上下文切换很快,资源开销少,但相对于进程不稳定容易丢失数据.</p>
-</li>
-<li><p>协程</p>
-<p>协程是一种用户态的轻量级线程,协程的调度可以完全由用户控制,协程有自己的寄存器上下文和栈.协程调度切换时,将寄存器上下文和栈保存到其他地方,再切回来的时候,恢复先前保存的寄存器上下文和栈,基本没有内核切换开销,可以不加锁访问全局变量,所以上下文切换非常快.</p>
-</li>
-<li><p>应用场景</p>
-<ul>
-<li><p>多进程:密集CPU任务,充分使用多核CPU资源,用多进程。</p>
-<p>缺陷：多进程间通信成本高，切换开销大</p>
-</li>
-<li><p>多线程：密集（I&#x2F;O任务使用多线程合适</p>
-<p>缺陷：同一时间切片只能运行一个线程，不能做到高并行，但可以高并发</p>
-</li>
-<li><p>协程：当程序中存在大量不需要CPU的操作时，适用于协程</p>
-<p>缺陷: 单线程执行,处理密集CPU任务是性能较低,处理网络I&#x2F;O想能较高</p>
-</li>
-</ul>
-</li>
-</ol>
-<h2 id="并发下载器"><a href="#并发下载器" class="headerlink" title="并发下载器"></a>并发下载器</h2><p><code>genvent.joinall([协程对象])</code></p>
-<p>代码:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 定义下载路径</span></span><br><span class="line"><span class="string">2. 调用下载函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">文件下载函数:</span></span><br><span class="line"><span class="string">1. 打开url请求网络资源</span></span><br><span class="line"><span class="string">2. 在本地创建文件</span></span><br><span class="line"><span class="string">3. 读取网络资源数据</span></span><br><span class="line"><span class="string">4. 将资源写入本地数据</span></span><br><span class="line"><span class="string">5. 做异常捕获</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download</span>(<span class="params">url, filename</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 1. 打开url请求网络资源</span></span><br><span class="line">        res = urllib.request.urlopen(url)</span><br><span class="line">        <span class="comment"># 在本地创建文件</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            <span class="comment"># 3.读取网络资源数据</span></span><br><span class="line">            file_data = res.read()</span><br><span class="line">            <span class="comment"># 4.将资源写入本地数据</span></span><br><span class="line">            file.write(file_data)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;filename&#125;</span>下载完成&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    img1 = <span class="string">&#x27;https://tenfei04.cfp.cn/creative/vcg/800/new/VCG41N1210205351.jpg&#x27;</span></span><br><span class="line">    img2 = <span class="string">&#x27;https://t7.baidu.com/it/u=4036010509,3445021118&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line">    img3 = <span class="string">&#x27;https://t7.baidu.com/it/u=963301259,1982396977&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line"></span><br><span class="line">    gevent.joinall([</span><br><span class="line">        gevent.spawn(download, img1, <span class="string">&#x27;1.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img2, <span class="string">&#x27;2.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img3, <span class="string">&#x27;3.jpg&#x27;</span>)</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>python</category>
-        <category>进阶</category>
-      </categories>
-      <tags>
-        <tag>python</tag>
-        <tag>协程</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>版本控制Git本地常用命令</title>
-    <url>/2022/05/20/git%E6%9C%AC%E5%9C%B0%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
-    <content><![CDATA[<h2 id="配置git身份信息"><a href="#配置git身份信息" class="headerlink" title="配置git身份信息"></a>配置git身份信息</h2><span id="more"></span>
-<h4 id="添加-x2F-修改用户名信息"><a href="#添加-x2F-修改用户名信息" class="headerlink" title="添加&#x2F;修改用户名信息"></a>添加&#x2F;修改用户名信息</h4><p><code>git config --globa user.name &quot;用户名&quot;</code></p>
-<h4 id="添加-x2F-修改用户邮箱"><a href="#添加-x2F-修改用户邮箱" class="headerlink" title="添加&#x2F;修改用户邮箱"></a>添加&#x2F;修改用户邮箱</h4><p><code>git config --globa user.email &quot;邮箱&quot; </code></p>
-<h4 id="查看用户所有信息"><a href="#查看用户所有信息" class="headerlink" title="查看用户所有信息"></a>查看用户所有信息</h4><p><code>git config -l</code></p>
-<h4 id="查看用户名"><a href="#查看用户名" class="headerlink" title="查看用户名"></a>查看用户名</h4><p><code>git config --globa user.name </code></p>
-<h4 id="查看用户邮箱"><a href="#查看用户邮箱" class="headerlink" title="查看用户邮箱"></a>查看用户邮箱</h4><p><code>git config --globa user.email </code></p>
-<h2 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h2><p>在本地创建一个文件夹作为仓库,在仓库内运行git bash进入命令行</p>
-<h4 id="git-init初始化仓库"><a href="#git-init初始化仓库" class="headerlink" title="git init初始化仓库"></a><code>git init</code>初始化仓库</h4><p>在仓库里会出现一个.git隐藏文件,在这个文件中包含了该仓库的所有信息</p>
-<h2 id="本地仓库操作"><a href="#本地仓库操作" class="headerlink" title="本地仓库操作"></a>本地仓库操作</h2><p>本地仓库分为工作区,暂存区,仓库三部分.在工作区完成后需要将修改后的文件放到暂存区,没有问题的话在提交到本地仓库</p>
-<h4 id="查看当前仓库的工作区状态"><a href="#查看当前仓库的工作区状态" class="headerlink" title="查看当前仓库的工作区状态"></a>查看当前仓库的工作区状态</h4><p><code>git status</code></p>
-<h4 id="将工作区的文件添加到暂存区"><a href="#将工作区的文件添加到暂存区" class="headerlink" title="将工作区的文件添加到暂存区"></a>将工作区的文件添加到暂存区</h4><p>添加单个文件: <code>git add &quot;文件&quot;</code><br>添加所有文件: <code>git add .</code><br>添加某一类型文件: <code>git add *.txt</code></p>
-<h4 id="提交到本地仓库"><a href="#提交到本地仓库" class="headerlink" title="提交到本地仓库"></a>提交到本地仓库</h4><p><code>git commit -m &quot;提交说明信息&quot;</code></p>
-<h4 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>撤销添加到暂存区: <code>git reset head</code></p>
-<p>撤销提交到仓库: <code>git reset --mixed head^版本 </code><br>    <code>--mixed</code>:不删除代码改动,撤销提交和暂存 .<br><code>--soft</code>:不删除代码改动,不撤销暂存,撤销提交.<br><code>--hard</code>:删除代码改动,撤销提交和暂存 .</p>
-<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><p>分支可以帮助我们在不对原来代码影响的情况下进行操作,操作之后可以再进行合并进行修改</p>
-<h4 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支:"></a>创建分支:</h4><p><code>git branch &quot; 分支名称&quot;</code></p>
-<h4 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支:"></a>查看分支:</h4><p>查看本地分支:<code>git branch </code><br>查看所有分支: <code>git branch -a</code></p>
-<h4 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支:"></a>切换分支:</h4><p><code>git checkout &#39;分支&#39;</code></p>
-<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支:"></a>合并分支:</h4><p><code>git merge &#39;分支&#39;</code>产生合并冲突时,将冲突部分进行合并即可</p>
-<h4 id="重命名分支"><a href="#重命名分支" class="headerlink" title="重命名分支:"></a>重命名分支:</h4><p>不覆盖已存在同名分支:<code>git branch -m &#39;旧&#39;&#39;新&#39;</code><br>覆盖已存在同名分支:<code>git branch -M &#39;旧&#39;&#39;新&#39;</code></p>
-<h4 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支:"></a>删除分支:</h4><p>没有合并不会删除: <code>git branch -d &quot;分支名称&quot;</code><br>强制删除: <code>git branch -D &quot;分支名称&quot;</code></p>
-<h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><h4 id="查看当前状态"><a href="#查看当前状态" class="headerlink" title="查看当前状态:"></a>查看当前状态:</h4><p><code>git status</code></p>
-<h4 id="查看历史记录"><a href="#查看历史记录" class="headerlink" title="查看历史记录:"></a>查看历史记录:</h4><p><code>git log</code><br>查看分支历史记录: <code>gitk &lt;分支&gt;</code></p>
-<h4 id="每个分支最后的提交"><a href="#每个分支最后的提交" class="headerlink" title="每个分支最后的提交:"></a>每个分支最后的提交:</h4><p><code>git branch -v</code></p>
-<h2 id="下一篇文章分享git的远程仓库"><a href="#下一篇文章分享git的远程仓库" class="headerlink" title="下一篇文章分享git的远程仓库"></a>下一篇文章分享git的远程仓库</h2>]]></content>
-      <categories>
-        <category>工具</category>
-      </categories>
-      <tags>
-        <tag>工具</tag>
-        <tag>基础</tag>
-        <tag>Git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python进阶（十）-- 网络爬虫</title>
     <url>/2022/11/14/Python%E8%BF%9B%E9%98%B6(%E5%8D%81)%E7%BD%91%E7%BB%9C%E7%88%AC%E8%99%AB/</url>
     <content><![CDATA[<h1 id="用Python获取网络数据"><a href="#用Python获取网络数据" class="headerlink" title="用Python获取网络数据"></a>用Python获取网络数据</h1><p>网络数据采集是 Python 语言非常擅长的领域，上节课我们讲到，实现网络数据采集的程序通常称之为网络爬虫或蜘蛛程序。即便是在大数据时代，数据对于中小企业来说仍然是硬伤和短板，有些数据需要通过开放或付费的数据接口来获得，其他的行业数据和竞对数据则必须要通过网络数据采集的方式来获得。不管使用哪种方式获取网络数据资源，Python 语言都是非常好的选择，因为 Python 的标准库和三方库都对网络数据采集提供了良好的支持。</p>
@@ -2918,6 +2695,192 @@
       </tags>
   </entry>
   <entry>
+    <title>Python进阶（四）-- 协程</title>
+    <url>/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/</url>
+    <content><![CDATA[<h1 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h1><p>遍历也叫迭代。</p>
+<p>使用<code>isinstance()</code>检测对象是否可迭代。返回True表示可迭代，False表示不可迭代。</p>
+<span id="more"></span>  
+
+<p>格式：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable</span><br><span class="line"><span class="built_in">isinstance</span>(检测对象,Iterable)</span><br></pre></td></tr></table></figure>
+
+<p>注意:&#x3D;&#x3D;Python3.6版本以后导入Iterable需要从collections.abc中导入,不然会报错。&#x3D;&#x3D;</p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>可迭代对象通<code>_ _iter_ _</code>方法向我们提供一个迭代器，我们在迭代一个对象的时候，&#x3D;&#x3D;实际上就是先获取该对象的一个迭代器，然后通过迭代器依次获取对象中的每一个数据。&#x3D;&#x3D;</p>
+<h3 id="iter-函数与next-函数"><a href="#iter-函数与next-函数" class="headerlink" title="iter()函数与next()函数"></a>iter()函数与next()函数</h3><ul>
+<li><p>获取迭代器:<code>iter(可迭代对象)</code></p>
+</li>
+<li><p>获取可迭代对象的值:<code>next(迭代器)</code></p>
+</li>
+<li><p>迭代器特点:</p>
+<ol>
+<li>记录遍历的位置</li>
+<li>提供下一个元素的值</li>
+</ol>
+</li>
+<li><p>for循环本质:</p>
+<ol>
+<li>通过iter(可迭代对象)获取遍历对象的迭代器</li>
+<li>通过next()获取下一个元素</li>
+<li>捕获异常StopIteration</li>
+</ol>
+</li>
+<li><p>自定义迭代器类</p>
+<ol>
+<li>必须含有<code>__iter__()</code></li>
+<li>必须含有<code>__next__()</code></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 一个可迭代对象提供一个迭代器</span></span><br><span class="line"><span class="string">2. 可迭代对象--&gt;iter(可迭代对象)--&gt;next(迭代器)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">data_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">65</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="comment"># 获取迭代器</span></span><br><span class="line">l1_iter = <span class="built_in">iter</span>(data_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据迭代器获取下一个值</span></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义迭代器类</span></span><br><span class="line"><span class="comment"># 1.必须含有__iter__()</span></span><br><span class="line"><span class="comment"># 2.必须含有__next__()</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="迭代器应用-自定义列表"><a href="#迭代器应用-自定义列表" class="headerlink" title="迭代器应用:自定义列表"></a>迭代器应用:自定义列表</h2><ol>
+<li>自定义Mylist类:</li>
+</ol>
+<ul>
+<li>初始化方法</li>
+<li><code>__iter__()</code>方法,对外提供迭代器</li>
+<li><code>addItem()</code>方法添加数据</li>
+</ul>
+<ol start="2">
+<li>自定义迭代器:<ul>
+<li>初始化方法</li>
+<li>迭代器方法</li>
+<li>获取下一个元素值方法</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. Mylist类</span></span><br><span class="line"><span class="string">   初始化方法</span></span><br><span class="line"><span class="string">   __iter__()方法,对外提供迭代器</span></span><br><span class="line"><span class="string">   addItem()方法添加数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyList</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存数据</span></span><br><span class="line">        self.items = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 创建MyListIterator对象</span></span><br><span class="line">        mylist_iterator = MyListIterator(self.items)</span><br><span class="line">        <span class="keyword">return</span> mylist_iterator</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">additem</span>(<span class="params">self, data</span>):</span><br><span class="line">        self.items.append(data)</span><br><span class="line">        <span class="comment"># print(self.items)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#2. 自定义迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyListIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 初始化方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, items</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存传递过来的数据</span></span><br><span class="line">        self.items = items</span><br><span class="line">        <span class="comment"># 记录迭代器迭代器的位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line">   <span class="comment"># 迭代器方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># 获取下一个元素值方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断当前下标是否越界</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; <span class="built_in">len</span>(self.items):</span><br><span class="line">            <span class="comment">#   1)根据下标获取对应值</span></span><br><span class="line">            data = self.items[self.index]</span><br><span class="line">            <span class="comment">#   2)下标位置+1</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="comment">#   3)返回下标对应的值</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 如果越界抛出异常</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># raise主动抛出异常</span></span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    mylist = MyList()</span><br><span class="line">    mylist.additem(<span class="string">&#x27;西施&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;貂蝉&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;王昭君&#x27;</span>)</span><br><span class="line">    <span class="comment"># for 循环</span></span><br><span class="line">    <span class="keyword">for</span> val <span class="keyword">in</span> mylist:</span><br><span class="line">        <span class="built_in">print</span>(val)</span><br><span class="line">    <span class="comment"># 迭代器方法</span></span><br><span class="line">    mylist_iter = <span class="built_in">iter</span>(mylist)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br></pre></td></tr></table></figure>
+
+<h2 id="斐波那契数列—迭代器"><a href="#斐波那契数列—迭代器" class="headerlink" title="斐波那契数列—迭代器"></a>斐波那契数列—迭代器</h2><p>自定义一个迭代器:</p>
+<ul>
+<li>含有<code>__itre__()</code></li>
+<li>含有<code>__next__()</code></li>
+</ul>
+<p>思路:</p>
+<p>创建a和b两个变量来保存值,然后使<code>a=b</code>,<code>b=a+b</code>来产生新的斐波那契数值,最终a的值就是斐波那契数列。</p>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">自定义迭代器:</span></span><br><span class="line"><span class="string">1) 定义迭代器类</span></span><br><span class="line"><span class="string">2)含有__iter__()</span></span><br><span class="line"><span class="string">3)含有__next__()</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">feibonaqi</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存生成个数</span></span><br><span class="line">        self.num = num</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义变量保存</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line">        self.b = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 记录下标位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断列表是否超过生成的总列数</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; self.num:</span><br><span class="line">            <span class="comment"># 保存a的值</span></span><br><span class="line">            data = self.a</span><br><span class="line">            <span class="comment"># 让a的值等于b,b的值等于a+b</span></span><br><span class="line"></span><br><span class="line">            self.a, self.b = self.b, self.a + self.b</span><br><span class="line">            <span class="comment"># 列数加一</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 超出范围报错</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建迭代器对象</span></span><br><span class="line">    fei = feibonaqi(<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> fei:</span><br><span class="line">        <span class="built_in">print</span>(valve)</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>概念：利用迭代器，在每次迭代数据是按照特定规律进行生成，在实现迭代器时，当前迭代状态需要我们自己记录，进而才能根据状态生成下一个数据。而生成器可以记录当前状态，并且配合<code>next()</code>函数进行迭代。&#x3D;&#x3D;生成器也是一类特殊的迭代器。&#x3D;&#x3D;</p>
+<p>创建方式：</p>
+<ul>
+<li>生成器推导式</li>
+<li>函数中使用<code>yelid</code></li>
+</ul>
+<p>代码实现:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">迭代器的作用是保存位置,返回下一个值</span></span><br><span class="line"><span class="string">next(生成器)也应该能得到下一个值</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">data_list = [x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>)]</span><br><span class="line"><span class="comment"># 可迭代对象必须通过iter()函数去生成迭代器才可进行next迭代</span></span><br><span class="line">iter_data = <span class="built_in">iter</span>(data_list)</span><br><span class="line">data = <span class="built_in">next</span>(iter_data)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建1:生成器推导式</span></span><br><span class="line">data_list2 = (x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>))</span><br><span class="line"><span class="comment"># 生成器本身就是迭代器</span></span><br><span class="line">data = <span class="built_in">next</span>(data_list2)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建2: yield</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    a = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">656</span>, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">yield</span> a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data = test()</span><br><span class="line"><span class="built_in">print</span>(data)  <span class="comment"># 输出结果为&lt;generator object test at 0x0000021627BE20A0&gt;</span></span><br><span class="line">val = <span class="built_in">next</span>(data)</span><br><span class="line"><span class="built_in">print</span>(val)  <span class="comment"># 输出结果为[1, 2, 3, 4, 656, 8]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="斐波那契数列—生成器"><a href="#斐波那契数列—生成器" class="headerlink" title="斐波那契数列—生成器"></a>斐波那契数列—生成器</h2><p>创建一个生成器实现斐波那契数列:</p>
+<ol>
+<li>定义变量保存第一组和第二组的值</li>
+<li>定义变量保存当前生成位置</li>
+<li>循环生成数据</li>
+<li>保存a的值</li>
+<li>修改a和b的值(a&#x3D;b,b&#x3D;a+b)</li>
+<li>返回a的值</li>
+</ol>
+<p>代码实现:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个生成器实现斐波那契数列</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">feibo</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="comment"># 1. 定义变量保存第一组和第二组的值</span></span><br><span class="line">    a = <span class="number">1</span></span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 2. 定义变量保存当前生成位置</span></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 3. 循环生成数据</span></span><br><span class="line">    <span class="keyword">while</span> index &lt; n:</span><br><span class="line">        <span class="comment"># 4. 保存a的值</span></span><br><span class="line">        data = a</span><br><span class="line">        <span class="comment"># 5. 修改a和b的值(a=b,b=a+b)</span></span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 6. 返回a的值</span></span><br><span class="line">        <span class="keyword">yield</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fi_data = feibo(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># for i in fi_data:</span></span><br><span class="line">    <span class="comment">#    print(i)</span></span><br><span class="line">    value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第1次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第2次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第3次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第次&#x27;</span>,value)</span><br></pre></td></tr></table></figure>
+
+<p> 通过代码发现yiled作用:</p>
+<ol>
+<li>充当return返回</li>
+<li>保存程序的运行状态,并且暂停程序执行  </li>
+<li>当next()的时候,可以唤醒程序从yield位置继续向下执行</li>
+</ol>
+<h2 id="生成器使用注意"><a href="#生成器使用注意" class="headerlink" title="生成器使用注意"></a>生成器使用注意</h2><ul>
+<li>return的作用：可以结束生成器的运行。</li>
+<li>send()作用：生成器.send(传递给生成器的值),停止生成器。</li>
+</ul>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>协程又称为微线程，纤程。&#x3D;&#x3D;协程就是可以暂停执行的函数&#x3D;&#x3D;。线程和进程的操作由程序触发系统接口，最后的执行者是系统；协程的操作是程序员。</p>
+<ul>
+<li><p>协程的意义：对于多线程应用，CPU通过切片的方式来切换线程间的执行，线程切换需要耗时。&#x3D;&#x3D;协程只使用一个线程（单线程），在一个线程中规定某个代码块执行顺序。&#x3D;&#x3D;</p>
+</li>
+<li><p>协程适用场景：当程序中存在大量不需要CUP的操作时，适用于协程。</p>
+</li>
+</ul>
+<p>协程和线程差异：实现多任务时，线程切换从系统层面远不止保存和恢复CPU上下文这么简单。系统为了程序的高效性每个线程都有自己的缓存数据，操作系统还会帮你做这些数据的恢复系统，所以线程非常耗性能。但是协程知识单纯的操作CPU的上下文，所以一秒钟切换上百万次系统都扛得住。</p>
+<p>利用<code>yield</code>创建协程:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生成器,并且通过next运行</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    work1 = work1()</span><br><span class="line">    work2 = work2()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">next</span>(work1)</span><br><span class="line">        <span class="built_in">next</span>(work2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Greenlet实现协程"><a href="#Greenlet实现协程" class="headerlink" title="Greenlet实现协程"></a>Greenlet实现协程</h2><p>​     Greenlet可以提供可自行调度的‘微线程’,即协程。在greenlet中<code>target.switch(value)</code>可以切换到指定的协程,greenlet用switch来表示协程的切换,从一个协程切换到另一个协程需要显式指定。</p>
+<p>greenlet实现协程:</p>
+<ol>
+<li>导入模块</li>
+<li>创建任务</li>
+<li>创建greenlet对象</li>
+<li>手动switch对象</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">greenlet实现协程:</span></span><br><span class="line"><span class="string">1.导入模块</span></span><br><span class="line"><span class="string">2.创建任务</span></span><br><span class="line"><span class="string">3.创建greenlet对象</span></span><br><span class="line"><span class="string">4.手动switch对象</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 1.导入模块</span></span><br><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.创建任务</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到第二个任务</span></span><br><span class="line">        g2.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到work1</span></span><br><span class="line">        g1.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建greenlet对象</span></span><br><span class="line">    g1 = greenlet(work1)</span><br><span class="line">    g2 = greenlet(work2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 执行work1</span></span><br><span class="line">    <span class="comment"># 手动switch对象</span></span><br><span class="line">    g1.switch()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gevent实现协程"><a href="#Gevent实现协程" class="headerlink" title="Gevent实现协程"></a>Gevent实现协程</h2><p>Gevent原理就是greenlet遇到IO操作时,就会自动切换到其他greenlet,等IO操作完成再在适当时刻切换回来继续执行。</p>
+<p>&#x3D;&#x3D;优点&#x3D;&#x3D;：自动识别IO耗时操作,自动切换到其他任务</p>
+<p>&#x3D;&#x3D;步骤：&#x3D;&#x3D;</p>
+<ul>
+<li><p>导入模块</p>
+</li>
+<li><p>指派任务</p>
+</li>
+<li><p>让主线程等待协程执行完毕</p>
+</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 导入模块</span></span><br><span class="line"><span class="string">2. 指派任务</span></span><br><span class="line"><span class="string">3. 自动识别IO耗时操作,自动切换到其他任务</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># gevent.getcurrent()查看当前执行任务的协程</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>, gevent.getcurrent())</span><br><span class="line">        <span class="comment"># 默认情况下gevent无法识别到time.sleep为耗时操作,</span></span><br><span class="line">        <span class="comment"># 1.需要使用gevent.sleep()</span></span><br><span class="line">        <span class="comment"># 2.给gevent打补丁(让gevent识别time.sleep)</span></span><br><span class="line">        <span class="comment"># 打补丁:在不修改源代码情况下,微程序增加新功能</span></span><br><span class="line">        <span class="comment"># 1. 导入模块monkey模块    from gevent import monkey</span></span><br><span class="line">        <span class="comment"># 2. 破解所有  monkey.patch_all()</span></span><br><span class="line">        time.sleep(<span class="number">0.4</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(2)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(6)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 指派任务</span></span><br><span class="line">    <span class="comment"># gevent.spawn(函数名,参数1,参数2)</span></span><br><span class="line">    g1 = gevent.spawn(work1)</span><br><span class="line">    g2 = gevent.spawn(work2)</span><br><span class="line">    <span class="comment"># 让主线程等待协程执行完毕</span></span><br><span class="line">    g1.join()</span><br><span class="line">    <span class="comment"># g2.join()</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意&#x3D;&#x3D;： 默认情况下gevent无法识别到time.sleep为耗时操作，解决方法：</p>
+<ol>
+<li>需要使用gevent.sleep()</li>
+<li>给gevent打补丁(让gevent识别time.sleep)<br>打补丁:在不修改源代码情况下,微程序增加新功能<ol>
+<li>导入模块monkey模块    from gevent import monkey</li>
+<li>破解所有  monkey.patch_all</li>
+</ol>
+</li>
+</ol>
+<p>猴子补丁作用：</p>
+<ol>
+<li>在运行时替换方法、属性等</li>
+<li>不修改第三方代码情况下增加原来不支持的功能</li>
+<li>在运行时为内存中的对象增加patch而不是磁盘的源代码中执行</li>
+</ol>
+<h2 id="进程线程协程区别"><a href="#进程线程协程区别" class="headerlink" title="进程线程协程区别"></a>进程线程协程区别</h2><ol>
+<li><p>进程</p>
+<p>进程是具有一定独立功能的程序关与某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的基本单位.每个进程有自己的独立内存空间,不同进程通过进程间通信来通信.由于进程比较重量,占独立的内存,所以上下文间的切换开销比较大,但相对比稳定安全.</p>
+</li>
+<li><p>线程</p>
+<p>线城是进程的一个实体,是CPU调度和分配的基本单位,是比进程更小的能独立运行的和基本单位.线程自己基本上不拥有系统资源</p>
+<p>,只拥有一点在运行时必不可少的资源,但是可以与同属一个进程的其他线程共享所拥有的全部资源.线程间通信主要通过共享内容,上下文切换很快,资源开销少,但相对于进程不稳定容易丢失数据.</p>
+</li>
+<li><p>协程</p>
+<p>协程是一种用户态的轻量级线程,协程的调度可以完全由用户控制,协程有自己的寄存器上下文和栈.协程调度切换时,将寄存器上下文和栈保存到其他地方,再切回来的时候,恢复先前保存的寄存器上下文和栈,基本没有内核切换开销,可以不加锁访问全局变量,所以上下文切换非常快.</p>
+</li>
+<li><p>应用场景</p>
+<ul>
+<li><p>多进程:密集CPU任务,充分使用多核CPU资源,用多进程。</p>
+<p>缺陷：多进程间通信成本高，切换开销大</p>
+</li>
+<li><p>多线程：密集（I&#x2F;O任务使用多线程合适</p>
+<p>缺陷：同一时间切片只能运行一个线程，不能做到高并行，但可以高并发</p>
+</li>
+<li><p>协程：当程序中存在大量不需要CPU的操作时，适用于协程</p>
+<p>缺陷: 单线程执行,处理密集CPU任务是性能较低,处理网络I&#x2F;O想能较高</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="并发下载器"><a href="#并发下载器" class="headerlink" title="并发下载器"></a>并发下载器</h2><p><code>genvent.joinall([协程对象])</code></p>
+<p>代码:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 定义下载路径</span></span><br><span class="line"><span class="string">2. 调用下载函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">文件下载函数:</span></span><br><span class="line"><span class="string">1. 打开url请求网络资源</span></span><br><span class="line"><span class="string">2. 在本地创建文件</span></span><br><span class="line"><span class="string">3. 读取网络资源数据</span></span><br><span class="line"><span class="string">4. 将资源写入本地数据</span></span><br><span class="line"><span class="string">5. 做异常捕获</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download</span>(<span class="params">url, filename</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 1. 打开url请求网络资源</span></span><br><span class="line">        res = urllib.request.urlopen(url)</span><br><span class="line">        <span class="comment"># 在本地创建文件</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            <span class="comment"># 3.读取网络资源数据</span></span><br><span class="line">            file_data = res.read()</span><br><span class="line">            <span class="comment"># 4.将资源写入本地数据</span></span><br><span class="line">            file.write(file_data)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;filename&#125;</span>下载完成&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    img1 = <span class="string">&#x27;https://tenfei04.cfp.cn/creative/vcg/800/new/VCG41N1210205351.jpg&#x27;</span></span><br><span class="line">    img2 = <span class="string">&#x27;https://t7.baidu.com/it/u=4036010509,3445021118&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line">    img3 = <span class="string">&#x27;https://t7.baidu.com/it/u=963301259,1982396977&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line"></span><br><span class="line">    gevent.joinall([</span><br><span class="line">        gevent.spawn(download, img1, <span class="string">&#x27;1.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img2, <span class="string">&#x27;2.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img3, <span class="string">&#x27;3.jpg&#x27;</span>)</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>python</category>
+        <category>进阶</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>协程</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>版本控制Git远程常用命令</title>
     <url>/2022/05/22/git%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
     <content><![CDATA[<h2 id="初始化远程仓库"><a href="#初始化远程仓库" class="headerlink" title="初始化远程仓库"></a>初始化远程仓库</h2><h4 id="克隆版本库"><a href="#克隆版本库" class="headerlink" title="克隆版本库"></a>克隆版本库</h4><p><code>git clone &lt; url &gt;</code></p>
@@ -2946,39 +2909,40 @@
       </tags>
   </entry>
   <entry>
-    <title>Opencv写代码没有提示</title>
-    <url>/2022/09/08/opencv%E6%B2%A1%E6%9C%89%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA/</url>
-    <content><![CDATA[<p>今天在写关于Opencv的代码时，没有代码提示，写入代码后也会出现这样的警告。更新Opencv后也不行。</p>
-<p><img src="https://img-blog.csdnimg.cn/51a96f266fba413ead00ef59c0ba0213.png#pic_center" alt="报错"></p>
-<span id="more"></span> 
-
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>再找了好多方法后，找到一个最简单的办法。这是再PyCharm上解决的方法</p>
-<ol>
-<li><p>打开设置找到项目里的解释器配置；切换到对应的解释器</p>
-<p><img src="https://img-blog.csdnimg.cn/4e337b4318814c75a7618b96b2fb3a70.png#pic_center" alt="项目"></p>
-</li>
-<li><p>打开全部显示</p>
-<p><img src="https://img-blog.csdnimg.cn/1a82f8f4df8f406aa16b2e4252d1f135.png#pic_center" alt="解释器"></p>
-</li>
-<li><p>打开解释器路径</p>
-<p><img src="https://img-blog.csdnimg.cn/4b39dc008b1f40d6ba3b3f078f18ae74.png#pic_center" alt="路径"></p>
-<p>点击左上角的加号</p>
-<p><img src="https://img-blog.csdnimg.cn/b00d462e25a94de2874e7edf5f6ef540.png#pic_center" alt="解释器路径"></p>
-</li>
-<li><p>选中对应解释器下的模块库里的cv2，我这里是anconda虚拟环境，在envs下的解释器里的Lib下的sit-packages里。</p>
-<p><img src="https://img-blog.csdnimg.cn/f593cb8d93da459eb59165d6ce6b6cee.png#pic_center" alt="cv2"></p>
-</li>
-<li><p>最后一路确定，再重启一下就可以了。</p>
-</li>
-</ol>
-]]></content>
+    <title>版本控制Git本地常用命令</title>
+    <url>/2022/05/20/git%E6%9C%AC%E5%9C%B0%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<h2 id="配置git身份信息"><a href="#配置git身份信息" class="headerlink" title="配置git身份信息"></a>配置git身份信息</h2><span id="more"></span>
+<h4 id="添加-x2F-修改用户名信息"><a href="#添加-x2F-修改用户名信息" class="headerlink" title="添加&#x2F;修改用户名信息"></a>添加&#x2F;修改用户名信息</h4><p><code>git config --globa user.name &quot;用户名&quot;</code></p>
+<h4 id="添加-x2F-修改用户邮箱"><a href="#添加-x2F-修改用户邮箱" class="headerlink" title="添加&#x2F;修改用户邮箱"></a>添加&#x2F;修改用户邮箱</h4><p><code>git config --globa user.email &quot;邮箱&quot; </code></p>
+<h4 id="查看用户所有信息"><a href="#查看用户所有信息" class="headerlink" title="查看用户所有信息"></a>查看用户所有信息</h4><p><code>git config -l</code></p>
+<h4 id="查看用户名"><a href="#查看用户名" class="headerlink" title="查看用户名"></a>查看用户名</h4><p><code>git config --globa user.name </code></p>
+<h4 id="查看用户邮箱"><a href="#查看用户邮箱" class="headerlink" title="查看用户邮箱"></a>查看用户邮箱</h4><p><code>git config --globa user.email </code></p>
+<h2 id="初始化本地仓库"><a href="#初始化本地仓库" class="headerlink" title="初始化本地仓库"></a>初始化本地仓库</h2><p>在本地创建一个文件夹作为仓库,在仓库内运行git bash进入命令行</p>
+<h4 id="git-init初始化仓库"><a href="#git-init初始化仓库" class="headerlink" title="git init初始化仓库"></a><code>git init</code>初始化仓库</h4><p>在仓库里会出现一个.git隐藏文件,在这个文件中包含了该仓库的所有信息</p>
+<h2 id="本地仓库操作"><a href="#本地仓库操作" class="headerlink" title="本地仓库操作"></a>本地仓库操作</h2><p>本地仓库分为工作区,暂存区,仓库三部分.在工作区完成后需要将修改后的文件放到暂存区,没有问题的话在提交到本地仓库</p>
+<h4 id="查看当前仓库的工作区状态"><a href="#查看当前仓库的工作区状态" class="headerlink" title="查看当前仓库的工作区状态"></a>查看当前仓库的工作区状态</h4><p><code>git status</code></p>
+<h4 id="将工作区的文件添加到暂存区"><a href="#将工作区的文件添加到暂存区" class="headerlink" title="将工作区的文件添加到暂存区"></a>将工作区的文件添加到暂存区</h4><p>添加单个文件: <code>git add &quot;文件&quot;</code><br>添加所有文件: <code>git add .</code><br>添加某一类型文件: <code>git add *.txt</code></p>
+<h4 id="提交到本地仓库"><a href="#提交到本地仓库" class="headerlink" title="提交到本地仓库"></a>提交到本地仓库</h4><p><code>git commit -m &quot;提交说明信息&quot;</code></p>
+<h4 id="撤销操作"><a href="#撤销操作" class="headerlink" title="撤销操作"></a>撤销操作</h4><p>撤销添加到暂存区: <code>git reset head</code></p>
+<p>撤销提交到仓库: <code>git reset --mixed head^版本 </code><br>    <code>--mixed</code>:不删除代码改动,撤销提交和暂存 .<br><code>--soft</code>:不删除代码改动,不撤销暂存,撤销提交.<br><code>--hard</code>:删除代码改动,撤销提交和暂存 .</p>
+<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><p>分支可以帮助我们在不对原来代码影响的情况下进行操作,操作之后可以再进行合并进行修改</p>
+<h4 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支:"></a>创建分支:</h4><p><code>git branch &quot; 分支名称&quot;</code></p>
+<h4 id="查看分支"><a href="#查看分支" class="headerlink" title="查看分支:"></a>查看分支:</h4><p>查看本地分支:<code>git branch </code><br>查看所有分支: <code>git branch -a</code></p>
+<h4 id="切换分支"><a href="#切换分支" class="headerlink" title="切换分支:"></a>切换分支:</h4><p><code>git checkout &#39;分支&#39;</code></p>
+<h4 id="合并分支"><a href="#合并分支" class="headerlink" title="合并分支:"></a>合并分支:</h4><p><code>git merge &#39;分支&#39;</code>产生合并冲突时,将冲突部分进行合并即可</p>
+<h4 id="重命名分支"><a href="#重命名分支" class="headerlink" title="重命名分支:"></a>重命名分支:</h4><p>不覆盖已存在同名分支:<code>git branch -m &#39;旧&#39;&#39;新&#39;</code><br>覆盖已存在同名分支:<code>git branch -M &#39;旧&#39;&#39;新&#39;</code></p>
+<h4 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支:"></a>删除分支:</h4><p>没有合并不会删除: <code>git branch -d &quot;分支名称&quot;</code><br>强制删除: <code>git branch -D &quot;分支名称&quot;</code></p>
+<h2 id="查看状态"><a href="#查看状态" class="headerlink" title="查看状态"></a>查看状态</h2><h4 id="查看当前状态"><a href="#查看当前状态" class="headerlink" title="查看当前状态:"></a>查看当前状态:</h4><p><code>git status</code></p>
+<h4 id="查看历史记录"><a href="#查看历史记录" class="headerlink" title="查看历史记录:"></a>查看历史记录:</h4><p><code>git log</code><br>查看分支历史记录: <code>gitk &lt;分支&gt;</code></p>
+<h4 id="每个分支最后的提交"><a href="#每个分支最后的提交" class="headerlink" title="每个分支最后的提交:"></a>每个分支最后的提交:</h4><p><code>git branch -v</code></p>
+<h2 id="下一篇文章分享git的远程仓库"><a href="#下一篇文章分享git的远程仓库" class="headerlink" title="下一篇文章分享git的远程仓库"></a>下一篇文章分享git的远程仓库</h2>]]></content>
       <categories>
-        <category>问题集锦</category>
+        <category>工具</category>
       </categories>
       <tags>
-        <tag>python</tag>
-        <tag>报错</tag>
-        <tag>opencv</tag>
+        <tag>工具</tag>
+        <tag>基础</tag>
+        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -3101,6 +3065,42 @@
         <tag>工具</tag>
         <tag>基础</tag>
         <tag>MarkDown</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Opencv写代码没有提示</title>
+    <url>/2022/09/08/opencv%E6%B2%A1%E6%9C%89%E4%BB%A3%E7%A0%81%E6%8F%90%E7%A4%BA/</url>
+    <content><![CDATA[<p>今天在写关于Opencv的代码时，没有代码提示，写入代码后也会出现这样的警告。更新Opencv后也不行。</p>
+<p><img src="https://img-blog.csdnimg.cn/51a96f266fba413ead00ef59c0ba0213.png#pic_center" alt="报错"></p>
+<span id="more"></span> 
+
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p>再找了好多方法后，找到一个最简单的办法。这是再PyCharm上解决的方法</p>
+<ol>
+<li><p>打开设置找到项目里的解释器配置；切换到对应的解释器</p>
+<p><img src="https://img-blog.csdnimg.cn/4e337b4318814c75a7618b96b2fb3a70.png#pic_center" alt="项目"></p>
+</li>
+<li><p>打开全部显示</p>
+<p><img src="https://img-blog.csdnimg.cn/1a82f8f4df8f406aa16b2e4252d1f135.png#pic_center" alt="解释器"></p>
+</li>
+<li><p>打开解释器路径</p>
+<p><img src="https://img-blog.csdnimg.cn/4b39dc008b1f40d6ba3b3f078f18ae74.png#pic_center" alt="路径"></p>
+<p>点击左上角的加号</p>
+<p><img src="https://img-blog.csdnimg.cn/b00d462e25a94de2874e7edf5f6ef540.png#pic_center" alt="解释器路径"></p>
+</li>
+<li><p>选中对应解释器下的模块库里的cv2，我这里是anconda虚拟环境，在envs下的解释器里的Lib下的sit-packages里。</p>
+<p><img src="https://img-blog.csdnimg.cn/f593cb8d93da459eb59165d6ce6b6cee.png#pic_center" alt="cv2"></p>
+</li>
+<li><p>最后一路确定，再重启一下就可以了。</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>问题集锦</category>
+      </categories>
+      <tags>
+        <tag>python</tag>
+        <tag>报错</tag>
+        <tag>opencv</tag>
       </tags>
   </entry>
   <entry>

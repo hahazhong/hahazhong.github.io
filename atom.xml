@@ -6,7 +6,7 @@
   <link href="http://example.com/atom.xml" rel="self"/>
   
   <link href="http://example.com/"/>
-  <updated>2022-11-17T13:44:41.870Z</updated>
+  <updated>2022-11-17T13:53:15.867Z</updated>
   <id>http://example.com/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Python进阶（十一）-- NumPy模块</title>
+    <link href="http://example.com/2022/11/17/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/"/>
+    <id>http://example.com/2022/11/17/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/</id>
+    <published>2022-11-17T13:23:31.000Z</published>
+    <updated>2022-11-17T13:53:15.867Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="NumPy模块"><a href="#NumPy模块" class="headerlink" title="NumPy模块"></a>NumPy模块</h1><p>NumPy是用于数据科学计算的基础模块,不但能够完成科学计算的任务,而且能被用于高效得多维数组容器,可用于存储和处理大型矩阵。</p><span id="more"></span>  <h2 id="ndarray数组"><a href="#ndarray数组" class="headerlink" title="ndarray数组"></a>ndarray数组</h2><p>NumPy库的核心特征之一就是ndaaray对象，它为Python提供了真正的多维数组功能，该对象是一个快速而灵活的大数据集容器。</p><h3 id="ndarray数组创建"><a href="#ndarray数组创建" class="headerlink" title="ndarray数组创建"></a>ndarray数组创建</h3><ol><li><p>array(序列)</p><p>将序列转化为ndarray数组</p></li><li><p>zeros()函数</p><p>创建指定长度或形状全为0的数组</p></li><li><p>ones()函数</p><p>创建指定长度或形状的全1数组</p></li><li><p>empty()函数</p><p>创建一个没有具体数值的数组(即垃圾值)</p></li><li><p>arange()函数</p><p>类似于Python的range()函数,但是arange()函数主要创建数组</p></li></ol><h3 id="ndarray对象的属性"><a href="#ndarray对象的属性" class="headerlink" title="ndarray对象的属性"></a>ndarray对象的属性</h3><table><thead><tr><th>属性</th><th>使用说明</th></tr></thead><tbody><tr><td>.ndim</td><td>数组的维度</td></tr><tr><td>.shape</td><td>数组的尺寸,对于n行m列的矩阵,形状为(n,m)</td></tr><tr><td>.size</td><td>数组元素的总个数</td></tr><tr><td>.dtype</td><td>数组元素的类型</td></tr><tr><td>.itemsize</td><td>数组中每个元素的字节大小</td></tr></tbody></table><h3 id="ndarray数据类型"><a href="#ndarray数据类型" class="headerlink" title="ndarray数据类型"></a>ndarray数据类型</h3><p>数组中的数据类型有多中,最常见的为浮点数(float)、整数(int)、复数(complex)、布尔值(bool)、字符串(string_)、Python对象(object)。</p><p>对于创建好的ndarray,可通过astype函数进行数据类型转换.</p><h3 id="数组变换"><a href="#数组变换" class="headerlink" title="数组变换"></a>数组变换</h3><h4 id="变换数组形态"><a href="#变换数组形态" class="headerlink" title="变换数组形态"></a>变换数组形态</h4><p>对于数组进行操作,经常要改变数组维度。在NumPy中，常用reshape()函数改变数组维度.其参数为一个正整数元组,分别制定数组在每个维度的大小,reshape()函数在改变原始数据形状的同时不改变原始数据的值.</p><p>与reshape相反的方法是数据散开(ravel())或则数据扁平化flatten()</p><h4 id="数据合并"><a href="#数据合并" class="headerlink" title="数据合并"></a>数据合并</h4><p>使用<code>concatenate()</code>函数,通过指定轴方向,将多个数组和并在一起</p><h4 id="数组拆分"><a href="#数组拆分" class="headerlink" title="数组拆分"></a>数组拆分</h4><p>数组拆分是数组合并的相反操作,通过split()函数、vsplit()函数和hsplit()函数可以将数组分为多个数组。</p><h4 id="数组转置"><a href="#数组转置" class="headerlink" title="数组转置"></a>数组转置</h4><p>数组转置可以使用transpose()函数.transpose()函数需要传入轴编号组成的元组,这样就完成了数组的转置.除了使用transpose()函数外,数组的T属性,也可以用于数组的转置.</p><h3 id="NumPy的随机数函数"><a href="#NumPy的随机数函数" class="headerlink" title="NumPy的随机数函数"></a>NumPy的随机数函数</h3><p>NumPy提供了强大的生成随机数的功能.在numpy.random模块中有多种随机数生成函数.例如:</p><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>rand</td><td>产生均匀分布的样本值</td></tr><tr><td>randint</td><td>给定范围内取随机整数</td></tr><tr><td>randn</td><td>产生正态分布的样本值</td></tr><tr><td>seed</td><td>随机数种子</td></tr><tr><td>permutation</td><td>对一个序列随机排序,不改变原数组</td></tr><tr><td>shuffle</td><td>对一个序列随机排序,改变数组</td></tr><tr><td>uniform(low,high,size)</td><td>产生均匀分布的数组,low表示起始值,high表示结束值,size表示形状</td></tr><tr><td>normal(loc,scale,size)</td><td>产生具有正态分布的数组,loc表示均值,scale表示标准差,size表示形状</td></tr></tbody></table><h2 id="数组运算"><a href="#数组运算" class="headerlink" title="数组运算"></a>数组运算</h2><p>NumPy专门为科学计算而生,数组支持所有常规的算术运算,NumPy库中包含完整的基本数学函数,这些函数在数组运算上发挥了很大的作用.</p><h3 id="通用函数"><a href="#通用函数" class="headerlink" title="通用函数"></a>通用函数</h3><table><thead><tr><th>函数</th><th>功能</th></tr></thead><tbody><tr><td>abs()</td><td>求绝对值</td></tr><tr><td>square()</td><td>求平方</td></tr><tr><td>add()</td><td>两个数组的相加</td></tr><tr><td>minimum()</td><td>计算元素最小值</td></tr></tbody></table><p>更多通用函数用法可以去NumPy官网查看</p><p>另外Scipy还在scipy.special中提供了一个丰富的特殊函数库,具有贝塞尔、艾里、菲涅尔等古典特殊函数。</p><h3 id="条件逻辑运算"><a href="#条件逻辑运算" class="headerlink" title="条件逻辑运算"></a>条件逻辑运算</h3><p>where()函数可以通过一些条件对数组进行处理,语法如下:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(cond,arr1,arr2)</span><br></pre></td></tr></table></figure><p>就是通过cond的值来选择arr1或则arr2的值</p><p>如果需要进行多条件判别,也可以通过嵌套where表达式完成</p><p>这种方法通过if判断可以实现,但是where()函数的优点:</p><ul><li>对大规模数组处理速度快</li><li>可以用于多维数组</li></ul><h3 id="统计运算"><a href="#统计运算" class="headerlink" title="统计运算"></a>统计运算</h3><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>sum</td><td>求和</td></tr><tr><td>mean</td><td>算术平均数</td></tr><tr><td>std、var</td><td>标准差和方差</td></tr><tr><td>min、max</td><td>最小值和最大值</td></tr><tr><td>argmin、argmax</td><td>最小和最大元素索引</td></tr><tr><td>cumsum</td><td>所有元素的累计和</td></tr><tr><td>cumprod</td><td>所有元素的累计和</td></tr><tr><td>sort()</td><td>排序</td></tr></tbody></table><h3 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h3><ol><li><p>unique()函数寻找数组中的唯一值</p><p>对唯一值会进行排序</p></li><li><p>inld()用于测试几个数组中是否包含相同的值,返回一个布尔值数组</p></li></ol><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>unique(x)</td><td>唯一值</td></tr><tr><td>intersectld(x,y)</td><td>公共元素</td></tr><tr><td>unionld(x,y)</td><td>并集</td></tr><tr><td>inld(x,y)</td><td>x的元素是否在y中,返回布尔型数组</td></tr><tr><td>setdiffld(x,y)</td><td>集合的差</td></tr><tr><td>setxorld(x,y)</td><td>交集取反</td></tr></tbody></table>]]></content>
+    
+    
+    <summary type="html">&lt;h1 id=&quot;NumPy模块&quot;&gt;&lt;a href=&quot;#NumPy模块&quot; class=&quot;headerlink&quot; title=&quot;NumPy模块&quot;&gt;&lt;/a&gt;NumPy模块&lt;/h1&gt;&lt;p&gt;NumPy是用于数据科学计算的基础模块,不但能够完成科学计算的任务,而且能被用于高效得多维数组容器,可用于存储和处理大型矩阵。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="python" scheme="http://example.com/categories/python/"/>
+    
+    <category term="进阶" scheme="http://example.com/categories/%E8%BF%9B%E9%98%B6/"/>
+    
+    
+    <category term="python" scheme="http://example.com/tags/python/"/>
+    
+    <category term="NumPy模块" scheme="http://example.com/tags/NumPy%E6%A8%A1%E5%9D%97/"/>
+    
+  </entry>
   
   <entry>
     <title>Python进阶（十）-- 网络爬虫</title>
@@ -299,31 +324,6 @@
     <category term="python" scheme="http://example.com/tags/python/"/>
     
     <category term="函数的定义与调用" scheme="http://example.com/tags/%E5%87%BD%E6%95%B0%E7%9A%84%E5%AE%9A%E4%B9%89%E4%B8%8E%E8%B0%83%E7%94%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Python进阶（十一）-- NumPy模块</title>
-    <link href="http://example.com/2022/09/14/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/"/>
-    <id>http://example.com/2022/09/14/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/</id>
-    <published>2022-09-14T13:23:31.000Z</published>
-    <updated>2022-11-17T13:45:13.351Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="NumPy模块"><a href="#NumPy模块" class="headerlink" title="NumPy模块"></a>NumPy模块</h1><p>NumPy是用于数据科学计算的基础模块,不但能够完成科学计算的任务,而且能被用于高效得多维数组容器,可用于存储和处理大型矩阵。</p><span id="more"></span>  <h2 id="ndarray数组"><a href="#ndarray数组" class="headerlink" title="ndarray数组"></a>ndarray数组</h2><p>NumPy库的核心特征之一就是ndaaray对象，它为Python提供了真正的多维数组功能，该对象是一个快速而灵活的大数据集容器。</p><h3 id="ndarray数组创建"><a href="#ndarray数组创建" class="headerlink" title="ndarray数组创建"></a>ndarray数组创建</h3><ol><li><p>array(序列)</p><p>将序列转化为ndarray数组</p></li><li><p>zeros()函数</p><p>创建指定长度或形状全为0的数组</p></li><li><p>ones()函数</p><p>创建指定长度或形状的全1数组</p></li><li><p>empty()函数</p><p>创建一个没有具体数值的数组(即垃圾值)</p></li><li><p>arange()函数</p><p>类似于Python的range()函数,但是arange()函数主要创建数组</p></li></ol><h3 id="ndarray对象的属性"><a href="#ndarray对象的属性" class="headerlink" title="ndarray对象的属性"></a>ndarray对象的属性</h3><table><thead><tr><th>属性</th><th>使用说明</th></tr></thead><tbody><tr><td>.ndim</td><td>数组的维度</td></tr><tr><td>.shape</td><td>数组的尺寸,对于n行m列的矩阵,形状为(n,m)</td></tr><tr><td>.size</td><td>数组元素的总个数</td></tr><tr><td>.dtype</td><td>数组元素的类型</td></tr><tr><td>.itemsize</td><td>数组中每个元素的字节大小</td></tr></tbody></table><h3 id="ndarray数据类型"><a href="#ndarray数据类型" class="headerlink" title="ndarray数据类型"></a>ndarray数据类型</h3><p>数组中的数据类型有多中,最常见的为浮点数(float)、整数(int)、复数(complex)、布尔值(bool)、字符串(string_)、Python对象(object)。</p><p>对于创建好的ndarray,可通过astype函数进行数据类型转换.</p><h3 id="数组变换"><a href="#数组变换" class="headerlink" title="数组变换"></a>数组变换</h3><h4 id="变换数组形态"><a href="#变换数组形态" class="headerlink" title="变换数组形态"></a>变换数组形态</h4><p>对于数组进行操作,经常要改变数组维度。在NumPy中，常用reshape()函数改变数组维度.其参数为一个正整数元组,分别制定数组在每个维度的大小,reshape()函数在改变原始数据形状的同时不改变原始数据的值.</p><p>与reshape相反的方法是数据散开(ravel())或则数据扁平化flatten()</p><h4 id="数据合并"><a href="#数据合并" class="headerlink" title="数据合并"></a>数据合并</h4><p>使用<code>concatenate()</code>函数,通过指定轴方向,将多个数组和并在一起</p><h4 id="数组拆分"><a href="#数组拆分" class="headerlink" title="数组拆分"></a>数组拆分</h4><p>数组拆分是数组合并的相反操作,通过split()函数、vsplit()函数和hsplit()函数可以将数组分为多个数组。</p><h4 id="数组转置"><a href="#数组转置" class="headerlink" title="数组转置"></a>数组转置</h4><p>数组转置可以使用transpose()函数.transpose()函数需要传入轴编号组成的元组,这样就完成了数组的转置.除了使用transpose()函数外,数组的T属性,也可以用于数组的转置.</p><h3 id="NumPy的随机数函数"><a href="#NumPy的随机数函数" class="headerlink" title="NumPy的随机数函数"></a>NumPy的随机数函数</h3><p>NumPy提供了强大的生成随机数的功能.在numpy.random模块中有多种随机数生成函数.例如:</p><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>rand</td><td>产生均匀分布的样本值</td></tr><tr><td>randint</td><td>给定范围内取随机整数</td></tr><tr><td>randn</td><td>产生正态分布的样本值</td></tr><tr><td>seed</td><td>随机数种子</td></tr><tr><td>permutation</td><td>对一个序列随机排序,不改变原数组</td></tr><tr><td>shuffle</td><td>对一个序列随机排序,改变数组</td></tr><tr><td>uniform(low,high,size)</td><td>产生均匀分布的数组,low表示起始值,high表示结束值,size表示形状</td></tr><tr><td>normal(loc,scale,size)</td><td>产生具有正态分布的数组,loc表示均值,scale表示标准差,size表示形状</td></tr></tbody></table><h2 id="数组运算"><a href="#数组运算" class="headerlink" title="数组运算"></a>数组运算</h2><p>NumPy专门为科学计算而生,数组支持所有常规的算术运算,NumPy库中包含完整的基本数学函数,这些函数在数组运算上发挥了很大的作用.</p><h3 id="通用函数"><a href="#通用函数" class="headerlink" title="通用函数"></a>通用函数</h3><table><thead><tr><th>函数</th><th>功能</th></tr></thead><tbody><tr><td>abs()</td><td>求绝对值</td></tr><tr><td>square()</td><td>求平方</td></tr><tr><td>add()</td><td>两个数组的相加</td></tr><tr><td>minimum()</td><td>计算元素最小值</td></tr></tbody></table><p>更多通用函数用法可以去NumPy官网查看</p><p>另外Scipy还在scipy.special中提供了一个丰富的特殊函数库,具有贝塞尔、艾里、菲涅尔等古典特殊函数。</p><h3 id="条件逻辑运算"><a href="#条件逻辑运算" class="headerlink" title="条件逻辑运算"></a>条件逻辑运算</h3><p>where()函数可以通过一些条件对数组进行处理,语法如下:</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">where(cond,arr1,arr2)</span><br></pre></td></tr></table></figure><p>就是通过cond的值来选择arr1或则arr2的值</p><p>如果需要进行多条件判别,也可以通过嵌套where表达式完成</p><p>这种方法通过if判断可以实现,但是where()函数的优点:</p><ul><li>对大规模数组处理速度快</li><li>可以用于多维数组</li></ul><h3 id="统计运算"><a href="#统计运算" class="headerlink" title="统计运算"></a>统计运算</h3><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>sum</td><td>求和</td></tr><tr><td>mean</td><td>算术平均数</td></tr><tr><td>std、var</td><td>标准差和方差</td></tr><tr><td>min、max</td><td>最小值和最大值</td></tr><tr><td>argmin、argmax</td><td>最小和最大元素索引</td></tr><tr><td>cumsum</td><td>所有元素的累计和</td></tr><tr><td>cumprod</td><td>所有元素的累计和</td></tr><tr><td>sort()</td><td>排序</td></tr></tbody></table><h3 id="集合运算"><a href="#集合运算" class="headerlink" title="集合运算"></a>集合运算</h3><ol><li><p>unique()函数寻找数组中的唯一值</p><p>对唯一值会进行排序</p></li><li><p>inld()用于测试几个数组中是否包含相同的值,返回一个布尔值数组</p></li></ol><table><thead><tr><th>函数</th><th>使用说明</th></tr></thead><tbody><tr><td>unique(x)</td><td>唯一值</td></tr><tr><td>intersectld(x,y)</td><td>公共元素</td></tr><tr><td>unionld(x,y)</td><td>并集</td></tr><tr><td>inld(x,y)</td><td>x的元素是否在y中,返回布尔型数组</td></tr><tr><td>setdiffld(x,y)</td><td>集合的差</td></tr><tr><td>setxorld(x,y)</td><td>交集取反</td></tr></tbody></table>]]></content>
-    
-    
-    <summary type="html">&lt;h1 id=&quot;NumPy模块&quot;&gt;&lt;a href=&quot;#NumPy模块&quot; class=&quot;headerlink&quot; title=&quot;NumPy模块&quot;&gt;&lt;/a&gt;NumPy模块&lt;/h1&gt;&lt;p&gt;NumPy是用于数据科学计算的基础模块,不但能够完成科学计算的任务,而且能被用于高效得多维数组容器,可用于存储和处理大型矩阵。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="python" scheme="http://example.com/categories/python/"/>
-    
-    <category term="进阶" scheme="http://example.com/categories/%E8%BF%9B%E9%98%B6/"/>
-    
-    
-    <category term="python" scheme="http://example.com/tags/python/"/>
-    
-    <category term="NumPy模块" scheme="http://example.com/tags/NumPy%E6%A8%A1%E5%9D%97/"/>
     
   </entry>
   

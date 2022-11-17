@@ -1935,7 +1935,7 @@
   </entry>
   <entry>
     <title>Python进阶（十一）-- NumPy模块</title>
-    <url>/2022/09/14/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/</url>
+    <url>/2022/11/17/Python%E8%BF%9B%E9%98%B6(%E5%8D%81%E4%B8%80)Numpy%E6%A8%A1%E5%9D%97/</url>
     <content><![CDATA[<h1 id="NumPy模块"><a href="#NumPy模块" class="headerlink" title="NumPy模块"></a>NumPy模块</h1><p>NumPy是用于数据科学计算的基础模块,不但能够完成科学计算的任务,而且能被用于高效得多维数组容器,可用于存储和处理大型矩阵。</p>
 <span id="more"></span>  
 

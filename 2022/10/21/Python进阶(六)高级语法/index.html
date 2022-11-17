@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GIL全局解释锁定义GIL锁:Global Interpreter Lock,又称为全局解释锁。 任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。GIL锁实际上把所有线程的执行代码都给上了锁。所以，多线程在Python中智能交替执行，即使100个线程跑在100核CPU上也只能用到一核。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python进阶（六）-- 高级语法">
+<meta property="og:url" content="http://example.com/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="HaHazhong&amp;Blog">
+<meta property="og:description" content="GIL全局解释锁定义GIL锁:Global Interpreter Lock,又称为全局解释锁。 任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。GIL锁实际上把所有线程的执行代码都给上了锁。所以，多线程在Python中智能交替执行，即使100个线程跑在100核CPU上也只能用到一核。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-21T13:23:31.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:41:49.142Z">
+<meta property="article:author" content="hahazhong">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="高级语法">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python进阶（六）-- 高级语法 | HaHazhong&Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c47c023a1e4dabebf67e119f4b6453d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="HaHazhong&Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HaHazhong&Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生苦短，我用Python</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags name fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hahazhong">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HaHazhong&Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python进阶（六）-- 高级语法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-21 21:23:31" itemprop="dateCreated datePublished" datetime="2022-10-21T21:23:31+08:00">2022-10-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-17 21:41:49" itemprop="dateModified" datetime="2022-11-17T21:41:49+08:00">2022-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">进阶</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="GIL全局解释锁"><a href="#GIL全局解释锁" class="headerlink" title="GIL全局解释锁"></a>GIL全局解释锁</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>GIL锁:Global Interpreter Lock,又称为全局解释锁。</p>
+<p>任何Python线程执行前，必须先获得GIL锁，然后，每执行100条字节码，解释器就自动释放GIL锁，让别的线程有机会执行。GIL锁实际上把所有线程的执行代码都给上了锁。所以，多线程在Python中智能交替执行，即使100个线程跑在100核CPU上也只能用到一核。</p>
+<span id="more"></span>  
+
+<h2 id="GIL锁不是Python特性"><a href="#GIL锁不是Python特性" class="headerlink" title="GIL锁不是Python特性"></a>GIL锁不是Python特性</h2><p>GIL是Python解释器（Cpython）时引入的概念，在JPython、PyPy中没有GIL.GIL并不是Python的语言缺陷。是解释器层级的锁，跟Python语言特性无关</p>
+<h2 id="GIL存在原因"><a href="#GIL存在原因" class="headerlink" title="GIL存在原因"></a>GIL存在原因</h2><ol>
+<li>早期计算机都是单核设计</li>
+<li>CPython在执行多线程时并不是线程安全的，所以为了程序的稳定性，加一把全局解释锁，能够确保任何时候都只有宇哥Python线程执行</li>
+</ol>
+<h2 id="GIL的弊端"><a href="#GIL的弊端" class="headerlink" title="GIL的弊端"></a>GIL的弊端</h2><ul>
+<li>对计算密集型的程序产生影响，因为计算密集型的程序，需要占用系统资源</li>
+<li>GIL的存在，相当于始终在进行单线程运算</li>
+<li>IO密集型影响不大的原因在于，IO，input、output，这两个词就表明程序的瓶颈在于输入所耗费的时间，线程大部分时间在等待</li>
+</ul>
+<h2 id="GIL锁释放"><a href="#GIL锁释放" class="headerlink" title="GIL锁释放"></a>GIL锁释放</h2><ul>
+<li>在当前线程执行超时后会自动释放</li>
+<li>在当前线程指向阻塞操作时会自动释放</li>
+<li>当前执行完成时</li>
+</ul>
+<h2 id="GIL解决方案"><a href="#GIL解决方案" class="headerlink" title="GIL解决方案"></a>GIL解决方案</h2><p>由于GIL锁的原因，导致多线程并不能很好地利用CPU资源，所以需要解决GIL锁的问题</p>
+<ol>
+<li><p>换解释器</p>
+</li>
+<li><p>使用多进程替换多线程</p>
+</li>
+<li><p>使用Python特性：胶水，让子线程用c语言来写</p>
+<ul>
+<li>将c语言写的子线程编译为.so文件</li>
+<li>使用ctypes加载.so文件</li>
+<li>开启多线程</li>
+</ul>
+</li>
+</ol>
+<h1 id="Python中的可变和不可变"><a href="#Python中的可变和不可变" class="headerlink" title="Python中的可变和不可变"></a>Python中的可变和不可变</h1><p>可变与不可变是指内存中的那块内容是否可以被改变</p>
+<ul>
+<li><p>可变类型(mutable),创建后可以继续修改对象的内容,如字典、列表</p>
+</li>
+<li><p>不可变类型（unmutable），一旦创建不可修改内容，如数字、字符串、元组</p>
+</li>
+</ul>
+<p>验证：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># # 数值</span></span><br><span class="line"><span class="comment"># a = 5</span></span><br><span class="line"><span class="comment"># print(&#x27;a的值为:&#x27;, a, &#x27;\na的内存地址为:&#x27;, id(a))</span></span><br><span class="line"><span class="comment"># # 改变后内存会重新赋予一个内存地址</span></span><br><span class="line"><span class="comment"># a = 5 + 1</span></span><br><span class="line"><span class="comment"># print(&#x27;a的值为:&#x27;, a, &#x27;\na的内存地址为:&#x27;, id(a))</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># # 字符串</span></span><br><span class="line"><span class="comment"># b = &#x27;hahazhong&#x27;</span></span><br><span class="line"><span class="comment"># print(&#x27;b的值为:&#x27;, b, &#x27;\nb的内存地址为:&#x27;, id(b))</span></span><br><span class="line"><span class="comment"># # 改变后内存会重新赋予一个内存地址</span></span><br><span class="line"><span class="comment"># b = &#x27;hahazhong&#x27; + &#x27;120&#x27;</span></span><br><span class="line"><span class="comment"># print(&#x27;改变后b的值为:&#x27;, b, &#x27;\nb的内存地址为:&#x27;, id(b))</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>(<span class="params">a, b</span>):</span><br><span class="line">    c = <span class="built_in">id</span>(a)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;------<span class="subst">&#123;<span class="built_in">type</span>(a)&#125;</span>------------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;原来的值为: <span class="subst">&#123;a&#125;</span> \n内存地址为: <span class="subst">&#123;<span class="built_in">id</span>(a)&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="comment"># 改变后内存会重新赋予一个内存地址</span></span><br><span class="line">    a += b</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&#x27;改变后的值为:<span class="subst">&#123;a&#125;</span> \n内存地址为: <span class="subst">&#123;<span class="built_in">id</span>(a)&#125;</span>&#x27;</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">id</span>(a) == c:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;内存地址未改变&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;内存地址改变&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 数值</span></span><br><span class="line">a = <span class="number">5</span></span><br><span class="line">test(a, a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字符串</span></span><br><span class="line">b = <span class="string">&#x27;哈哈钟&#x27;</span></span><br><span class="line">test(b, b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 元组</span></span><br><span class="line">c = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">test(c, c)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表</span></span><br><span class="line">d = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">test(d, d)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 字典</span></span><br><span class="line">e = &#123;<span class="string">&#x27;1&#x27;</span>: <span class="number">2</span>, <span class="string">&#x27;3&#x27;</span>: <span class="number">4</span>&#125;</span><br><span class="line">f = &#123;<span class="string">&#x27;5&#x27;</span>: <span class="number">6</span>&#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;------<span class="subst">&#123;<span class="built_in">type</span>(e)&#125;</span>------------&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;原来的值为: <span class="subst">&#123;e&#125;</span> \n内存地址为: <span class="subst">&#123;<span class="built_in">id</span>(e)&#125;</span>&#x27;</span>)</span><br><span class="line">e.update(f)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&#x27;改变后的值为: <span class="subst">&#123;e&#125;</span> \n内存地址为: <span class="subst">&#123;<span class="built_in">id</span>(e)&#125;</span>&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="深浅拷贝"><a href="#深浅拷贝" class="headerlink" title="深浅拷贝"></a>深浅拷贝</h2><p>python中的copy模块，可以实现拷贝功能</p>
+<ul>
+<li><p>浅拷贝</p>
+<p>引用（地址）拷贝，并没有产生新的空间。如果拷贝的是对象，原对象和copy对象都指向同一个内存空间，只拷贝父对象，不会拷贝对象的内部的子对象。</p>
+<p>用法：<code>copy.copy(变量)</code>进行拷贝</p>
+</li>
+<li><p>深拷贝</p>
+<p>会产生新的空间.如果拷贝的是对象,原对象和copy都指向不同的内存空间,会拷贝对象及其子对象(产生新的空间)</p>
+<p>用法:<code>copy.deepcopy(变量名)</code></p>
+</li>
+</ul>
+<p>作用:</p>
+<ol>
+<li>减少内存的使用</li>
+<li>以后在做数据的清洗、修改或者入库时，对源数据进行复制一份，以防数据修改后找不到源数据</li>
+</ol>
+<h3 id="简单可变类型深浅拷贝"><a href="#简单可变类型深浅拷贝" class="headerlink" title="简单可变类型深浅拷贝"></a>简单可变类型深浅拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @object   : 可变类型深浅拷贝都会产生新的空间,通过对列表进想赋值和深浅拷贝熟悉深浅拷贝</span></span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list1的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"><span class="comment"># 赋值</span></span><br><span class="line"><span class="comment"># 赋值后list4的值修改list1也会改变,无法保证数据独立性</span></span><br><span class="line">list4 = list1</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list4的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list4))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line">list4.append(<span class="number">77</span>)</span><br><span class="line"><span class="built_in">print</span>(list1, <span class="string">&#x27;list1的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"><span class="built_in">print</span>(list4, <span class="string">&#x27;list4的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list4))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"></span><br><span class="line">list2 = copy.copy(list1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list2的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line">list2.append(<span class="number">88</span>)</span><br><span class="line"><span class="built_in">print</span>(list1, <span class="string">&#x27;list1的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list2的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line"><span class="comment"># 结论:可变类型浅拷贝也会产生新的空间地址,保证数据独立性</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"><span class="comment"># 深拷贝</span></span><br><span class="line"><span class="comment"># 可变类型深拷贝会产生新的空间地址,保证数据独立性</span></span><br><span class="line">list3 = copy.deepcopy(list1)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list3))</span><br><span class="line">list3.append(<span class="number">99</span>)</span><br><span class="line"><span class="built_in">print</span>(list1, <span class="string">&#x27;list1的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3的内存地址为:&#x27;</span>, <span class="built_in">id</span>(list3))</span><br></pre></td></tr></table></figure>
+
+<p>总结:</p>
+<ol>
+<li><p>浅拷贝:</p>
+<ul>
+<li>不会产生新的空间</li>
+<li>源对象和副本对象指向同一个空间</li>
+<li>如果拷贝的对象,子对象不会拷贝</li>
+</ul>
+</li>
+<li><p>深拷贝:</p>
+<ul>
+<li>产生新的空间</li>
+<li>能够保持各自独立性</li>
+<li>如果拷贝的是对象,子对象不会拷贝</li>
+</ul>
+<p>简单可变类型不管深拷贝还是浅拷贝都会产生新的空间,保持各自独立性</p>
+</li>
+</ol>
+<h3 id="复杂可变类型的深浅拷贝"><a href="#复杂可变类型的深浅拷贝" class="headerlink" title="复杂可变类型的深浅拷贝"></a>复杂可变类型的深浅拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @date     : 2022/11/2 16:40</span></span><br><span class="line"><span class="comment"># @author   : hahazhong</span></span><br><span class="line"><span class="comment"># @coding   : UTF-8</span></span><br><span class="line"><span class="comment"># @object   : 熟悉复杂类型的深浅拷贝</span></span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>]</span><br><span class="line">b = [<span class="number">22</span>, <span class="number">33</span>, <span class="number">44</span>]</span><br><span class="line"><span class="built_in">list</span> = [a, b]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;a=&#x27;</span>, a, <span class="built_in">id</span>(a))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;b=&#x27;</span>, b, <span class="built_in">id</span>(b))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list=&#x27;</span>, <span class="built_in">list</span>, <span class="built_in">id</span>(<span class="built_in">list</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list[0]=&#x27;</span>, <span class="built_in">list</span>[<span class="number">0</span>], <span class="built_in">id</span>(<span class="built_in">list</span>[<span class="number">0</span>]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list[1]=&#x27;</span>, <span class="built_in">list</span>[<span class="number">1</span>], <span class="built_in">id</span>(<span class="built_in">list</span>[<span class="number">1</span>]))</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"><span class="comment"># # 赋值</span></span><br><span class="line"><span class="comment"># list4 = list</span></span><br><span class="line"><span class="comment"># list4[0].append(0)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># print(&#x27;list=&#x27;, list, id(list))</span></span><br><span class="line"><span class="comment"># print(a)</span></span><br><span class="line"><span class="comment"># print(&#x27;list[0]=&#x27;, list[0], id(list[0]))</span></span><br><span class="line"><span class="comment"># print(&#x27;list[1]=&#x27;, list[1], id(list[1]))</span></span><br><span class="line"><span class="comment"># print(&#x27;list4=&#x27;, list4, id(list4))</span></span><br><span class="line"><span class="comment"># print(&#x27;list4[0]=&#x27;, list4[0], id(list4[0]))</span></span><br><span class="line"><span class="comment"># print(&#x27;list4[1]=&#x27;, list4[1], id(list4[1]))</span></span><br><span class="line"><span class="comment"># # 结论: 复杂可变类型赋值会使原数据进行改变</span></span><br><span class="line"><span class="comment"># print(&#x27;--&#x27; * 10)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># # 对复杂可变类型进行浅拷贝</span></span><br><span class="line"><span class="comment"># list2 = copy.copy(list)</span></span><br><span class="line"><span class="comment"># print(&#x27;list2=&#x27;, list2, id(list2))</span></span><br><span class="line"><span class="comment"># print(&#x27;list2[0]=&#x27;, list2[0], id(list2[0]))</span></span><br><span class="line"><span class="comment"># print(&#x27;list2[1]=&#x27;, list2[1], id(list2[1]))</span></span><br><span class="line"><span class="comment"># list2[0].append(12)</span></span><br><span class="line"><span class="comment"># print(a)</span></span><br><span class="line"><span class="comment"># print(&#x27;list2=&#x27;, list2, id(list2))</span></span><br><span class="line"><span class="comment"># print(&#x27;list2[0]=&#x27;, list2[0], id(list2[0]))</span></span><br><span class="line"><span class="comment"># print(&#x27;list2[1]=&#x27;, list2[1], id(list2[1]))</span></span><br><span class="line"><span class="comment"># # 结论:浅拷贝只复制最顶层函数</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line"><span class="comment"># 对复杂可变类型进行深拷贝</span></span><br><span class="line">list3 = copy.deepcopy(<span class="built_in">list</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3=&#x27;</span>, list3, <span class="built_in">id</span>(list3))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3[0]=&#x27;</span>, list3[<span class="number">0</span>], <span class="built_in">id</span>(list3[<span class="number">0</span>]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3[1]=&#x27;</span>, list3[<span class="number">1</span>], <span class="built_in">id</span>(list3[<span class="number">1</span>]))</span><br><span class="line">list3[<span class="number">0</span>].append(<span class="number">88</span>)</span><br><span class="line"><span class="built_in">print</span>(a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3=&#x27;</span>, list3, <span class="built_in">id</span>(list3))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3[0]=&#x27;</span>, list3[<span class="number">0</span>], <span class="built_in">id</span>(list3[<span class="number">0</span>]))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;list3[1]=&#x27;</span>, list3[<span class="number">1</span>], <span class="built_in">id</span>(list3[<span class="number">1</span>]))</span><br></pre></td></tr></table></figure>
+
+<h3 id="简单不可变类型拷贝"><a href="#简单不可变类型拷贝" class="headerlink" title="简单不可变类型拷贝"></a>简单不可变类型拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line">tup = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(tup, <span class="string">&#x27;tup地址:&#x27;</span>, <span class="built_in">id</span>(tup))</span><br><span class="line"></span><br><span class="line">tup1 = copy.copy(tup)</span><br><span class="line"><span class="built_in">print</span>(tup1, <span class="string">&#x27;tup1的地址:&#x27;</span>, <span class="built_in">id</span>(tup1))</span><br><span class="line"></span><br><span class="line">tup2 = copy.deepcopy(tup1)</span><br><span class="line"><span class="built_in">print</span>(tup2, <span class="string">&#x27;tup2的地址:&#x27;</span>, <span class="built_in">id</span>(tup2))</span><br></pre></td></tr></table></figure>
+
+<p>总结:</p>
+<p>不可变类型的深浅拷贝都会拷贝原地址</p>
+<h3 id="复杂不可变类型拷贝"><a href="#复杂不可变类型拷贝" class="headerlink" title="复杂不可变类型拷贝"></a>复杂不可变类型拷贝</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 浅拷贝</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_copy</span>():</span><br><span class="line">    list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">    list2 = [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>]</span><br><span class="line">    <span class="comment"># 定义元组</span></span><br><span class="line">    <span class="built_in">tuple</span> = (list1, list2)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">tuple</span>, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(<span class="built_in">tuple</span>))</span><br><span class="line">    <span class="comment"># 浅拷贝</span></span><br><span class="line">    tuple2 = copy.copy(<span class="built_in">tuple</span>)</span><br><span class="line">    <span class="built_in">print</span>(tuple2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(tuple2))</span><br><span class="line">    <span class="comment"># tuple2并没有产生新的地址空间</span></span><br><span class="line">    <span class="comment"># 对tuple中的可变类型进行改变,tuple和tuple2的值也会改变.--也就是说不可变类型浅拷贝也只是拷贝顶层地址</span></span><br><span class="line">    list1.append(<span class="number">22</span>)</span><br><span class="line">    <span class="built_in">print</span>(tuple2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(tuple2))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_deepcopy</span>():</span><br><span class="line">    <span class="comment"># 不可变嵌套可变</span></span><br><span class="line">    list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>]</span><br><span class="line">    list2 = [<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>]</span><br><span class="line">    <span class="comment"># 定义元组</span></span><br><span class="line">    <span class="built_in">tuple</span> = (list1, list2)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">tuple</span>, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(<span class="built_in">tuple</span>))</span><br><span class="line">    <span class="comment"># 深拷贝</span></span><br><span class="line">    tuple2 = copy.deepcopy(<span class="built_in">tuple</span>)</span><br><span class="line">    <span class="built_in">print</span>(tuple2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(tuple2))</span><br><span class="line">    <span class="comment"># tuple2产生新的地址空间</span></span><br><span class="line">    <span class="comment"># 对tuple中的可变类型进行改变,tuple2的值不会改变.--也就是说不可变类型深拷贝对顶层和底层地址全部建立了新的空间</span></span><br><span class="line">    list1.append(<span class="number">22</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">tuple</span>, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(<span class="built_in">tuple</span>))</span><br><span class="line">    <span class="built_in">print</span>(tuple2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(tuple2))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">10</span>)</span><br><span class="line">    <span class="comment"># 不可变嵌套不可变</span></span><br><span class="line">    tup1 = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line">    tup2 = (<span class="number">9</span>, <span class="number">8</span>, <span class="number">7</span>)</span><br><span class="line">    <span class="comment"># 定义元组</span></span><br><span class="line">    <span class="built_in">tuple</span> = (tup1, tup2)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">tuple</span>, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(<span class="built_in">tuple</span>))</span><br><span class="line">    <span class="comment"># 深拷贝</span></span><br><span class="line">    <span class="comment"># 嵌套全部为不可变时,不会产生新的地址空间</span></span><br><span class="line">    tuple2 = copy.deepcopy(<span class="built_in">tuple</span>)</span><br><span class="line">    <span class="built_in">print</span>(tuple2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(tuple2))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># test_copy()</span></span><br><span class="line">test_deepcopy()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>总结:</p>
+<ul>
+<li>浅拷贝直接引用原数据地址</li>
+<li>深拷贝要看数据具体可变还是不可变,如果数据可变,会产生新的空间</li>
+</ul>
+<h2 id="切片拷贝和字典拷贝"><a href="#切片拷贝和字典拷贝" class="headerlink" title="切片拷贝和字典拷贝"></a>切片拷贝和字典拷贝</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @date     : 2022/11/7 22:21</span></span><br><span class="line"><span class="comment"># @author   : hahazhong</span></span><br><span class="line"><span class="comment"># @coding   : UTF-8</span></span><br><span class="line"><span class="comment"># @object   : 进行切片拷贝和字典拷贝</span></span><br><span class="line"><span class="keyword">import</span> copy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test1</span>():</span><br><span class="line">    list1 = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>]</span><br><span class="line">    <span class="built_in">print</span>(list1, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(list1))</span><br><span class="line">    <span class="comment"># 简单类型切片拷贝</span></span><br><span class="line">    list2 = list1[:]</span><br><span class="line">    <span class="built_in">print</span>(list2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line">    <span class="comment"># 对原数据进行修改</span></span><br><span class="line">    list1[<span class="number">2</span>] = <span class="number">88</span></span><br><span class="line">    <span class="built_in">print</span>(list2, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(list2))</span><br><span class="line">    <span class="comment"># 简单类型切片拷贝会产生新地址,数据独立</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># test1()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test2</span>():</span><br><span class="line">    <span class="comment"># 复杂类型拷贝</span></span><br><span class="line">    A = [<span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line">    B = [<span class="number">33</span>, <span class="number">22</span>, <span class="number">11</span>]</span><br><span class="line">    <span class="comment"># C=[A,B]</span></span><br><span class="line">    C = (A, B)</span><br><span class="line">    <span class="built_in">print</span>(C, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(C))</span><br><span class="line">    D = C[:]</span><br><span class="line">    <span class="built_in">print</span>(D, <span class="string">&#x27;地址为:&#x27;</span>, <span class="built_in">id</span>(D))</span><br><span class="line">    <span class="comment"># 对于复杂类型进行切片拷贝,如果为可变类型为深拷贝,如果不可变类型为浅拷贝</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># test2()</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_dict1</span>():</span><br><span class="line">    <span class="comment"># 字典拷贝(值为不可变类型)</span></span><br><span class="line">    dict1 = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;哈哈钟&#x27;</span>,</span><br><span class="line">             <span class="string">&#x27;age&#x27;</span>: <span class="number">188</span>&#125;</span><br><span class="line">    <span class="built_in">print</span>(dict1, <span class="string">&#x27;dict地址为&#x27;</span>, <span class="built_in">id</span>(dict1))</span><br><span class="line">    dict2 = dict1.copy()</span><br><span class="line">    <span class="built_in">print</span>(dict2, <span class="string">&#x27;dict2地址为&#x27;</span>, <span class="built_in">id</span>(dict2))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">20</span>)</span><br><span class="line">    <span class="comment"># 修改数据</span></span><br><span class="line">    dict1[<span class="string">&#x27;age&#x27;</span>] = <span class="number">21</span></span><br><span class="line">    <span class="built_in">print</span>(dict1, <span class="string">&#x27;dict地址为&#x27;</span>, <span class="built_in">id</span>(dict1))</span><br><span class="line">    <span class="built_in">print</span>(dict2, <span class="string">&#x27;dict2地址为&#x27;</span>, <span class="built_in">id</span>(dict2))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_dict1()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">20</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test_dict2</span>():</span><br><span class="line">    <span class="comment"># 字典拷贝(值为可变类型)</span></span><br><span class="line">    dict1 = &#123;<span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;哈哈钟&#x27;</span>,</span><br><span class="line">             <span class="string">&#x27;age&#x27;</span>: [<span class="number">188</span>, <span class="number">21</span>]&#125;</span><br><span class="line">    <span class="built_in">print</span>(dict1, <span class="string">&#x27;dict地址为&#x27;</span>, <span class="built_in">id</span>(dict1))</span><br><span class="line">    dict2 = dict1.copy()</span><br><span class="line">    <span class="built_in">print</span>(dict2, <span class="string">&#x27;dict2地址为&#x27;</span>, <span class="built_in">id</span>(dict2))</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;--&#x27;</span> * <span class="number">20</span>)</span><br><span class="line">    <span class="comment"># 修改数据</span></span><br><span class="line">    dict1[<span class="string">&#x27;age&#x27;</span>][<span class="number">0</span>] = <span class="number">21</span></span><br><span class="line">    <span class="built_in">print</span>(dict1, <span class="string">&#x27;dict地址为&#x27;</span>, <span class="built_in">id</span>(dict1))</span><br><span class="line">    <span class="built_in">print</span>(dict2, <span class="string">&#x27;dict2地址为&#x27;</span>, <span class="built_in">id</span>(dict2))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">test_dict2()</span><br><span class="line"><span class="comment"># 对于字典拷贝如果字典的值的类型为不可变类型,会产生新的地址,为深拷贝</span></span><br><span class="line"><span class="comment"># 对于字典拷贝如果字典的值的类型为可变类型,会产生新的地址,但是只拷贝顶层地址,如果底层进行变动,新地址也会变动.与复杂可变类型的拷贝类似</span></span><br></pre></td></tr></table></figure>
+
+<p>总结:</p>
+<p>切片拷贝:</p>
+<ul>
+<li>简单类型切片拷贝会产生新地址,数据独立</li>
+<li>对于复杂类型进行切片拷贝,如果为可变类型为深拷贝,如果不可变类型为浅拷贝</li>
+</ul>
+<p>字典拷贝:</p>
+<ul>
+<li><p>对于字典拷贝如果字典的值的类型为不可变类型,会产生新的地址,为深拷贝</p>
+</li>
+<li><p>对于字典拷贝如果字典的值的类型为可变类型,会产生新的地址,但是只拷贝顶层地址,如果底层进行变动,新地址也会变动.与复杂可变类型的拷贝类似</p>
+</li>
+</ul>
+<h1 id="import导入模块"><a href="#import导入模块" class="headerlink" title="import导入模块"></a>import导入模块</h1><h2 id="import导入模块路径问题"><a href="#import导入模块路径问题" class="headerlink" title="import导入模块路径问题"></a>import导入模块路径问题</h2><p>问题: 当我们把模块文件放到工程文件加的外部的文件,发现无法正常引入模块</p>
+<p>原因: 外部文件夹的路径,没有放到环境变量中</p>
+<p>解决方法:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看系统的path 环境变量</span></span><br><span class="line"><span class="comment"># 1 导入模块 sys</span></span><br><span class="line"><span class="comment"># 2 sys.path查看到环境变量的具体内容</span></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> path <span class="keyword">in</span> sys.path:</span><br><span class="line">    <span class="built_in">print</span>(path)</span><br><span class="line"><span class="comment"># 将指定的路径加入到环境变量</span></span><br><span class="line">sys.path.append(<span class="string">&#x27;模块所在位置目录&#x27;</span>)  <span class="comment"># 追加到末尾</span></span><br><span class="line"><span class="comment"># 追加到开头</span></span><br><span class="line">sys.path.insert(<span class="number">0</span>, <span class="string">&#x27;模块所在位置目录&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="重新导入模块"><a href="#重新导入模块" class="headerlink" title="重新导入模块"></a>重新导入模块</h2><p>在终端运行时,模块被导入后,<code>import 模块</code>不能重新导入模块,重新导入需要使用reload重新加载模块代码创建模块对象</p>
+<p>解决方法:</p>
+<p>使用reload()方法重新加载模块:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> importlib <span class="keyword">import</span> reload</span><br><span class="line"><span class="keyword">import</span> test</span><br><span class="line"></span><br><span class="line">reload(test)</span><br><span class="line">test.test()</span><br></pre></td></tr></table></figure>
+
+<h2 id="from…import-的私有化问题"><a href="#from…import-的私有化问题" class="headerlink" title="from…import 的私有化问题"></a>from…import 的私有化问题</h2><ul>
+<li>私有化: 防止模块中的一些变量被其他模块导入,使用私有化解决</li>
+<li>前提:必须使用‘from … import  *’</li>
+<li>用法:在模块中把变量前加入下划线<code>_变量名</code></li>
+<li>注意:使用其他方式导入模块私有化将无效</li>
+</ul>
+<h2 id="import和from…import-的区别"><a href="#import和from…import-的区别" class="headerlink" title="import和from…import 的区别"></a>import和from…import 的区别</h2><p>区别:</p>
+<ul>
+<li>写法:<ul>
+<li>import 模块名.方法</li>
+<li>from … import * 方法</li>
+</ul>
+</li>
+<li>底层区别:<ul>
+<li>import 直接引用了原模块模方法</li>
+<li>from .. import 拷贝原模块的方法</li>
+</ul>
+</li>
+</ul>
+<h1 id="拆包"><a href="#拆包" class="headerlink" title="拆包"></a>拆包</h1><p>&#x3D;&#x3D;拆包&#x3D;&#x3D;:对于函数中的多个返回数据,去掉元组,列表或者字典直接获取里面数据的过程</p>
+<ul>
+<li><p>可变参数<code>*args **kwargs</code>默认会封包过程</p>
+</li>
+<li><p>如果想要这种单数继续传递给下一个函数,传递应用(*args,**kwargs)</p>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @date     : 2022/11/9 19:36</span></span><br><span class="line"><span class="comment"># @author   : hahazhong</span></span><br><span class="line"><span class="comment"># @coding   : UTF-8</span></span><br><span class="line"><span class="comment"># @object   : 定义两个函数func01 func02 ,在func02中调用func01,func02有可变参数</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func01</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------func01-------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line">    <span class="built_in">print</span>(kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func03</span>(<span class="params">a, d, e, b=<span class="number">0</span>, c=<span class="number">0</span></span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------func03------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(a)</span><br><span class="line">    <span class="built_in">print</span>(b)</span><br><span class="line">    <span class="built_in">print</span>(c)</span><br><span class="line">    <span class="built_in">print</span>(d)</span><br><span class="line">    <span class="built_in">print</span>(e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func02</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;-------func02-------&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(args)</span><br><span class="line">    <span class="built_in">print</span>(kwargs)</span><br><span class="line">    func01(*args, **kwargs)</span><br><span class="line">    func03(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    func02(<span class="number">1</span>, <span class="number">3</span>, c=<span class="number">999</span>, b=<span class="number">77</span>, e=<span class="number">55</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><h2 id="单继承中的super"><a href="#单继承中的super" class="headerlink" title="单继承中的super()"></a>单继承中的super()</h2><p>super()使用的时候,传递参数的时候,swlf不用传递</p>
+<p>super()调用顺序,按照mro顺序完成</p>
+<blockquote>
+<p>当在类中使用super()在mro列表中找到当前类的下一个元素,调用该元素的方法</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @date     : 2022/11/9 20:24</span></span><br><span class="line"><span class="comment"># @author   : hahazhong</span></span><br><span class="line"><span class="comment"># @coding   : UTF-8</span></span><br><span class="line"><span class="comment"># @object   : 理解单继承中的super()</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name: <span class="built_in">str</span></span>):</span><br><span class="line">        self.surname = name[<span class="number">0</span>]</span><br><span class="line">        self.name = name[<span class="number">1</span>:]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Parent调用结束&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son</span>(<span class="title class_ inherited__">Parent</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name)</span><br><span class="line">        self.age = age</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;son调用完毕&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Grandson</span>(<span class="title class_ inherited__">Son</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, sex</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, age)</span><br><span class="line">        self.sex = sex</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Grandson调用完毕&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    zhangsan = Grandson(<span class="string">&#x27;张三&#x27;</span>, <span class="string">&#x27;12&#x27;</span>, <span class="string">&#x27;男&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;姓:&#x27;</span>, zhangsan.surname)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;名:&#x27;</span>, zhangsan.name)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;年龄:&#x27;</span>, zhangsan.age)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;性别:&#x27;</span>, zhangsan.sex)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多继承以及MRO顺序"><a href="#多继承以及MRO顺序" class="headerlink" title="多继承以及MRO顺序"></a>多继承以及MRO顺序</h2><p>在子类初始化的时候需要手动调用父类的初始化方法进行父类的属性构造,不然不能使用提供的属性.</p>
+<p>&#x3D;&#x3D;多继承&#x3D;&#x3D;:一个子类同时继承多个父类,又称为菱形继承、钻石继承</p>
+<ul>
+<li>多继承中super()执行顺序,严格执行MRO顺序</li>
+</ul>
+<p>查看MRO顺序表:</p>
+<ul>
+<li>类名.mro()</li>
+<li><code>类名.__mro__</code></li>
+</ul>
+<p>MRO顺序：</p>
+<ul>
+<li>保证了多继承情况每个类只出现一次</li>
+<li><code>super().__init__</code>相对于<code>类名.__init__</code>在单继承上用法基本无差</li>
+<li>但是在多继承上有区别,super()方法可以保证每个父类只会执行一次,而实用类名的方法会导致方法执行多次</li>
+<li>多继承时,使用super方法对父类传参数,应该是由于python的算法导致原因,必须把参数全部传递,否则会报错</li>
+<li>多继承时,相对于使用<code>类名.__init__</code>方法要把每个父类全部写一遍,而使用super()方法,只需要写一句话便执行类全部父类的方法,这也是为何多继承需要全部传参</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># @author   : hahazhong</span></span><br><span class="line"><span class="comment"># @coding   : UTF-8</span></span><br><span class="line"><span class="comment"># @object   : 在子类初始化的时候需要手动调用父类的初始化方法进行父类的属性构造,不然不能使用提供的属性</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 未使用super()</span></span><br><span class="line"><span class="comment"># class Parent(object):</span></span><br><span class="line"><span class="comment">#     def __init__(self, name: str):</span></span><br><span class="line"><span class="comment">#         self.surname = name[0]</span></span><br><span class="line"><span class="comment">#         self.name = name[1:]</span></span><br><span class="line"><span class="comment">#         print(&#x27;Parent调用结束&#x27;)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># class Son1(Parent):</span></span><br><span class="line"><span class="comment">#     def __init__(self, name, age):</span></span><br><span class="line"><span class="comment">#         # super().__init__(name)</span></span><br><span class="line"><span class="comment">#         Parent.__init__(self, name)</span></span><br><span class="line"><span class="comment">#         self.age = age</span></span><br><span class="line"><span class="comment">#         print(&#x27;son1调用完毕&#x27;)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># class Son2(Parent):</span></span><br><span class="line"><span class="comment">#     def __init__(self, name, sex):</span></span><br><span class="line"><span class="comment">#         # super().__init__(name)</span></span><br><span class="line"><span class="comment">#         Parent.__init__(self, name)</span></span><br><span class="line"><span class="comment">#         self.sex = sex</span></span><br><span class="line"><span class="comment">#         print(&#x27;son2调用完毕&#x27;)</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># class Grandson(Son1, Son2):</span></span><br><span class="line"><span class="comment">#     def __init__(self, name, age, sex):</span></span><br><span class="line"><span class="comment">#         Son1.__init__(self, name, age)  # 单独调用Son1父类的初始化方法</span></span><br><span class="line"><span class="comment">#         Son2.__init__(self, name, sex)</span></span><br><span class="line"><span class="comment">#         print(&#x27;Grandson调用完毕&#x27;)</span></span><br><span class="line"><span class="comment"># 会发现father的__init__会被调用两次</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用super()改进</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name: <span class="built_in">str</span></span>):</span><br><span class="line">        self.surname = name[<span class="number">0</span>]</span><br><span class="line">        self.name = name[<span class="number">1</span>:]</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Parent调用结束&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son1</span>(<span class="title class_ inherited__">Parent</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, *args, **kwargs)</span><br><span class="line">        self.age = age</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;son1调用完毕&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Son2</span>(<span class="title class_ inherited__">Parent</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, sex, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, *args, **kwargs)</span><br><span class="line">        self.sex = sex</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;son2调用完毕&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Grandson</span>(Son1, Son2):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, name, age, sex</span>):</span><br><span class="line">        <span class="built_in">super</span>().__init__(name, age, sex)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;Grandson调用完毕&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    zhangsan = Grandson(<span class="string">&#x27;张三&#x27;</span>, <span class="string">&#x27;12&#x27;</span>, <span class="string">&#x27;男&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;姓:&#x27;</span>, zhangsan.surname)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;名:&#x27;</span>, zhangsan.name)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;年龄:&#x27;</span>, zhangsan.age)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;性别:&#x27;</span>, zhangsan.sex)</span><br><span class="line">    <span class="comment"># 查看mro顺序</span></span><br><span class="line">    <span class="built_in">print</span>(Grandson.mro())</span><br></pre></td></tr></table></figure>
+
+<h1 id="property装饰方法"><a href="#property装饰方法" class="headerlink" title="property装饰方法"></a>property装饰方法</h1><h2 id="property基本使用"><a href="#property基本使用" class="headerlink" title="property基本使用"></a>property基本使用</h2><p>好处:可以让我们通过<code>对象.方法</code>名调用方法</p>
+<p>语法格式:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@property</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xxx</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>案例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 初始化方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        self.num = num</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 创健方法</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">prop</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.num</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建对象</span></span><br><span class="line">foo = Foo(<span class="number">888</span>)</span><br><span class="line"><span class="comment"># 调用对象方法</span></span><br><span class="line"><span class="comment"># print(foo.prop())</span></span><br><span class="line"><span class="comment"># property像使用属性一样去使用方法</span></span><br><span class="line"><span class="built_in">print</span>(foo.prop)</span><br></pre></td></tr></table></figure>
+
+<p>property属性定义和调用需要注意:</p>
+<ul>
+<li>定义时,在实例方法的基础上添加@property装饰器,并且仅有一个self参数</li>
+<li>调用时无需括号</li>
+</ul>
+<h2 id="property其他方法"><a href="#property其他方法" class="headerlink" title="property其他方法"></a>property其他方法</h2><p>Python中的类有&#x3D;&#x3D;经典类&#x3D;&#x3D;和&#x3D;&#x3D;新式类&#x3D;&#x3D;,新式类的属性比经典类的属性丰富。（如果类继承object，那么该类为新式类，Python3中默认所有类为新式类）</p>
+<ol>
+<li><p>经典类只有一种@property装饰器</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@property</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">xxx</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新式类具有三种@property装饰器</p>
+<ul>
+<li>@property</li>
+<li>@xxx.setter:重新设置</li>
+<li>@xxx.deleter:删除方法</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Goods</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 1. 初始化方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.org_price = <span class="number">1000</span></span><br><span class="line">        self.discount = <span class="number">0.88</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 获取价格方法</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.org_price * self.discount</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 设置价格方法</span></span><br><span class="line"><span class="meta">    @price.setter</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">price</span>(<span class="params">self, val</span>):</span><br><span class="line">        self.org_price = val</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 4. 删除价格方法</span></span><br><span class="line"><span class="meta">    @price.deleter</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;删除成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">goods = Goods()</span><br><span class="line"><span class="comment"># 打印现在价格</span></span><br><span class="line"><span class="built_in">print</span>(goods.price)</span><br><span class="line"><span class="comment"># 将价格改为2000</span></span><br><span class="line">goods.price = <span class="number">2000</span></span><br><span class="line"><span class="built_in">print</span>(goods.price)</span><br><span class="line"><span class="comment"># 删除操作</span></span><br><span class="line"><span class="keyword">del</span> goods.price</span><br><span class="line"><span class="built_in">print</span>(goods.price)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="property作为类属性"><a href="#property作为类属性" class="headerlink" title="property作为类属性"></a>property作为类属性</h2><p>当使用类属性的方式创建property属性,&#x3D;&#x3D;经典类&#x3D;&#x3D;和&#x3D;&#x3D;新式类&#x3D;&#x3D;无区别</p>
+<p>案例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Foo</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_bar</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;铁汁&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># property对象</span></span><br><span class="line">    <span class="comment"># property(参数1,参数2,参数3,参数4)</span></span><br><span class="line">    <span class="comment"># 第一个参数,当我们foo.Bar自动调用第一个参数方法</span></span><br><span class="line">    <span class="comment"># 第二个参数,当foo.Bar=100时自动调用第二个参数方法</span></span><br><span class="line">    <span class="comment"># 第三个参数,当del foo.Bar时自动调用第三个参数方法</span></span><br><span class="line">    <span class="comment"># 第四个参数是字符串, 调用`foo.Bar.__doc__`, 自动调用第四个参数方法,此参数是该属性的描述信息</span></span><br><span class="line">    Bar = <span class="built_in">property</span>(get_bar)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建对象</span></span><br><span class="line">foo = Foo()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 通过property获取属性</span></span><br><span class="line"><span class="built_in">print</span>(foo.Bar)</span><br></pre></td></tr></table></figure>
+
+<p>property方法中有四个参数:</p>
+<ul>
+<li>第一个参数为方法名,调用<code>对象.属性</code>自动触发执行方法</li>
+<li>第二个参数是方法名,调用<code>属性.xxx</code>时自动触发执行方法</li>
+<li>第三个参数是方法名,调用<code>del 对象.属性</code>是自动触发执行方法</li>
+<li>第四个参数是字符串,调用<code>类名.属性.__doc__</code>,此参数是该属性的描述信息</li>
+</ul>
+<p>案例:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Goods</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 1. 初始化方法</span></span><br><span class="line"><span class="meta">    @property</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">Bar</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self._Bar</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.org_price = <span class="number">1000</span></span><br><span class="line">        self.discount = <span class="number">0.88</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 2. 获取价格方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get_price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self.org_price * self.discount</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 3. 设置价格方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_price</span>(<span class="params">self, val</span>):</span><br><span class="line">        self.org_price = val</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 4. 删除价格方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">del_price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;删除成功&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    Bar = <span class="built_in">property</span>(get_price, set_price, del_price, <span class="string">&#x27;Bar是一个property对象&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建对象</span></span><br><span class="line">    goods = Goods()</span><br><span class="line">    <span class="comment"># 获取价格</span></span><br><span class="line">    <span class="comment"># goods.Bar == goods.get_price()</span></span><br><span class="line">    <span class="built_in">print</span>(goods.Bar)</span><br><span class="line">    <span class="comment"># 重新设置价格</span></span><br><span class="line">    <span class="comment"># &#x27;goods.Bar = 2000&#x27; == good.set_price(2000)</span></span><br><span class="line">    goods.Bar = <span class="number">2000</span></span><br><span class="line">    <span class="built_in">print</span>(goods.Bar)</span><br><span class="line">    <span class="comment"># 删除价格</span></span><br><span class="line">    <span class="comment"># del goods.Bar == @del_price.deleter</span></span><br><span class="line">    <span class="keyword">del</span> goods.Bar</span><br><span class="line">    <span class="comment"># 获取对象描述</span></span><br><span class="line">    <span class="built_in">print</span>(Goods.Bar.__doc__)</span><br></pre></td></tr></table></figure>
+
+<h1 id="魔术方法和属性"><a href="#魔术方法和属性" class="headerlink" title="魔术方法和属性"></a>魔术方法和属性</h1><p>无论人或者事物往往都有一些特殊含义的文字,Python的类属性也是如此,存在着一些具有特殊含义的属性</p>
+<h3 id="doc"><a href="#doc" class="headerlink" title="__doc__"></a><code>__doc__</code></h3><p>作用:表示类的描述信息</p>
+<p>语法:</p>
+<ul>
+<li><p>获取类的描述信息:<code>类名.__doc__</code></p>
+</li>
+<li><p>获取对象的方法描述信息:<code>对象.方法.__doc__</code></p>
+</li>
+</ul>
+<h3 id="moudle"><a href="#moudle" class="headerlink" title="__moudle__"></a><code>__moudle__</code></h3><p>作用: 获取当前模块</p>
+<p>语法: <code>对象.__moudle__</code></p>
+<h3 id="class"><a href="#class" class="headerlink" title="__class__"></a><code>__class__</code></h3><p>作用:获取当前对象所属类</p>
+<p>语法: <code>对象.__class__</code></p>
+<h3 id="init"><a href="#init" class="headerlink" title="__init__"></a><code>__init__</code></h3><p>作用: 初始化方法,通过类创建对象时,自动触发执行</p>
+<h3 id="del"><a href="#del" class="headerlink" title="__del__"></a><code>__del__</code></h3><p>作用:删除对象会执行对象的__del__方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Goods</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;这是一个商品类&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化方法,通过类创建对象时,自动触发执行</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        self.original_price = num</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;设置价格的方法&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;_____正在执行_____&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 类的描述信息</span></span><br><span class="line"><span class="comment"># 类名.__doc__</span></span><br><span class="line"><span class="built_in">print</span>(Goods.__doc__)</span><br><span class="line"><span class="comment"># 对象方法的描述</span></span><br><span class="line">goods = Goods(<span class="number">55</span>)</span><br><span class="line"><span class="comment"># 对象.方法.__doc__</span></span><br><span class="line"><span class="built_in">print</span>(goods.set_price.__doc__)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取当前模块</span></span><br><span class="line"><span class="built_in">print</span>(goods.__module__)</span><br><span class="line"><span class="comment"># 获取当前对象所属类</span></span><br><span class="line"><span class="built_in">print</span>(goods.__class__)</span><br><span class="line"><span class="comment"># 删除对象会执行对象的__del__方法</span></span><br><span class="line"><span class="keyword">del</span> goods</span><br></pre></td></tr></table></figure>
+
+<h3 id="call"><a href="#call" class="headerlink" title="__call__"></a><code>__call__</code></h3><p>作用: 对象后面加括号,出发执行</p>
+<p>注意:<code>__init__</code>方法执行是由创建对象触发的,即:<code>对象=类名()</code>;而<code>__call__</code>方法执行是由对象加括号触发的,即<code>对象()</code>或者<code>类()()</code></p>
+<h3 id="dict"><a href="#dict" class="headerlink" title="__dict__"></a><code>__dict__</code></h3><p>作用: 类或者对象的所有属性,类的实例属性属于对象,类中的类属性和方法属于类</p>
+<h3 id="str"><a href="#str" class="headerlink" title="__str__"></a><code>__str__</code></h3><p>作用: 如果一个类重定义<code>__str__</code>方法,那么在打印对象时,默认输出该方法的返回值</p>
+<h3 id="getitem-96-96-setitem-delitem-96"><a href="#getitem-96-96-setitem-delitem-96" class="headerlink" title="__getitem__,&#96;&#96;setitem,delitem&#96;"></a><code>__getitem__</code>,&#96;&#96;<strong>setitem</strong><code>,</code><strong>delitem</strong>&#96;</h3><p>作用: 用于索引操作,如字典.以上分别表示获取、设置、删除数据</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Goods</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;这是一个商品类&quot;&quot;&quot;</span></span><br><span class="line">    <span class="comment"># 类属性</span></span><br><span class="line">    color = <span class="string">&#x27;白色&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 初始化方法,通过类创建对象时,自动触发执行</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        self.price = <span class="number">100</span></span><br><span class="line">        self.discount = <span class="number">0.88</span></span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">set_price</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="string">&quot;&quot;&quot;设置价格的方法&quot;&quot;&quot;</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;__call__方法被调用&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__str__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;这是一个寂寞的对象&#x27;</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__del__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;_____del正在执行_____&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, item</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;key==&#x27;</span>, item)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__setitem__</span>(<span class="params">self, key, value</span>):</span><br><span class="line">        <span class="built_in">print</span>(key, value)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__delitem__</span>(<span class="params">self, key</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;要删除key&#x27;</span>, key)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">goods = Goods()</span><br><span class="line"><span class="comment"># 对象名() 会去调用对象的__call__()方法</span></span><br><span class="line">goods()</span><br><span class="line"><span class="comment"># print打印对象的时候,默认输出&lt;__main__.Goods object at 0x00000222B12D3520&gt;</span></span><br><span class="line"><span class="built_in">print</span>(goods)</span><br><span class="line"><span class="comment"># 通过__dict__获取对象信息</span></span><br><span class="line"><span class="built_in">print</span>(goods.__dict__)</span><br><span class="line"><span class="comment"># 通过__dict__获取类属性</span></span><br><span class="line"><span class="built_in">print</span>(Goods.__dict__)</span><br><span class="line"><span class="comment"># 调用__getitem__方法</span></span><br><span class="line">goods[<span class="string">&#x27;a&#x27;</span>]</span><br><span class="line"><span class="comment"># 调用__setitem__方法</span></span><br><span class="line">goods[<span class="string">&#x27;b&#x27;</span>] = <span class="number">88</span></span><br><span class="line"><span class="comment"># 调用__setitem__方法</span></span><br><span class="line"><span class="keyword">del</span> goods[<span class="string">&#x27;a&#x27;</span>]</span><br></pre></td></tr></table></figure>
+
+<h1 id="with管理上下文"><a href="#with管理上下文" class="headerlink" title="with管理上下文"></a>with管理上下文</h1><p>上下文：以witn open来说，打开文件在上，关闭文件在下</p>
+<p>上下文管理器本质就是支持with操作。</p>
+<p>任何实现了<code>__enter__()</code>和<code>__exit__()</code>方法的对象都可称之为上下文管理器,上下文管理器对象可以使用with关键字。</p>
+<p>自定义文件管理器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyFile</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, file_name, file_model</span>):</span><br><span class="line">        self.file_name = file_name</span><br><span class="line">        self.file_model = file_model</span><br><span class="line"></span><br><span class="line">    <span class="comment"># __enter__() 上文方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__enter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 打开文件</span></span><br><span class="line">        self.file = <span class="built_in">open</span>(file=self.file_name, mode=self.file_model)</span><br><span class="line">        <span class="comment"># 返回打开的文件资源</span></span><br><span class="line">        <span class="keyword">return</span> self.file</span><br><span class="line"></span><br><span class="line">    <span class="comment"># __exit__() 下文方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__exit__</span>(<span class="params">self, exc_type, exc_val, exc_tb</span>):</span><br><span class="line">        <span class="comment"># 关闭文件资源</span></span><br><span class="line">        self.file.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">with</span> MyFile(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">        <span class="comment"># file_data = file.read()</span></span><br><span class="line">        <span class="comment"># print(file_data)</span></span><br><span class="line">        h = <span class="string">&#x27;lagagagaga&#x27;</span></span><br><span class="line">        file.write(h)</span><br></pre></td></tr></table></figure>
+
+<h2 id="装饰器方法"><a href="#装饰器方法" class="headerlink" title="装饰器方法"></a>装饰器方法</h2><p>Python还提供了一个contextmannager的装饰器，进一步简化了上下文管理器的实现方式。通过yield将函数分割成两部分，yeild之前的语句在<code>__enter__</code>方法中执行,yeild之后的语句在<code>__exit__</code>方法中执行,紧跟在yeild后面的值是函数返回值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入模块</span></span><br><span class="line"><span class="keyword">from</span> contextlib <span class="keyword">import</span> contextmanager</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行装饰</span></span><br><span class="line"><span class="meta">@contextmanager</span></span><br><span class="line"><span class="comment"># 定义函数,参数有文件地址,文件打开模式</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">myopen</span>(<span class="params">file_name, file_model</span>):</span><br><span class="line">    <span class="comment"># 打开文件</span></span><br><span class="line">    file = <span class="built_in">open</span>(file_name, file_model, encoding=<span class="string">&#x27;utf8&#x27;</span>)</span><br><span class="line">    <span class="comment"># 返回资源</span></span><br><span class="line">    <span class="keyword">yield</span> file</span><br><span class="line">    <span class="comment"># 下文</span></span><br><span class="line">    <span class="comment"># 关闭资源</span></span><br><span class="line">    file.close()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> myopen(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file_data = file.read()</span><br><span class="line">    <span class="built_in">print</span>(file_data)</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hahazhong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/21/Python%E8%BF%9B%E9%98%B6(%E5%85%AD)%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/" title="Python进阶（六）-- 高级语法">http://example.com/2022/10/21/Python进阶(六)高级语法/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+              <a href="/tags/%E9%AB%98%E7%BA%A7%E8%AF%AD%E6%B3%95/" rel="tag"><i class="fa fa-tag"></i> 高级语法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/14/Python%E8%BF%9B%E9%98%B6(%E4%BA%94)%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="prev" title="Python进阶（五）-- 装饰器">
+      <i class="fa fa-chevron-left"></i> Python进阶（五）-- 装饰器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/25/Python%E8%BF%9B%E9%98%B6(%E4%B8%83)%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="Python进阶（七）-- 正则表达式">
+      Python进阶（七）-- 正则表达式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GIL%E5%85%A8%E5%B1%80%E8%A7%A3%E9%87%8A%E9%94%81"><span class="nav-number">1.</span> <span class="nav-text">GIL全局解释锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL%E9%94%81%E4%B8%8D%E6%98%AFPython%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.</span> <span class="nav-text">GIL锁不是Python特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL%E5%AD%98%E5%9C%A8%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.3.</span> <span class="nav-text">GIL存在原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL%E7%9A%84%E5%BC%8A%E7%AB%AF"><span class="nav-number">1.4.</span> <span class="nav-text">GIL的弊端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL%E9%94%81%E9%87%8A%E6%94%BE"><span class="nav-number">1.5.</span> <span class="nav-text">GIL锁释放</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GIL%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.6.</span> <span class="nav-text">GIL解决方案</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%92%8C%E4%B8%8D%E5%8F%AF%E5%8F%98"><span class="nav-number">2.</span> <span class="nav-text">Python中的可变和不可变</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.</span> <span class="nav-text">深浅拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.1.</span> <span class="nav-text">简单可变类型深浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E7%9A%84%E6%B7%B1%E6%B5%85%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.2.</span> <span class="nav-text">复杂可变类型的深浅拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.3.</span> <span class="nav-text">简单不可变类型拷贝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%B1%BB%E5%9E%8B%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.1.4.</span> <span class="nav-text">复杂不可变类型拷贝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%89%87%E6%8B%B7%E8%B4%9D%E5%92%8C%E5%AD%97%E5%85%B8%E6%8B%B7%E8%B4%9D"><span class="nav-number">2.2.</span> <span class="nav-text">切片拷贝和字典拷贝</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#import%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">import导入模块</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#import%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97%E8%B7%AF%E5%BE%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.</span> <span class="nav-text">import导入模块路径问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%AF%BC%E5%85%A5%E6%A8%A1%E5%9D%97"><span class="nav-number">3.2.</span> <span class="nav-text">重新导入模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#from%E2%80%A6import-%E7%9A%84%E7%A7%81%E6%9C%89%E5%8C%96%E9%97%AE%E9%A2%98"><span class="nav-number">3.3.</span> <span class="nav-text">from…import 的私有化问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#import%E5%92%8Cfrom%E2%80%A6import-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">3.4.</span> <span class="nav-text">import和from…import 的区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8B%86%E5%8C%85"><span class="nav-number">4.</span> <span class="nav-text">拆包</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">5.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84super"><span class="nav-number">5.1.</span> <span class="nav-text">单继承中的super()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF%E4%BB%A5%E5%8F%8AMRO%E9%A1%BA%E5%BA%8F"><span class="nav-number">5.2.</span> <span class="nav-text">多继承以及MRO顺序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#property%E8%A3%85%E9%A5%B0%E6%96%B9%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">property装饰方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#property%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">6.1.</span> <span class="nav-text">property基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#property%E5%85%B6%E4%BB%96%E6%96%B9%E6%B3%95"><span class="nav-number">6.2.</span> <span class="nav-text">property其他方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#property%E4%BD%9C%E4%B8%BA%E7%B1%BB%E5%B1%9E%E6%80%A7"><span class="nav-number">6.3.</span> <span class="nav-text">property作为类属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%AD%94%E6%9C%AF%E6%96%B9%E6%B3%95%E5%92%8C%E5%B1%9E%E6%80%A7"><span class="nav-number">7.</span> <span class="nav-text">魔术方法和属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#doc"><span class="nav-number">7.0.1.</span> <span class="nav-text">__doc__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#moudle"><span class="nav-number">7.0.2.</span> <span class="nav-text">__moudle__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class"><span class="nav-number">7.0.3.</span> <span class="nav-text">__class__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#init"><span class="nav-number">7.0.4.</span> <span class="nav-text">__init__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#del"><span class="nav-number">7.0.5.</span> <span class="nav-text">__del__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#call"><span class="nav-number">7.0.6.</span> <span class="nav-text">__call__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dict"><span class="nav-number">7.0.7.</span> <span class="nav-text">__dict__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#str"><span class="nav-number">7.0.8.</span> <span class="nav-text">__str__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getitem-96-96-setitem-delitem-96"><span class="nav-number">7.0.9.</span> <span class="nav-text">__getitem__,&#96;&#96;setitem,delitem&#96;</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#with%E7%AE%A1%E7%90%86%E4%B8%8A%E4%B8%8B%E6%96%87"><span class="nav-number">8.</span> <span class="nav-text">with管理上下文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A3%85%E9%A5%B0%E5%99%A8%E6%96%B9%E6%B3%95"><span class="nav-number">8.1.</span> <span class="nav-text">装饰器方法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hahazhong"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hahazhong</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hahazhong" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hahazhong" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zzt3344?spm=1010.2135.3001.5421" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zzt3344?spm&#x3D;1010.2135.3001.5421" rel="noopener" target="_blank"><i class="crosshirs fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://hahazhong.gitee.io/" title="Gitee → http:&#x2F;&#x2F;hahazhong.gitee.io&#x2F;" rel="noopener" target="_blank"><i class="fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+ <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1808492017&auto=1&height=66"></iframe>
+	 
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hahazhong</span>
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qQysVh8YklEUcpV4v59e5tLb-gzGzoHsz',
+      appKey     : 'yGnaYJoCNgNyERyHr1mboHC7',
+      placeholder: "欢迎指教!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

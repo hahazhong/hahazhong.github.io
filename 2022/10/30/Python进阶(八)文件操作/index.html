@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="文件操作文件对象无论是文本文件,其操作流程基本一致,即首先打开文件并且创建文件对象,然后通过该文件对象对文件内容进行读取、写入、删除、修改等操作；最后关闭并保存文件内容。Python内置了文件对象，通过open()函数即可以指定模式打开指定文件并创建文件对象,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python进阶（八）-- 文件操作">
+<meta property="og:url" content="http://example.com/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/index.html">
+<meta property="og:site_name" content="HaHazhong&amp;Blog">
+<meta property="og:description" content="文件操作文件对象无论是文本文件,其操作流程基本一致,即首先打开文件并且创建文件对象,然后通过该文件对象对文件内容进行读取、写入、删除、修改等操作；最后关闭并保存文件内容。Python内置了文件对象，通过open()函数即可以指定模式打开指定文件并创建文件对象,">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-30T13:23:31.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:45:29.944Z">
+<meta property="article:author" content="hahazhong">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="文件操作">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python进阶（八）-- 文件操作 | HaHazhong&Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c47c023a1e4dabebf67e119f4b6453d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="HaHazhong&Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HaHazhong&Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生苦短，我用Python</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags name fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hahazhong">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HaHazhong&Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python进阶（八）-- 文件操作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-30 21:23:31" itemprop="dateCreated datePublished" datetime="2022-10-30T21:23:31+08:00">2022-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-17 21:45:29" itemprop="dateModified" datetime="2022-11-17T21:45:29+08:00">2022-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">进阶</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="文件操作"><a href="#文件操作" class="headerlink" title="文件操作"></a>文件操作</h1><h2 id="文件对象"><a href="#文件对象" class="headerlink" title="文件对象"></a>文件对象</h2><p>无论是文本文件,其操作流程基本一致,即首先打开文件并且创建文件对象,然后通过该文件对象对文件内容进行读取、写入、删除、修改等操作；最后关闭并保存文件内容。Python内置了文件对象，通过open()函数即可以指定模式打开指定文件并创建文件对象,</p>
+<span id="more"></span> 
+
+<p> 该函数语法如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">open</span>(file,mode=<span class="string">&#x27;r&#x27;</span>,buffering=-<span class="number">1</span>,encoding=<span class="literal">None</span>,errors=<span class="literal">None</span>,newline=<span class="literal">None</span>,closed=<span class="literal">True</span>,opener=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+<p>参数:</p>
+<ul>
+<li>file指定要打开或者创建的文件名称</li>
+<li>mode为打开指定文件后的处理方式</li>
+<li>buffering指定读&#x2F;写的缓存模式,0表示不缓存,1表示行缓存模式,大于1表示缓冲区大小,默认值-1表示二进制文件和非交互式文本文件以固定大小的块为缓存大小</li>
+<li>encoding指定对文本进行编码和解码的方式,只适用于文本模式</li>
+<li>newline只适用于文本模式,取值可以是<code>None</code> <code>“</code> <code>\n</code> <code>\r</code> <code>\r\n</code>中的任何一个,表示文件中新行的形式</li>
+</ul>
+<p>当对文件内容操作完成后,一定要关闭文件对象,这样才能保证所做的任何修改都确实被保存到文件中</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文件对象.close()</span><br></pre></td></tr></table></figure>
+
+<p>文件的常用打开模式及说明:</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>r</td>
+<td>读模式,如果文件不存在抛出异常</td>
+</tr>
+<tr>
+<td>w</td>
+<td>写模式,如果文件已创建,先清空原有内容</td>
+</tr>
+<tr>
+<td>x</td>
+<td>写模式,创建新文件,如果已存在抛出异常</td>
+</tr>
+<tr>
+<td>a</td>
+<td>追加模式,不覆盖文件中原有内容</td>
+</tr>
+<tr>
+<td>b</td>
+<td>二进制模式(可与其他模式组合使用)</td>
+</tr>
+<tr>
+<td>t</td>
+<td>文本模式</td>
+</tr>
+<tr>
+<td>+</td>
+<td>读&#x2F;写模式(可与其他模式组合使用)</td>
+</tr>
+</tbody></table>
+<p>文件对象的常用属性:</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>closed</td>
+<td>判断文件是否关闭,若关闭返回True</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>返回文件的打开模式</td>
+</tr>
+<tr>
+<td>name</td>
+<td>返回文件名称</td>
+</tr>
+</tbody></table>
+<p>文件对象的常用方法及功能说明:</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flush()</td>
+<td>把缓冲区的内容写入文件,但是不关闭文件</td>
+</tr>
+<tr>
+<td>close()</td>
+<td>把缓冲区的内容写入文件,同时关闭文件,并且释放文件对象</td>
+</tr>
+<tr>
+<td>read([size])</td>
+<td>从文件中读取size个字节或字符的内容作为返回结果,忽略size则读取全部</td>
+</tr>
+<tr>
+<td>readline()</td>
+<td>从文本文件读取一行内容作为返回结果</td>
+</tr>
+<tr>
+<td>readlines()</td>
+<td>从文本文件的每行文本作为一个字符串存入列表,返回列表</td>
+</tr>
+<tr>
+<td>truecate([size])</td>
+<td>删除当前指针位置到末尾的内容,指定size后从size到文件末尾</td>
+</tr>
+<tr>
+<td>write(s)</td>
+<td>把字符串s写入文件</td>
+</tr>
+<tr>
+<td>writelines()</td>
+<td>把字符串列表写入文本文件,不添加换行符</td>
+</tr>
+<tr>
+<td>writeable()</td>
+<td>测试当前文件是否可写</td>
+</tr>
+<tr>
+<td>readable()</td>
+<td>测试当前文件是否可读</td>
+</tr>
+</tbody></table>
+<p>文本文件的写入和读取:</p>
+<ol>
+<li>使用open()打开或则创建文件</li>
+<li>写入字符串到文本文件或则读取文本文件</li>
+<li>关闭文件</li>
+</ol>
+<h2 id="二进制文件操作"><a href="#二进制文件操作" class="headerlink" title="二进制文件操作"></a>二进制文件操作</h2><h3 id="使用pickle模块"><a href="#使用pickle模块" class="headerlink" title="使用pickle模块"></a>使用pickle模块</h3><p>Python标准库中的pickle提供的dump()方法用于将数据进行序列化并写入文件,而load()用于读取二进制文件内容并且返序列化,转换为原来的信息</p>
+<h3 id="使用struct文件"><a href="#使用struct文件" class="headerlink" title="使用struct文件"></a>使用struct文件</h3><ul>
+<li>pack()方法把对象按指定个数进行序列化,然后使用write()将结果写入文件</li>
+<li>使用read()模式读取二进制文件,然后使用unpack()方法反序列化得到原来的信息</li>
+</ul>
+<h1 id="文件与文件夹操作"><a href="#文件与文件夹操作" class="headerlink" title="文件与文件夹操作"></a>文件与文件夹操作</h1><h2 id="os和os-path模块"><a href="#os和os-path模块" class="headerlink" title="os和os.path模块"></a>os和os.path模块</h2><p>os模块除了提供使用操作系统功能和访问文件系统的简便方法之外,还提供了大量文件与文件夹操作。</p>
+<p>os常用方法及其功能：</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>access(path,mode)</td>
+<td>按照mode指定的权限访问文件</td>
+</tr>
+<tr>
+<td>chdir(path)</td>
+<td>把path设为当前工作目录</td>
+</tr>
+<tr>
+<td>chmod(path,mode,*,dir_fd&#x3D;None,follow_symlink&#x3D;True)</td>
+<td>改变文件的访问权限</td>
+</tr>
+<tr>
+<td>extsep</td>
+<td>当前操作系统所使用的文件扩展名为分隔符</td>
+</tr>
+<tr>
+<td>fatat(path)</td>
+<td>返回打开文件的所有属性</td>
+</tr>
+<tr>
+<td>getcwd()</td>
+<td>返回当前工作目录</td>
+</tr>
+<tr>
+<td>listdir()</td>
+<td>返回path目录下的文件和目录文件</td>
+</tr>
+<tr>
+<td>mkdir(path[,mode&#x3D;0777])</td>
+<td>创建目录</td>
+</tr>
+<tr>
+<td>makedirs(path1&#x2F;…&#x2F;pathn,mode&#x3D;511)</td>
+<td>创建多级目录</td>
+</tr>
+<tr>
+<td>open(path,mode)</td>
+<td>按照mode指定权限打开path指定文件</td>
+</tr>
+<tr>
+<td>rmdir(path)</td>
+<td>删除目录</td>
+</tr>
+<tr>
+<td>remove(path)</td>
+<td>删除指定文件</td>
+</tr>
+<tr>
+<td>removedirs(path1&#x2F;path2…)</td>
+<td>删除多级目录</td>
+</tr>
+<tr>
+<td>rename(src,dst)</td>
+<td>重命名文件或目录</td>
+</tr>
+<tr>
+<td>write(fd,data)</td>
+<td>将bytes对象data写入文件fd</td>
+</tr>
+</tbody></table>
+<p>os.path模块提供了大量用于路径判断、切分、连接以及文件夹遍历的方法。</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>abspath(path)</td>
+<td>返回给定路径绝对路径</td>
+</tr>
+<tr>
+<td>basename(path)</td>
+<td>返回路径的最后一个组成部分</td>
+</tr>
+<tr>
+<td>commonpath(paths)</td>
+<td>返回给定的多个路径的最长公共路径</td>
+</tr>
+<tr>
+<td>commonprefix(paths)</td>
+<td>返回给定路径的最长公共前缀</td>
+</tr>
+<tr>
+<td>dirname(p)</td>
+<td>返回给定路径的文件夹部分</td>
+</tr>
+<tr>
+<td>exists(path)</td>
+<td>判断文件是否存在</td>
+</tr>
+<tr>
+<td>getatime(filename)</td>
+<td>返回文件的最后访问时间</td>
+</tr>
+<tr>
+<td>getmtime(fielname)</td>
+<td>返回文件的最后修改时间</td>
+</tr>
+<tr>
+<td>getctime(filename)</td>
+<td>返回文件的创建时间</td>
+</tr>
+<tr>
+<td>getsize(filename)</td>
+<td>返回文件的大小</td>
+</tr>
+<tr>
+<td>isabs(path)</td>
+<td>判断path是否为绝对路径</td>
+</tr>
+<tr>
+<td>isdir(path)</td>
+<td>判断path是否为文件夹</td>
+</tr>
+<tr>
+<td>isfile(path)</td>
+<td>判断path是否为文件</td>
+</tr>
+<tr>
+<td>join(path,*paths)</td>
+<td>连接两个或则多个path</td>
+</tr>
+<tr>
+<td>split(path)</td>
+<td>对路径进行分割,以列表形式分割</td>
+</tr>
+<tr>
+<td>splitext(path)</td>
+<td>从路径中分隔开文件的扩展名</td>
+</tr>
+<tr>
+<td>splitdrive(path)</td>
+<td>从路径中分割驱动器的名称</td>
+</tr>
+</tbody></table>
+<h2 id="shutil模块"><a href="#shutil模块" class="headerlink" title="shutil模块"></a>shutil模块</h2><p>shuilt模块提供了大量的方法支持文件和文件夹操作</p>
+<p>常用方法及其说明:</p>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>copyfile(src,dat)</td>
+<td>复制文件</td>
+</tr>
+<tr>
+<td>copytree(src,dat)</td>
+<td>递归复制文件夹</td>
+</tr>
+<tr>
+<td>disk_usage(path)</td>
+<td>查看磁盘使用情况</td>
+</tr>
+<tr>
+<td>move(src,dst)</td>
+<td>移动文件或递归移动文件夹</td>
+</tr>
+<tr>
+<td>rmtree(path)</td>
+<td>递归删除文件夹</td>
+</tr>
+<tr>
+<td>make_archive(base_name,format,root_dir&#x3D;None,base_dir&#x3D;None)</td>
+<td>创建压缩文件或者zip格式压缩文件</td>
+</tr>
+<tr>
+<td>unpack_archive(filename,extract_dir&#x3D;None,format&#x3D;None)</td>
+<td>解压缩文件</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hahazhong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/30/Python%E8%BF%9B%E9%98%B6(%E5%85%AB)%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" title="Python进阶（八）-- 文件操作">http://example.com/2022/10/30/Python进阶(八)文件操作/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+              <a href="/tags/%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C/" rel="tag"><i class="fa fa-tag"></i> 文件操作</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/25/Python%E8%BF%9B%E9%98%B6(%E4%B8%83)%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="Python进阶（七）-- 正则表达式">
+      <i class="fa fa-chevron-left"></i> Python进阶（七）-- 正则表达式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/01/Python%E8%BF%9B%E9%98%B6(%E4%B9%9D)%E6%93%8D%E4%BD%9Cexcel%E6%96%87%E4%BB%B6/" rel="next" title="Python进阶（九）-- 操作excel文件">
+      Python进阶（九）-- 操作excel文件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">1.</span> <span class="nav-text">文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.</span> <span class="nav-text">文件对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">1.2.</span> <span class="nav-text">二进制文件操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8pickle%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.1.</span> <span class="nav-text">使用pickle模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8struct%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.2.</span> <span class="nav-text">使用struct文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8E%E6%96%87%E4%BB%B6%E5%A4%B9%E6%93%8D%E4%BD%9C"><span class="nav-number">2.</span> <span class="nav-text">文件与文件夹操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#os%E5%92%8Cos-path%E6%A8%A1%E5%9D%97"><span class="nav-number">2.1.</span> <span class="nav-text">os和os.path模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shutil%E6%A8%A1%E5%9D%97"><span class="nav-number">2.2.</span> <span class="nav-text">shutil模块</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hahazhong"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hahazhong</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hahazhong" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hahazhong" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zzt3344?spm=1010.2135.3001.5421" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zzt3344?spm&#x3D;1010.2135.3001.5421" rel="noopener" target="_blank"><i class="crosshirs fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://hahazhong.gitee.io/" title="Gitee → http:&#x2F;&#x2F;hahazhong.gitee.io&#x2F;" rel="noopener" target="_blank"><i class="fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+ <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1808492017&auto=1&height=66"></iframe>
+	 
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hahazhong</span>
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qQysVh8YklEUcpV4v59e5tLb-gzGzoHsz',
+      appKey     : 'yGnaYJoCNgNyERyHr1mboHC7',
+      placeholder: "欢迎指教!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

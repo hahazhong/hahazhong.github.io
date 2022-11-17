@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="可迭代对象遍历也叫迭代。 使用isinstance()检测对象是否可迭代。返回True表示可迭代，False表示不可迭代。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python进阶（四）-- 协程">
+<meta property="og:url" content="http://example.com/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/index.html">
+<meta property="og:site_name" content="HaHazhong&amp;Blog">
+<meta property="og:description" content="可迭代对象遍历也叫迭代。 使用isinstance()检测对象是否可迭代。返回True表示可迭代，False表示不可迭代。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-07T13:23:31.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:40:02.156Z">
+<meta property="article:author" content="hahazhong">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="协程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python进阶（四）-- 协程 | HaHazhong&Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c47c023a1e4dabebf67e119f4b6453d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="HaHazhong&Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HaHazhong&Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生苦短，我用Python</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags name fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hahazhong">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HaHazhong&Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python进阶（四）-- 协程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-07 21:23:31" itemprop="dateCreated datePublished" datetime="2022-10-07T21:23:31+08:00">2022-10-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-17 21:40:02" itemprop="dateModified" datetime="2022-11-17T21:40:02+08:00">2022-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">进阶</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="可迭代对象"><a href="#可迭代对象" class="headerlink" title="可迭代对象"></a>可迭代对象</h1><p>遍历也叫迭代。</p>
+<p>使用<code>isinstance()</code>检测对象是否可迭代。返回True表示可迭代，False表示不可迭代。</p>
+<span id="more"></span>  
+
+<p>格式：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> collections.abc <span class="keyword">import</span> Iterable</span><br><span class="line"><span class="built_in">isinstance</span>(检测对象,Iterable)</span><br></pre></td></tr></table></figure>
+
+<p>注意:&#x3D;&#x3D;Python3.6版本以后导入Iterable需要从collections.abc中导入,不然会报错。&#x3D;&#x3D;</p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><p>可迭代对象通<code>_ _iter_ _</code>方法向我们提供一个迭代器，我们在迭代一个对象的时候，&#x3D;&#x3D;实际上就是先获取该对象的一个迭代器，然后通过迭代器依次获取对象中的每一个数据。&#x3D;&#x3D;</p>
+<h3 id="iter-函数与next-函数"><a href="#iter-函数与next-函数" class="headerlink" title="iter()函数与next()函数"></a>iter()函数与next()函数</h3><ul>
+<li><p>获取迭代器:<code>iter(可迭代对象)</code></p>
+</li>
+<li><p>获取可迭代对象的值:<code>next(迭代器)</code></p>
+</li>
+<li><p>迭代器特点:</p>
+<ol>
+<li>记录遍历的位置</li>
+<li>提供下一个元素的值</li>
+</ol>
+</li>
+<li><p>for循环本质:</p>
+<ol>
+<li>通过iter(可迭代对象)获取遍历对象的迭代器</li>
+<li>通过next()获取下一个元素</li>
+<li>捕获异常StopIteration</li>
+</ol>
+</li>
+<li><p>自定义迭代器类</p>
+<ol>
+<li>必须含有<code>__iter__()</code></li>
+<li>必须含有<code>__next__()</code></li>
+</ol>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 一个可迭代对象提供一个迭代器</span></span><br><span class="line"><span class="string">2. 可迭代对象--&gt;iter(可迭代对象)--&gt;next(迭代器)</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">data_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">65</span>, <span class="number">8</span>, <span class="number">9</span>]</span><br><span class="line"><span class="comment"># 获取迭代器</span></span><br><span class="line">l1_iter = <span class="built_in">iter</span>(data_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据迭代器获取下一个值</span></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line">value = <span class="built_in">next</span>(l1_iter)</span><br><span class="line"><span class="built_in">print</span>(value)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 自定义迭代器类</span></span><br><span class="line"><span class="comment"># 1.必须含有__iter__()</span></span><br><span class="line"><span class="comment"># 2.必须含有__next__()</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="迭代器应用-自定义列表"><a href="#迭代器应用-自定义列表" class="headerlink" title="迭代器应用:自定义列表"></a>迭代器应用:自定义列表</h2><ol>
+<li>自定义Mylist类:</li>
+</ol>
+<ul>
+<li>初始化方法</li>
+<li><code>__iter__()</code>方法,对外提供迭代器</li>
+<li><code>addItem()</code>方法添加数据</li>
+</ul>
+<ol start="2">
+<li>自定义迭代器:<ul>
+<li>初始化方法</li>
+<li>迭代器方法</li>
+<li>获取下一个元素值方法</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. Mylist类</span></span><br><span class="line"><span class="string">   初始化方法</span></span><br><span class="line"><span class="string">   __iter__()方法,对外提供迭代器</span></span><br><span class="line"><span class="string">   addItem()方法添加数据</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyList</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存数据</span></span><br><span class="line">        self.items = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 创建MyListIterator对象</span></span><br><span class="line">        mylist_iterator = MyListIterator(self.items)</span><br><span class="line">        <span class="keyword">return</span> mylist_iterator</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">additem</span>(<span class="params">self, data</span>):</span><br><span class="line">        self.items.append(data)</span><br><span class="line">        <span class="comment"># print(self.items)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#2. 自定义迭代器</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyListIterator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="comment"># 初始化方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, items</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存传递过来的数据</span></span><br><span class="line">        self.items = items</span><br><span class="line">        <span class="comment"># 记录迭代器迭代器的位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line">   <span class="comment"># 迭代器方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line">    <span class="comment"># 获取下一个元素值方法</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断当前下标是否越界</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; <span class="built_in">len</span>(self.items):</span><br><span class="line">            <span class="comment">#   1)根据下标获取对应值</span></span><br><span class="line">            data = self.items[self.index]</span><br><span class="line">            <span class="comment">#   2)下标位置+1</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="comment">#   3)返回下标对应的值</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 如果越界抛出异常</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="comment"># raise主动抛出异常</span></span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    mylist = MyList()</span><br><span class="line">    mylist.additem(<span class="string">&#x27;西施&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;貂蝉&#x27;</span>)</span><br><span class="line">    mylist.additem(<span class="string">&#x27;王昭君&#x27;</span>)</span><br><span class="line">    <span class="comment"># for 循环</span></span><br><span class="line">    <span class="keyword">for</span> val <span class="keyword">in</span> mylist:</span><br><span class="line">        <span class="built_in">print</span>(val)</span><br><span class="line">    <span class="comment"># 迭代器方法</span></span><br><span class="line">    mylist_iter = <span class="built_in">iter</span>(mylist)</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">next</span>(mylist_iter))</span><br></pre></td></tr></table></figure>
+
+<h2 id="斐波那契数列—迭代器"><a href="#斐波那契数列—迭代器" class="headerlink" title="斐波那契数列—迭代器"></a>斐波那契数列—迭代器</h2><p>自定义一个迭代器:</p>
+<ul>
+<li>含有<code>__itre__()</code></li>
+<li>含有<code>__next__()</code></li>
+</ul>
+<p>思路:</p>
+<p>创建a和b两个变量来保存值,然后使<code>a=b</code>,<code>b=a+b</code>来产生新的斐波那契数值,最终a的值就是斐波那契数列。</p>
+<p>代码实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">自定义迭代器:</span></span><br><span class="line"><span class="string">1) 定义迭代器类</span></span><br><span class="line"><span class="string">2)含有__iter__()</span></span><br><span class="line"><span class="string">3)含有__next__()</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">feibonaqi</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, num</span>):</span><br><span class="line">        <span class="comment"># 定义实例属性,保存生成个数</span></span><br><span class="line">        self.num = num</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 定义变量保存</span></span><br><span class="line">        self.a = <span class="number">1</span></span><br><span class="line">        self.b = <span class="number">1</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 记录下标位置</span></span><br><span class="line">        self.index = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__iter__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> self</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__next__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="comment"># 判断列表是否超过生成的总列数</span></span><br><span class="line">        <span class="keyword">if</span> self.index &lt; self.num:</span><br><span class="line">            <span class="comment"># 保存a的值</span></span><br><span class="line">            data = self.a</span><br><span class="line">            <span class="comment"># 让a的值等于b,b的值等于a+b</span></span><br><span class="line"></span><br><span class="line">            self.a, self.b = self.b, self.a + self.b</span><br><span class="line">            <span class="comment"># 列数加一</span></span><br><span class="line">            self.index += <span class="number">1</span></span><br><span class="line">            <span class="keyword">return</span> data</span><br><span class="line">        <span class="comment"># 超出范围报错</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">raise</span> StopIteration</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建迭代器对象</span></span><br><span class="line">    fei = feibonaqi(<span class="number">30</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> value <span class="keyword">in</span> fei:</span><br><span class="line">        <span class="built_in">print</span>(valve)</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h2><p>概念：利用迭代器，在每次迭代数据是按照特定规律进行生成，在实现迭代器时，当前迭代状态需要我们自己记录，进而才能根据状态生成下一个数据。而生成器可以记录当前状态，并且配合<code>next()</code>函数进行迭代。&#x3D;&#x3D;生成器也是一类特殊的迭代器。&#x3D;&#x3D;</p>
+<p>创建方式：</p>
+<ul>
+<li>生成器推导式</li>
+<li>函数中使用<code>yelid</code></li>
+</ul>
+<p>代码实现:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">迭代器的作用是保存位置,返回下一个值</span></span><br><span class="line"><span class="string">next(生成器)也应该能得到下一个值</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 列表推导式</span></span><br><span class="line">data_list = [x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>)]</span><br><span class="line"><span class="comment"># 可迭代对象必须通过iter()函数去生成迭代器才可进行next迭代</span></span><br><span class="line">iter_data = <span class="built_in">iter</span>(data_list)</span><br><span class="line">data = <span class="built_in">next</span>(iter_data)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建1:生成器推导式</span></span><br><span class="line">data_list2 = (x - <span class="number">2</span> <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">12</span>))</span><br><span class="line"><span class="comment"># 生成器本身就是迭代器</span></span><br><span class="line">data = <span class="built_in">next</span>(data_list2)</span><br><span class="line"><span class="built_in">print</span>(data)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成器创建2: yield</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">test</span>():</span><br><span class="line">    a = (<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">656</span>, <span class="number">8</span>)</span><br><span class="line">    <span class="keyword">yield</span> a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">data = test()</span><br><span class="line"><span class="built_in">print</span>(data)  <span class="comment"># 输出结果为&lt;generator object test at 0x0000021627BE20A0&gt;</span></span><br><span class="line">val = <span class="built_in">next</span>(data)</span><br><span class="line"><span class="built_in">print</span>(val)  <span class="comment"># 输出结果为[1, 2, 3, 4, 656, 8]</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="斐波那契数列—生成器"><a href="#斐波那契数列—生成器" class="headerlink" title="斐波那契数列—生成器"></a>斐波那契数列—生成器</h2><p>创建一个生成器实现斐波那契数列:</p>
+<ol>
+<li>定义变量保存第一组和第二组的值</li>
+<li>定义变量保存当前生成位置</li>
+<li>循环生成数据</li>
+<li>保存a的值</li>
+<li>修改a和b的值(a&#x3D;b,b&#x3D;a+b)</li>
+<li>返回a的值</li>
+</ol>
+<p>代码实现:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 创建一个生成器实现斐波那契数列</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">feibo</span>(<span class="params">n</span>):</span><br><span class="line">    <span class="comment"># 1. 定义变量保存第一组和第二组的值</span></span><br><span class="line">    a = <span class="number">1</span></span><br><span class="line">    b = <span class="number">1</span></span><br><span class="line">    <span class="comment"># 2. 定义变量保存当前生成位置</span></span><br><span class="line">    index = <span class="number">0</span></span><br><span class="line">    <span class="comment"># 3. 循环生成数据</span></span><br><span class="line">    <span class="keyword">while</span> index &lt; n:</span><br><span class="line">        <span class="comment"># 4. 保存a的值</span></span><br><span class="line">        data = a</span><br><span class="line">        <span class="comment"># 5. 修改a和b的值(a=b,b=a+b)</span></span><br><span class="line">        a, b = b, a + b</span><br><span class="line">        index += <span class="number">1</span></span><br><span class="line">        <span class="comment"># 6. 返回a的值</span></span><br><span class="line">        <span class="keyword">yield</span> data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    fi_data = feibo(<span class="number">8</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># for i in fi_data:</span></span><br><span class="line">    <span class="comment">#    print(i)</span></span><br><span class="line">    value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第1次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第2次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第3次&#x27;</span>,value)</span><br><span class="line">     value = <span class="built_in">next</span>(fi_data)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;第次&#x27;</span>,value)</span><br></pre></td></tr></table></figure>
+
+<p> 通过代码发现yiled作用:</p>
+<ol>
+<li>充当return返回</li>
+<li>保存程序的运行状态,并且暂停程序执行  </li>
+<li>当next()的时候,可以唤醒程序从yield位置继续向下执行</li>
+</ol>
+<h2 id="生成器使用注意"><a href="#生成器使用注意" class="headerlink" title="生成器使用注意"></a>生成器使用注意</h2><ul>
+<li>return的作用：可以结束生成器的运行。</li>
+<li>send()作用：生成器.send(传递给生成器的值),停止生成器。</li>
+</ul>
+<h2 id="协程"><a href="#协程" class="headerlink" title="协程"></a>协程</h2><p>协程又称为微线程，纤程。&#x3D;&#x3D;协程就是可以暂停执行的函数&#x3D;&#x3D;。线程和进程的操作由程序触发系统接口，最后的执行者是系统；协程的操作是程序员。</p>
+<ul>
+<li><p>协程的意义：对于多线程应用，CPU通过切片的方式来切换线程间的执行，线程切换需要耗时。&#x3D;&#x3D;协程只使用一个线程（单线程），在一个线程中规定某个代码块执行顺序。&#x3D;&#x3D;</p>
+</li>
+<li><p>协程适用场景：当程序中存在大量不需要CUP的操作时，适用于协程。</p>
+</li>
+</ul>
+<p>协程和线程差异：实现多任务时，线程切换从系统层面远不止保存和恢复CPU上下文这么简单。系统为了程序的高效性每个线程都有自己的缓存数据，操作系统还会帮你做这些数据的恢复系统，所以线程非常耗性能。但是协程知识单纯的操作CPU的上下文，所以一秒钟切换上百万次系统都扛得住。</p>
+<p>利用<code>yield</code>创建协程:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建生成器</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        <span class="keyword">yield</span></span><br><span class="line">        time.sleep(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取生成器,并且通过next运行</span></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    work1 = work1()</span><br><span class="line">    work2 = work2()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">next</span>(work1)</span><br><span class="line">        <span class="built_in">next</span>(work2)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Greenlet实现协程"><a href="#Greenlet实现协程" class="headerlink" title="Greenlet实现协程"></a>Greenlet实现协程</h2><p>​     Greenlet可以提供可自行调度的‘微线程’,即协程。在greenlet中<code>target.switch(value)</code>可以切换到指定的协程,greenlet用switch来表示协程的切换,从一个协程切换到另一个协程需要显式指定。</p>
+<p>greenlet实现协程:</p>
+<ol>
+<li>导入模块</li>
+<li>创建任务</li>
+<li>创建greenlet对象</li>
+<li>手动switch对象</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">greenlet实现协程:</span></span><br><span class="line"><span class="string">1.导入模块</span></span><br><span class="line"><span class="string">2.创建任务</span></span><br><span class="line"><span class="string">3.创建greenlet对象</span></span><br><span class="line"><span class="string">4.手动switch对象</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="comment"># 1.导入模块</span></span><br><span class="line"><span class="keyword">from</span> greenlet <span class="keyword">import</span> greenlet</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.创建任务</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到第二个任务</span></span><br><span class="line">        g2.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line">        <span class="comment"># 切换到work1</span></span><br><span class="line">        g1.switch()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 创建greenlet对象</span></span><br><span class="line">    g1 = greenlet(work1)</span><br><span class="line">    g2 = greenlet(work2)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 执行work1</span></span><br><span class="line">    <span class="comment"># 手动switch对象</span></span><br><span class="line">    g1.switch()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Gevent实现协程"><a href="#Gevent实现协程" class="headerlink" title="Gevent实现协程"></a>Gevent实现协程</h2><p>Gevent原理就是greenlet遇到IO操作时,就会自动切换到其他greenlet,等IO操作完成再在适当时刻切换回来继续执行。</p>
+<p>&#x3D;&#x3D;优点&#x3D;&#x3D;：自动识别IO耗时操作,自动切换到其他任务</p>
+<p>&#x3D;&#x3D;步骤：&#x3D;&#x3D;</p>
+<ul>
+<li><p>导入模块</p>
+</li>
+<li><p>指派任务</p>
+</li>
+<li><p>让主线程等待协程执行完毕</p>
+</li>
+</ul>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 导入模块</span></span><br><span class="line"><span class="string">2. 指派任务</span></span><br><span class="line"><span class="string">3. 自动识别IO耗时操作,自动切换到其他任务</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work1</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="comment"># gevent.getcurrent()查看当前执行任务的协程</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work1---------&#x27;</span>, gevent.getcurrent())</span><br><span class="line">        <span class="comment"># 默认情况下gevent无法识别到time.sleep为耗时操作,</span></span><br><span class="line">        <span class="comment"># 1.需要使用gevent.sleep()</span></span><br><span class="line">        <span class="comment"># 2.给gevent打补丁(让gevent识别time.sleep)</span></span><br><span class="line">        <span class="comment"># 打补丁:在不修改源代码情况下,微程序增加新功能</span></span><br><span class="line">        <span class="comment"># 1. 导入模块monkey模块    from gevent import monkey</span></span><br><span class="line">        <span class="comment"># 2. 破解所有  monkey.patch_all()</span></span><br><span class="line">        time.sleep(<span class="number">0.4</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(2)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">work2</span>():</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&#x27;work2---------&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.5</span>)</span><br><span class="line">        <span class="comment"># gevent.sleep(6)</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="comment"># 指派任务</span></span><br><span class="line">    <span class="comment"># gevent.spawn(函数名,参数1,参数2)</span></span><br><span class="line">    g1 = gevent.spawn(work1)</span><br><span class="line">    g2 = gevent.spawn(work2)</span><br><span class="line">    <span class="comment"># 让主线程等待协程执行完毕</span></span><br><span class="line">    g1.join()</span><br><span class="line">    <span class="comment"># g2.join()</span></span><br></pre></td></tr></table></figure>
+
+<p>&#x3D;&#x3D;注意&#x3D;&#x3D;： 默认情况下gevent无法识别到time.sleep为耗时操作，解决方法：</p>
+<ol>
+<li>需要使用gevent.sleep()</li>
+<li>给gevent打补丁(让gevent识别time.sleep)<br>打补丁:在不修改源代码情况下,微程序增加新功能<ol>
+<li>导入模块monkey模块    from gevent import monkey</li>
+<li>破解所有  monkey.patch_all</li>
+</ol>
+</li>
+</ol>
+<p>猴子补丁作用：</p>
+<ol>
+<li>在运行时替换方法、属性等</li>
+<li>不修改第三方代码情况下增加原来不支持的功能</li>
+<li>在运行时为内存中的对象增加patch而不是磁盘的源代码中执行</li>
+</ol>
+<h2 id="进程线程协程区别"><a href="#进程线程协程区别" class="headerlink" title="进程线程协程区别"></a>进程线程协程区别</h2><ol>
+<li><p>进程</p>
+<p>进程是具有一定独立功能的程序关与某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的基本单位.每个进程有自己的独立内存空间,不同进程通过进程间通信来通信.由于进程比较重量,占独立的内存,所以上下文间的切换开销比较大,但相对比稳定安全.</p>
+</li>
+<li><p>线程</p>
+<p>线城是进程的一个实体,是CPU调度和分配的基本单位,是比进程更小的能独立运行的和基本单位.线程自己基本上不拥有系统资源</p>
+<p>,只拥有一点在运行时必不可少的资源,但是可以与同属一个进程的其他线程共享所拥有的全部资源.线程间通信主要通过共享内容,上下文切换很快,资源开销少,但相对于进程不稳定容易丢失数据.</p>
+</li>
+<li><p>协程</p>
+<p>协程是一种用户态的轻量级线程,协程的调度可以完全由用户控制,协程有自己的寄存器上下文和栈.协程调度切换时,将寄存器上下文和栈保存到其他地方,再切回来的时候,恢复先前保存的寄存器上下文和栈,基本没有内核切换开销,可以不加锁访问全局变量,所以上下文切换非常快.</p>
+</li>
+<li><p>应用场景</p>
+<ul>
+<li><p>多进程:密集CPU任务,充分使用多核CPU资源,用多进程。</p>
+<p>缺陷：多进程间通信成本高，切换开销大</p>
+</li>
+<li><p>多线程：密集（I&#x2F;O任务使用多线程合适</p>
+<p>缺陷：同一时间切片只能运行一个线程，不能做到高并行，但可以高并发</p>
+</li>
+<li><p>协程：当程序中存在大量不需要CPU的操作时，适用于协程</p>
+<p>缺陷: 单线程执行,处理密集CPU任务是性能较低,处理网络I&#x2F;O想能较高</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="并发下载器"><a href="#并发下载器" class="headerlink" title="并发下载器"></a>并发下载器</h2><p><code>genvent.joinall([协程对象])</code></p>
+<p>代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">1. 定义下载路径</span></span><br><span class="line"><span class="string">2. 调用下载函数</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">文件下载函数:</span></span><br><span class="line"><span class="string">1. 打开url请求网络资源</span></span><br><span class="line"><span class="string">2. 在本地创建文件</span></span><br><span class="line"><span class="string">3. 读取网络资源数据</span></span><br><span class="line"><span class="string">4. 将资源写入本地数据</span></span><br><span class="line"><span class="string">5. 做异常捕获</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> gevent <span class="keyword">import</span> monkey</span><br><span class="line"></span><br><span class="line">monkey.patch_all()</span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> gevent</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">download</span>(<span class="params">url, filename</span>):</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="comment"># 1. 打开url请求网络资源</span></span><br><span class="line">        res = urllib.request.urlopen(url)</span><br><span class="line">        <span class="comment"># 在本地创建文件</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(filename, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">            <span class="comment"># 3.读取网络资源数据</span></span><br><span class="line">            file_data = res.read()</span><br><span class="line">            <span class="comment"># 4.将资源写入本地数据</span></span><br><span class="line">            file.write(file_data)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&#x27;<span class="subst">&#123;filename&#125;</span>下载完成&#x27;</span>)</span><br><span class="line">    <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">        <span class="built_in">print</span>(e)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    img1 = <span class="string">&#x27;https://tenfei04.cfp.cn/creative/vcg/800/new/VCG41N1210205351.jpg&#x27;</span></span><br><span class="line">    img2 = <span class="string">&#x27;https://t7.baidu.com/it/u=4036010509,3445021118&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line">    img3 = <span class="string">&#x27;https://t7.baidu.com/it/u=963301259,1982396977&amp;fm=193&amp;f=GIF&#x27;</span></span><br><span class="line"></span><br><span class="line">    gevent.joinall([</span><br><span class="line">        gevent.spawn(download, img1, <span class="string">&#x27;1.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img2, <span class="string">&#x27;2.jpg&#x27;</span>),</span><br><span class="line">        gevent.spawn(download, img3, <span class="string">&#x27;3.jpg&#x27;</span>)</span><br><span class="line">    ])</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hahazhong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/10/07/Python%E8%BF%9B%E9%98%B6(%E5%9B%9B)%E5%8D%8F%E7%A8%8B/" title="Python进阶（四）-- 协程">http://example.com/2022/10/07/Python进阶(四)协程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+              <a href="/tags/%E5%8D%8F%E7%A8%8B/" rel="tag"><i class="fa fa-tag"></i> 协程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/01/Python%E8%BF%9B%E9%98%B6(%E4%B8%89)%E8%BF%9B%E7%A8%8B/" rel="prev" title="Python进阶（三）-- 进程">
+      <i class="fa fa-chevron-left"></i> Python进阶（三）-- 进程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/14/Python%E8%BF%9B%E9%98%B6(%E4%BA%94)%E8%A3%85%E9%A5%B0%E5%99%A8/" rel="next" title="Python进阶（五）-- 装饰器">
+      Python进阶（五）-- 装饰器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%BF%AD%E4%BB%A3%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">可迭代对象</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">迭代器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#iter-%E5%87%BD%E6%95%B0%E4%B8%8Enext-%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.1.</span> <span class="nav-text">iter()函数与next()函数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%AD%E4%BB%A3%E5%99%A8%E5%BA%94%E7%94%A8-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%97%E8%A1%A8"><span class="nav-number">1.2.</span> <span class="nav-text">迭代器应用:自定义列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E2%80%94%E8%BF%AD%E4%BB%A3%E5%99%A8"><span class="nav-number">1.3.</span> <span class="nav-text">斐波那契数列—迭代器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">1.4.</span> <span class="nav-text">生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E6%95%B0%E5%88%97%E2%80%94%E7%94%9F%E6%88%90%E5%99%A8"><span class="nav-number">1.5.</span> <span class="nav-text">斐波那契数列—生成器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%99%A8%E4%BD%BF%E7%94%A8%E6%B3%A8%E6%84%8F"><span class="nav-number">1.6.</span> <span class="nav-text">生成器使用注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.7.</span> <span class="nav-text">协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Greenlet%E5%AE%9E%E7%8E%B0%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.8.</span> <span class="nav-text">Greenlet实现协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gevent%E5%AE%9E%E7%8E%B0%E5%8D%8F%E7%A8%8B"><span class="nav-number">1.9.</span> <span class="nav-text">Gevent实现协程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E7%BA%BF%E7%A8%8B%E5%8D%8F%E7%A8%8B%E5%8C%BA%E5%88%AB"><span class="nav-number">1.10.</span> <span class="nav-text">进程线程协程区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B6%E5%8F%91%E4%B8%8B%E8%BD%BD%E5%99%A8"><span class="nav-number">1.11.</span> <span class="nav-text">并发下载器</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hahazhong"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hahazhong</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hahazhong" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hahazhong" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zzt3344?spm=1010.2135.3001.5421" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zzt3344?spm&#x3D;1010.2135.3001.5421" rel="noopener" target="_blank"><i class="crosshirs fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://hahazhong.gitee.io/" title="Gitee → http:&#x2F;&#x2F;hahazhong.gitee.io&#x2F;" rel="noopener" target="_blank"><i class="fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+ <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1808492017&auto=1&height=66"></iframe>
+	 
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hahazhong</span>
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qQysVh8YklEUcpV4v59e5tLb-gzGzoHsz',
+      appKey     : 'yGnaYJoCNgNyERyHr1mboHC7',
+      placeholder: "欢迎指教!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

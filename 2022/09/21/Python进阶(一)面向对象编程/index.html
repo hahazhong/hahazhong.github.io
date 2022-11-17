@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="类的定义和使用类是对某一类事物的抽象描述,如动物类、玩具类等。它是一个抽象的概念。类用于描述多个对象的共同特征，它是对象的模板。对象用于描述现实的个体，他是类的实例。所以对象时根据类创建的，并且一个类可以用于多个对象。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python进阶（一）-- 面向对象编程">
+<meta property="og:url" content="http://example.com/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="HaHazhong&amp;Blog">
+<meta property="og:description" content="类的定义和使用类是对某一类事物的抽象描述,如动物类、玩具类等。它是一个抽象的概念。类用于描述多个对象的共同特征，它是对象的模板。对象用于描述现实的个体，他是类的实例。所以对象时根据类创建的，并且一个类可以用于多个对象。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-21T13:23:31.000Z">
+<meta property="article:modified_time" content="2022-11-17T13:35:50.925Z">
+<meta property="article:author" content="hahazhong">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="面向对象">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Python进阶（一）-- 面向对象编程 | HaHazhong&Blog</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7c47c023a1e4dabebf67e119f4b6453d";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/atom.xml" title="HaHazhong&Blog" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">HaHazhong&Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生苦短，我用Python</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags name fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="hahazhong">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="HaHazhong&Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python进阶（一）-- 面向对象编程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-21 21:23:31" itemprop="dateCreated datePublished" datetime="2022-09-21T21:23:31+08:00">2022-09-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-11-17 21:35:50" itemprop="dateModified" datetime="2022-11-17T21:35:50+08:00">2022-11-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%BF%9B%E9%98%B6/" itemprop="url" rel="index"><span itemprop="name">进阶</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="类的定义和使用"><a href="#类的定义和使用" class="headerlink" title="类的定义和使用"></a>类的定义和使用</h1><p>类是对某一类事物的抽象描述,如动物类、玩具类等。它是一个抽象的概念。类用于描述多个对象的共同特征，它是对象的模板。对象用于描述现实的个体，他是类的实例。所以对象时根据类创建的，并且一个类可以用于多个对象。</p>
+<span id="more"></span>
+
+<p>类是由类名、属性和方法三部分组成：</p>
+<ol>
+<li>类名：类的名称，习惯上，他的首写字母是大写，不能用阿拉伯数字开头</li>
+<li>属性：用于描述事务的特征</li>
+<li>方法：用于描述事物的行为</li>
+</ol>
+<p>在Python中，可以使用class关键字声明一个类，其基本语法格式如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">类名</span>:</span><br><span class="line">    类的属性</span><br><span class="line">    类的方法</span><br></pre></td></tr></table></figure>
+
+<p>程序要想完成具体的功能,仅有类是不够的,还需要根据类创建实例对象.将类实例化为一个对象语法如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象名 = 类名([相关参数])</span><br></pre></td></tr></table></figure>
+
+<p>给对象添加属性格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">对象名.新的属性名 = 值</span><br></pre></td></tr></table></figure>
+
+<h1 id="数据成员与成员方法"><a href="#数据成员与成员方法" class="headerlink" title="数据成员与成员方法"></a>数据成员与成员方法</h1><h2 id="私有成员与共有成员"><a href="#私有成员与共有成员" class="headerlink" title="私有成员与共有成员"></a>私有成员与共有成员</h2><p>从形式上看,在定义类的成员时,如果成员名以两个下划线(__开头)则表示是私有成员,但是Python并没有对私有成员提供严格的访问保护机制.私有成员在类的外部不能直接访问.Python提供了一种特殊方式‘对象名.<code>_类名__xxx</code>’可以访问私有成员,但这会破坏类的封装,不推荐使用.</p>
+<p>在Python中,以下划线开头和结束的成员名含有特殊含义,类定义中用下划线作为变量名和方法名前缀和后缀来表示类的特殊成员.</p>
+<ul>
+<li>_xxx:保护成员,不能用‘from moudel import *’,自由类对象和子类对象可以访问这些成员。</li>
+<li><code>__xxx__</code>: 系统定义的特殊成员</li>
+<li><code>__xxx</code>:类中的私有成员,一般只有类对象自己能访问,子类对象也不能访问到这个成员,但是在对象外部可以通过‘<code>对象名._类名__xxx</code>’这样的特殊方式访问</li>
+<li>python不存在严格意义上的私有成员</li>
+</ul>
+<h2 id="数据成员"><a href="#数据成员" class="headerlink" title="数据成员"></a>数据成员</h2><p>数据成员用来说明对象特有的一些属性,数据成员大体分为两类:&#x3D;&#x3D;属于对象的数据成员&#x3D;&#x3D;和&#x3D;&#x3D;属于类的数据成员&#x3D;&#x3D;.属于对象的数据成员主要指在构造函数<code>__init__()</code>中定义的,定义和使用必须以self为前缀,同一个类的不同对象之间的数据成员互不影响;属于类的数据成员时该类所有对象共享的,不属于任何一个对象,在定义类时这类数据成员不在任何一个成员方法的定义中</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="公有方法和私有方法"><a href="#公有方法和私有方法" class="headerlink" title="公有方法和私有方法"></a>公有方法和私有方法</h3><p>在类中定义的方法可以分为四类:公有方法、私有方法、静态方法和类方法</p>
+<p>公有方法和私有方法一般是指属于对象的实例方法，其中私有方法的名称以两个下划线（__)开始,每个对象都有自己的私有方法和公有方法,这两类方法都可以访问属于类和对象的成员;公有方法通过对象名直接调用,私有方法不能通过对象名字直接调用,只能在实例方法中通过self调用或者在外部通过Python支持的特殊方式调用.</p>
+<p>类的所有实例方法都至少有一个名为self的参数,并且是方法的第一形参,self代表对象自身.</p>
+<p>静态方法和类方法都可以通过类名和对象名调用,但不能直接访问属于对象的成员,智能访问属于类的成员。一般将cls作为类方法的第一个参数，表示该类自身，在调用类方法时不需要为该参数传递值</p>
+<h3 id="静态方法"><a href="#静态方法" class="headerlink" title="静态方法"></a>静态方法</h3><p>Python中允许声明与类的对象实例无关的方法，称为静态方法。静态方法不对特定实例进行操作，在静态方法中访问对象实例会导致错误。静态方法中访问对象会导致错误。静态方法通过装饰器<code>@staticmethod</code>进行定义,其格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">静态方法</span>(<span class="params">[形参列表]</span>):</span><br><span class="line">    函数体</span><br></pre></td></tr></table></figure>
+
+<p>静态方法一般通过类名进行访问,也可以通过对象实例进行调用.其格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类名.静态方法名([实参列表])</span><br></pre></td></tr></table></figure>
+
+<h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><p>Python中允许声明属于类本身的方法,即类方法.类方法不对特定实例进行操作,在类方法中访问对象实例属性会导致错误.类方法通过<code>@classmethod</code>进行定义,第一个形式参数必须为类对象本身,通常是cls.类方法的生命格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@classmethod</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">类方法名</span>(<span class="params">cls,[形参列表]</span>):</span><br><span class="line">    函数体</span><br></pre></td></tr></table></figure>
+
+<p>类方法一般通过类名进行访问,也可以通过对象实例进行调用,格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类名.类方法([实参列表])</span><br></pre></td></tr></table></figure>
+
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><p>类的数据成员是在类中定义的成员变量(域),用来存储描述类的特征的值,称为&#x3D;&#x3D;属性&#x3D;&#x3D;,属性可以被类中的方法访问,也可以通过类对象或者实例对象进行访问.而在函数体或代码块中定义的局部变量,则只能在其定义的范围内进行访问.</p>
+<p>属性实际上是类中的变量.python中定义变量不需要声明,可以直接使用.建议在类定义的开始位置初始化类属性,或者在构造函数(<code>__init__</code>)中初始化实例属性</p>
+<h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><p>通过<code>self.变量名</code>定义的属性称为实例属性,又称为实例变量。类的每个实例都包含该类的实例变量的一个单独副本，实例变量属于特定的实例。实例变量在类的内部通过self访问，在外部通过对象实例访问。</p>
+<p>实例属性一般在<code>__init__()</code>方法中通过如下形式初始化:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.实例变量名 = 初始值</span><br></pre></td></tr></table></figure>
+
+<p>然后在其他实例函数中,通过self访问:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">self.实例变量名 = 值  <span class="comment">#写入</span></span><br><span class="line">self.实例变量名       <span class="comment">#读取</span></span><br></pre></td></tr></table></figure>
+
+<p>创建对象实例后,通过对象实例访问:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj = 类名()     <span class="comment">#创建对象实例</span></span><br><span class="line">obj1.实例变量名 = 值 <span class="comment">#写入</span></span><br><span class="line">obj1.实例变量名   <span class="comment">#读取</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h3><p>Python允许声明类对象本身的变量,即类属性,又称为类变量、静态变量。类属性属于整个类，不是特定实例的一部分，而是所有实例之间共享一个副本。</p>
+<p>类属性一般在类体中通过如下形式初始化：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">类变量名 = 初始值</span><br></pre></td></tr></table></figure>
+
+<p>然后在其类定义的方法中或外部代码中,通过类名访问:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">类名.类变量名 = 值         <span class="comment">#写入</span></span><br><span class="line">类名.类变量名              <span class="comment">#读取</span></span><br></pre></td></tr></table></figure>
+
+<p>注意:类属性如果通过<code>obj.属性名</code>进行访问,则属于该实例的实例属性.虽然类属性可以使用对象实例来访问,但这样容易造成困惑,应该使用标准的访问方式: <code>类名.类变量名</code></p>
+<h3 id="私有属性和共有属性"><a href="#私有属性和共有属性" class="headerlink" title="私有属性和共有属性"></a>私有属性和共有属性</h3><p>Python类的成员没有访问控制限制,这与其他面相对象的语言不同。</p>
+<p>通常约定两个下划线开头，但是不以两个下划线结束的属性还私有的，其他为公共的，不能直接访问私有属性，但是可以在方法中访问。</p>
+<h3 id="property装饰器"><a href="#property装饰器" class="headerlink" title="@property装饰器"></a>@property装饰器</h3><p>面向对象编程的封装性性原则要求不直接访问类中的数据成员。Python中可以定义私有属性，然后定义相应的访问该私有属性属性的函数，并且使用@property装饰器装饰这些函数。程序可以把函数‘当作’属性访问，从而提供更加友好的访问方式</p>
+<p>@property装饰器默认提供一个只读属性，如果需要，可以使用对应的getter、setter和deleter装饰器实现其他访问器函数。</p>
+<h3 id="特殊属性"><a href="#特殊属性" class="headerlink" title="特殊属性"></a>特殊属性</h3><p>python对象中包含许多以双下划线开始和结束的方法，称为特殊属性，常用特殊属性如下：</p>
+<table>
+<thead>
+<tr>
+<th>特殊方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>object.__dict__</code></td>
+<td>对象的属性字典</td>
+</tr>
+<tr>
+<td><code>instance.__class__</code></td>
+<td>对象所属的类</td>
+</tr>
+<tr>
+<td><code>class.__对象所属的类__</code></td>
+<td>对象所属的类</td>
+</tr>
+<tr>
+<td><code>class.__bases__</code></td>
+<td>类的基本元组</td>
+</tr>
+<tr>
+<td><code>class.__base__</code></td>
+<td>类的基类</td>
+</tr>
+<tr>
+<td><code>class.__name__</code></td>
+<td>类的名称</td>
+</tr>
+<tr>
+<td><code>class.__mro__</code></td>
+<td>方法查找顺序,基类元组</td>
+</tr>
+<tr>
+<td><code>class.mro()</code></td>
+<td>同上,可被子类重写</td>
+</tr>
+<tr>
+<td><code>class.__subclasses__()</code></td>
+<td>子类列表</td>
+</tr>
+</tbody></table>
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><p>Python中,可以赋予一个对象自定义的属性,即类定义中不存在的属性.对象通过特殊属性<code>__dict__</code>存储自定义属性。</p>
+<p>通过重载<code>__getattr__</code>和<code>__setattr__</code>,可以拦截对成员的访问,从而自定义属性的行为。<code>__getattr__</code>只有在访问不存在的成员时才被调用,<code>__getattribute__</code>拦截所有获取操作.在<code>__getattribute__</code>中不要使用<code>return self.__dict__[name]</code>返回结果,因为在访问<code>self.__dict__</code>时同样会被<code>__getattribute__</code>拦截,从而造成无限递归想成列循环</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__getattr__(self,name)      <span class="comment"># 获取属性,比__getattribute__优先调用</span></span><br><span class="line">__getattribute__(self,name)   <span class="comment"># 获取属性</span></span><br><span class="line">__setatt__(self,name,value)    <span class="comment"># 设置属性</span></span><br><span class="line">__delattr__(self,name)       <span class="comment">#删除属性</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="继承多态封装"><a href="#继承多态封装" class="headerlink" title="继承多态封装"></a>继承多态封装</h1><h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><h3 id="单继承"><a href="#单继承" class="headerlink" title="单继承"></a>单继承</h3><p>在Python中,所谓‘继承’就是在一个已存在的类的基础上建立一个新类,已存在的类称为‘基类’或‘父类’,新建立的类称为‘派生类’或者‘子类’。</p>
+<p>继承语法如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">子类名</span>(<span class="title class_ inherited__">父类名</span>):</span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+
+<p>假设一个类名为A,B类是A类的子类,例如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">A</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span>(<span class="title class_ inherited__">A</span>):</span><br></pre></td></tr></table></figure>
+
+<p>如果在定义类的时候没有标注出父类,那么这个类默认是继承自object的.</p>
+<h3 id="多继承"><a href="#多继承" class="headerlink" title="多继承"></a>多继承</h3><p>现实中一个子类往往会有多个父类.多继承可以看做对单继承的扩展,通过在子类名称的括号中标注出要继承的多个父类,并且多个父类间使用逗号分割,多继承的格式如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">子类</span>(父类<span class="number">1</span>,父类<span class="number">2</span>,...,父类n)</span><br></pre></td></tr></table></figure>
+
+<h2 id="多态"><a href="#多态" class="headerlink" title="多态"></a>多态</h2><p>在强类型语言（Java或者C#）中，多态是指允许使用一个父类类型的变量或常量来引用一个子类类型对象，根据被引用子类类型的对象，根据被引用子类对象特征的不同，得到不同的运行结果及时用父类类型来调用子类的方法。</p>
+<p>在python中,多态指在不考虑对象类型下使用对象,相比于强类型，Python更推崇‘鸭子类型’，即它不关注对象的类型，而是关注对象具有的行为。</p>
+<h1 id="特殊方法与运算符重载"><a href="#特殊方法与运算符重载" class="headerlink" title="特殊方法与运算符重载"></a>特殊方法与运算符重载</h1><h2 id="对象的特殊方法概述"><a href="#对象的特殊方法概述" class="headerlink" title="对象的特殊方法概述"></a>对象的特殊方法概述</h2><p>Python对象中包含了许多以双下划线开始和结束的方法，称为特殊方法。特殊方法通常在针对对象的某种操作时自动调用。</p>
+<table>
+<thead>
+<tr>
+<th>特殊方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>__It__</code>、<code>__add__</code>等</td>
+<td>对应运算符&lt;、+等</td>
+</tr>
+<tr>
+<td><code>__init__</code>、<code>__del__</code></td>
+<td>创建或销毁对象时调用</td>
+</tr>
+<tr>
+<td><code>__len__</code></td>
+<td>对应于内置函数len()</td>
+</tr>
+<tr>
+<td><code>__setitem__</code>、<code>__getitem__</code></td>
+<td>按索引赋值取值</td>
+</tr>
+<tr>
+<td><code>__repr__(self)</code></td>
+<td>对应于内置函数repr()</td>
+</tr>
+<tr>
+<td><code>__str__(self)</code></td>
+<td>对应于内置函数str()</td>
+</tr>
+<tr>
+<td><code>__bytes__(self)</code></td>
+<td>对应于内置函数bytes()</td>
+</tr>
+<tr>
+<td><code>__format__(self,format_spec)</code></td>
+<td>对应于内置函数format()</td>
+</tr>
+<tr>
+<td><code>__bool__(self)</code></td>
+<td>对应内置函数bool()</td>
+</tr>
+<tr>
+<td><code>__hash__(self)</code></td>
+<td>对应于内置函数hash()</td>
+</tr>
+<tr>
+<td><code>__dir__(self)</code></td>
+<td>对应于内置函数dir()</td>
+</tr>
+</tbody></table>
+<h2 id="运算符重载与对象的特殊方法"><a href="#运算符重载与对象的特殊方法" class="headerlink" title="运算符重载与对象的特殊方法"></a>运算符重载与对象的特殊方法</h2><p>Python的运算符实际上是通过调用对象的特殊方法实现的.</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>特殊方法</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>&gt;、&gt;&#x3D;、!&#x3D;、&lt;、&lt;&#x3D;、&#x3D;&#x3D;</td>
+<td><code>__ge__</code> <code>__gt__</code> <code>__ne__</code> <code>__It__</code> <code>__le__</code> <code>__eq__</code></td>
+<td>比较运算符</td>
+</tr>
+<tr>
+<td>|、^、&amp;</td>
+<td><code>__or__</code> <code>__ror__</code> <code>__xor__</code> <code>__rxor__</code>  <code>__and__</code>  <code>__rand__</code></td>
+<td>按位与、异或、与</td>
+</tr>
+<tr>
+<td>|&#x3D;、^&#x3D;、&amp;&#x3D;</td>
+<td><code>__ior__</code> <code>__ixor__</code> <code>__iand__</code></td>
+<td>按位复合赋值运算</td>
+</tr>
+<tr>
+<td>&lt;&lt;、&gt;&gt;</td>
+<td><code>__lshift__</code> <code>__rlshift__</code> <code>__rshift__</code> <code>__rrshift__</code></td>
+<td>移位运算</td>
+</tr>
+<tr>
+<td>&lt;&lt;&#x3D;、&gt;&gt;&#x3D;</td>
+<td><code>__ilshift__</code> <code>__irlshift__</code> <code>__irshift__</code> <code>__irrshift__</code></td>
+<td>移位复合赋值运算</td>
+</tr>
+<tr>
+<td>+、-</td>
+<td><code>__add__</code> <code>__radd__</code> <code>__sub__</code> <code>__rsub__</code></td>
+<td>加法与减法</td>
+</tr>
+<tr>
+<td>+&#x3D;、-&#x3D;</td>
+<td><code>__iaddr__</code> <code>__isub__</code></td>
+<td>加减符合赋值运算</td>
+</tr>
+<tr>
+<td>*、&#x2F;、%、&#x2F;&#x2F;</td>
+<td><code>__mul__</code> <code>__rmul__</code> <code>__truediv__</code> <code>__rturediv__</code> <code>__mod__</code> <code>__rmod__</code> <code>__rfloordiv__</code> <code>__floordiv__</code></td>
+<td>乘法、除法、取余、整数除法</td>
+</tr>
+<tr>
+<td>*&#x3D;、&#x2F;&#x3D;、%&#x3D;、&#x2F;&#x2F;&#x3D;</td>
+<td><code>__imul__</code> <code>__idiv__</code> <code>__itruediv__</code> <code>__imod__</code> <code>__ifloordiv__</code></td>
+<td>乘除复合赋值运算</td>
+</tr>
+<tr>
+<td>+x、-x</td>
+<td><code>__pos__</code> <code>__neg__</code></td>
+<td>正负号</td>
+</tr>
+<tr>
+<td>~X</td>
+<td><code>__invert__</code></td>
+<td>按位翻转</td>
+</tr>
+<tr>
+<td><code>**</code>、<code>**</code>&#x3D;</td>
+<td><code>__pow__</code> <code>__rpow__</code> <code>__ipow__</code></td>
+<td>指数运算</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>hahazhong
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2022/09/21/Python%E8%BF%9B%E9%98%B6(%E4%B8%80)%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" title="Python进阶（一）-- 面向对象编程">http://example.com/2022/09/21/Python进阶(一)面向对象编程/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"><i class="fa fa-tag"></i> python</a>
+              <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag"><i class="fa fa-tag"></i> 面向对象</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/20/Python%E5%9F%BA%E7%A1%80(%E5%85%AD)%E5%87%BD%E6%95%B0/" rel="prev" title="python基础(六)--函数的定义与调用">
+      <i class="fa fa-chevron-left"></i> python基础(六)--函数的定义与调用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/28/Python%E8%BF%9B%E9%98%B6(%E4%BA%8C)%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="Python进阶（二）-- 多线程">
+      Python进阶（二）-- 多线程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E7%9A%84%E5%AE%9A%E4%B9%89%E5%92%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">类的定义和使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%88%90%E5%91%98%E4%B8%8E%E6%88%90%E5%91%98%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">数据成员与成员方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%81%E6%9C%89%E6%88%90%E5%91%98%E4%B8%8E%E5%85%B1%E6%9C%89%E6%88%90%E5%91%98"><span class="nav-number">2.1.</span> <span class="nav-text">私有成员与共有成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%88%90%E5%91%98"><span class="nav-number">2.2.</span> <span class="nav-text">数据成员</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.</span> <span class="nav-text">方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E6%9C%89%E6%96%B9%E6%B3%95%E5%92%8C%E7%A7%81%E6%9C%89%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.1.</span> <span class="nav-text">公有方法和私有方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.2.</span> <span class="nav-text">静态方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E6%96%B9%E6%B3%95"><span class="nav-number">2.3.3.</span> <span class="nav-text">类方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.</span> <span class="nav-text">属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.1.</span> <span class="nav-text">实例属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B1%BB%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.2.</span> <span class="nav-text">类属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%81%E6%9C%89%E5%B1%9E%E6%80%A7%E5%92%8C%E5%85%B1%E6%9C%89%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.3.</span> <span class="nav-text">私有属性和共有属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#property%E8%A3%85%E9%A5%B0%E5%99%A8"><span class="nav-number">2.4.4.</span> <span class="nav-text">@property装饰器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.5.</span> <span class="nav-text">特殊属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7"><span class="nav-number">2.4.6.</span> <span class="nav-text">自定义属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF%E5%A4%9A%E6%80%81%E5%B0%81%E8%A3%85"><span class="nav-number">3.</span> <span class="nav-text">继承多态封装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">3.1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E7%BB%A7%E6%89%BF"><span class="nav-number">3.1.1.</span> <span class="nav-text">单继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E7%BB%A7%E6%89%BF"><span class="nav-number">3.1.2.</span> <span class="nav-text">多继承</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%80%81"><span class="nav-number">3.2.</span> <span class="nav-text">多态</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E4%B8%8E%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD"><span class="nav-number">4.</span> <span class="nav-text">特殊方法与运算符重载</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95%E6%A6%82%E8%BF%B0"><span class="nav-number">4.1.</span> <span class="nav-text">对象的特殊方法概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6%E9%87%8D%E8%BD%BD%E4%B8%8E%E5%AF%B9%E8%B1%A1%E7%9A%84%E7%89%B9%E6%AE%8A%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text">运算符重载与对象的特殊方法</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="hahazhong"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">hahazhong</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/hahazhong" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;hahazhong" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://blog.csdn.net/zzt3344?spm=1010.2135.3001.5421" title="CSDN → https:&#x2F;&#x2F;blog.csdn.net&#x2F;zzt3344?spm&#x3D;1010.2135.3001.5421" rel="noopener" target="_blank"><i class="crosshirs fa-fw"></i>CSDN</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="http://hahazhong.gitee.io/" title="Gitee → http:&#x2F;&#x2F;hahazhong.gitee.io&#x2F;" rel="noopener" target="_blank"><i class="fa-gitee fa-fw"></i>Gitee</a>
+      </span>
+  </div>
+  <div class="cc-license motion-element" itemprop="license">
+    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" class="cc-opacity" rel="noopener" target="_blank"><img src="/images/cc-by-nc-sa.svg" alt="Creative Commons"></a>
+  </div>
+
+
+
+      </div>
+ <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1808492017&auto=1&height=66"></iframe>
+	 
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">hahazhong</span>
+<div>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'qQysVh8YklEUcpV4v59e5tLb-gzGzoHsz',
+      appKey     : 'yGnaYJoCNgNyERyHr1mboHC7',
+      placeholder: "欢迎指教!",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
